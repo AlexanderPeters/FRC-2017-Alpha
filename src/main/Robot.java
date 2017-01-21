@@ -5,6 +5,7 @@ import edu.wpi.first.wpilibj.DriverStation;
 import edu.wpi.first.wpilibj.IterativeRobot;
 import edu.wpi.first.wpilibj.command.Command;
 import edu.wpi.first.wpilibj.command.Scheduler;
+import edu.wpi.first.wpilibj.command.Subsystem;
 import edu.wpi.first.wpilibj.livewindow.LiveWindow;
 import edu.wpi.first.wpilibj.smartdashboard.SendableChooser;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
@@ -47,6 +48,7 @@ public class Robot extends IterativeRobot {
 		oi = new OI();
 		cc = new CameraController(50);
 		pn.getInstance();
+		dt.getInstance();
 		
 		try {
 	          /* Communicate w/navX-MXP via the MXP SPI Bus.                                     */
@@ -126,7 +128,7 @@ public class Robot extends IterativeRobot {
      * This function is called periodically during operator control
      */
     public void teleopPeriodic() {
-    	try{
+    	/*try{
     		double throttle = oi.getJoystick().getMainY();
     		double turn = oi.getJoystick().getAltX();
     		
@@ -144,7 +146,7 @@ public class Robot extends IterativeRobot {
     	}
     	finally{
     		
-    	}
+    	}*/
         Scheduler.getInstance().run();
     }
     
