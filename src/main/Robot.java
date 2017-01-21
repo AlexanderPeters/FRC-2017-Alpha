@@ -1,5 +1,6 @@
 package main;
 
+import edu.wpi.first.wpilibj.DriverStation;
 //Necessary wpilib imports
 import edu.wpi.first.wpilibj.IterativeRobot;
 import edu.wpi.first.wpilibj.command.Command;
@@ -7,10 +8,16 @@ import edu.wpi.first.wpilibj.command.Scheduler;
 import edu.wpi.first.wpilibj.livewindow.LiveWindow;
 import edu.wpi.first.wpilibj.smartdashboard.SendableChooser;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
-
+import lib.Rotation2d;
 //Subsystem imports
 import main.subsystems.CameraController;
 import main.subsystems.DriveTrain;
+import main.subsystems.Pneumatics;
+
+//NavX import
+import com.kauailabs.navx.frc.AHRS;
+import edu.wpi.first.wpilibj.SPI;
+
 
 /**
  * The VM is configured to automatically run this class, and to call the
@@ -22,10 +29,13 @@ import main.subsystems.DriveTrain;
 public class Robot extends IterativeRobot {
 
 	//public static final ExampleSubsystem exampleSubsystem = new ExampleSubsystem();
+	private boolean lowGear = true;
 	public static OI oi;
 	public static CameraController cc;
 	public static DriveTrain dt;
-
+	public static Pneumatics pn;
+	private static AHRS ahrs;
+	
     Command autonomousCommand;
     SendableChooser chooser;
 
@@ -36,7 +46,16 @@ public class Robot extends IterativeRobot {
     public void robotInit() {
 		oi = new OI();
 		cc = new CameraController(50);
+		pn.getInstance();
 		
+		try {
+	          /* Communicate w/navX-MXP via the MXP SPI Bus.                                     */
+	          /* Alternatively:  I2C.Port.kMXP, SerialPort.Port.kMXP or SerialPort.Port.kUSB     */
+	          /* See http://navx-mxp.kauailabs.com/guidance/selecting-an-interface/ for details. */
+	          ahrs = new AHRS(SPI.Port.kMXP); 
+	      } catch (RuntimeException ex ) {
+	          DriverStation.reportError("Error instantiating navX-MXP:  " + ex.getMessage(), true);
+	      }
 		
 		
 		
@@ -107,6 +126,25 @@ public class Robot extends IterativeRobot {
      * This function is called periodically during operator control
      */
     public void teleopPeriodic() {
+    	try{
+    		double throttle = oi.getJoystick().getMainY();
+    		double turn = oi.getJoystick().getAltX();
+    		
+    		if(lowGear){
+    			Rotation2d heading_setpoint = dt.getGyroAngle();
+    			dt.setBrakeMode(true);
+    			new main.commands.pnuematics.ShiftDown();
+    			
+    		}
+    		else {
+    			dt.setBrakeMode(false);
+    			new main.commands.pnuematics.ShiftUp();
+    		}
+    		
+    	}
+    	finally{
+    		
+    	}
         Scheduler.getInstance().run();
     }
     
@@ -115,5 +153,9 @@ public class Robot extends IterativeRobot {
      */
     public void testPeriodic() {
         LiveWindow.run();
+    }
+    
+    public static AHRS getNavX(){
+    	return ahrs;
     }
 }
