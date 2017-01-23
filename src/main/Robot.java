@@ -5,13 +5,11 @@ import edu.wpi.first.wpilibj.DriverStation;
 import edu.wpi.first.wpilibj.IterativeRobot;
 import edu.wpi.first.wpilibj.command.Command;
 import edu.wpi.first.wpilibj.command.Scheduler;
-import edu.wpi.first.wpilibj.command.Subsystem;
 import edu.wpi.first.wpilibj.livewindow.LiveWindow;
 import edu.wpi.first.wpilibj.smartdashboard.SendableChooser;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
-import lib.Rotation2d;
+
 //Subsystem imports
-import main.subsystems.CameraController;
 import main.subsystems.DriveTrain;
 import main.subsystems.Pneumatics;
 
@@ -32,7 +30,7 @@ public class Robot extends IterativeRobot {
 	//public static final ExampleSubsystem exampleSubsystem = new ExampleSubsystem();
 	private boolean lowGear = true;
 	public static OI oi;
-	public static CameraController cc;
+	;
 	public static DriveTrain dt;
 	public static Pneumatics pn;
 	private static AHRS ahrs;
@@ -46,7 +44,6 @@ public class Robot extends IterativeRobot {
      */
     public void robotInit() {
 		oi = new OI();
-		cc = new CameraController(50);
 		pn.getInstance();
 		dt.getInstance();
 		

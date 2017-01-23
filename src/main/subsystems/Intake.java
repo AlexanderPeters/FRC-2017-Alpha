@@ -7,7 +7,7 @@ public class Intake implements Constants {
 	/**********************
 	 * Instance Data      *
 	 **********************/
-	public Spark intakeMotor = new Spark(Constants.myIntakeMotor);
+	public Spark intakeMotor = new Spark(Constants.Intake_Motor);
 	public static Intake instance;
 	//getInstance method so the constructor only runs once (maybe don't need? -ryan)
 	public static Intake getInstance() {

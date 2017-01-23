@@ -47,10 +47,39 @@ public class XboxController extends Joystick{
 	}
 	
 	/**
+	 * Gets the X-axis of the left-thumbstick.
+	 * @return Value of the X-axis.
+	 */
+	public double getMainX(){
+		return super.getRawAxis(0);
+	}
+	/**
+	 * Gets the Y-axis of the left-thumbstick.
+	 * @return Value of the Y-axis.
+	 */
+	public double getMainY(){
+		return super.getRawAxis(1);
+	}
+	/**
+	 * Gets the X-axis of the right-thumbstick.
+	 * @return Value of the X-axis.
+	 */
+	public double getAltX(){
+		return super.getRawAxis(4);
+	}
+	/**
+	 * Gets the Y-axis of the right-thumbstick.
+	 * @return Value of the Y-axis.
+	 */
+	public double getAltY(){
+		return super.getRawAxis(5);
+	}
+	
+	/**
 	 * Gets the X-axis of the left-thumbstick, and smoothens it.
 	 * @return Cubed value of the X-axis.
 	 */
-	public double getMainX() {
+	public double getSmoothedMainX() {
 		return Math.pow(super.getRawAxis(0), 3) * -1;
 	}
 	
@@ -58,7 +87,7 @@ public class XboxController extends Joystick{
 	 * Gets the Y-axis of the left-thumbstick, and smoothens it.
 	 * @return Cubed value of the Y-axis.
 	 */
-	public double getMainY() {
+	public double getSmoothedMainY() {
 		return Math.pow(super.getRawAxis(1), 5);
 	}
 	
@@ -66,7 +95,7 @@ public class XboxController extends Joystick{
 	 * Gets the X-axis of the right thumbstick, and smoothens it.
 	 * @return Cubed value of the alternate X-axis.
 	 */
-	public double getAltX() {
+	public double getSmoothedAltX() {
 		return Math.pow(super.getRawAxis(4), 3) * -1;
 	}
 	
@@ -74,9 +103,9 @@ public class XboxController extends Joystick{
 	 * Gets the Y-axis of the right thumbstick, and smoothens it.
 	 * @return Cubed value of the alternate Y-axis.
 	 */
-	public double getAltY() {
+	public double getSmoothedAltY() {
 		return Math.pow(super.getRawAxis(5), 3);
 	}
-	
+		
 
 }

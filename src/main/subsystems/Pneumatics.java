@@ -19,7 +19,7 @@ public class Pneumatics extends Subsystem implements Constants {
 	 */
 	private Pneumatics() {
 		shifter = new DoubleSolenoid(1, SHIFTER_EXT, SHIFTER_RET);
-		comp = new Compressor(Constants.pcmPort);
+		comp = new Compressor(Constants.PCM_Port);
 		comp.setClosedLoopControl(true);
 		shifter.set(DoubleSolenoid.Value.kForward);
 		shifter.set(DoubleSolenoid.Value.kOff);
