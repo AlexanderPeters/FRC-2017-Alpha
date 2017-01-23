@@ -1,5 +1,6 @@
 package main.subsystems;
 
+import com.ctre.CANTalon.TalonControlMode;
 import com.kauailabs.navx.frc.AHRS;
 
 import Util.DriveHelper;
@@ -29,7 +30,7 @@ public class DriveTrain extends Subsystem implements Constants{
 	}
 
 	public void drive(double throttle, double heading) {
-		leftDriveSlave1.
+		leftDriveSlave1.set(heading);
 		
 		
 	}

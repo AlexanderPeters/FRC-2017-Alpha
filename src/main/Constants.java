@@ -1,8 +1,9 @@
 package main;
 
+import com.ctre.CANTalon.TalonControlMode;
 import edu.wpi.first.wpilibj.DoubleSolenoid;
-import edu.wpi.first.wpilibj;
 import edu.wpi.first.wpilibj.DoubleSolenoid.Value;
+
 
 //This is an interface that allows all constants stored here to be visible to other classes
 public interface Constants {
