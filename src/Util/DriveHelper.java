@@ -29,7 +29,7 @@ public class DriveHelper {
     }
     
     
-    public double accountForInertia(double turn) {
+    private double accountForInertia(double turn) {
         double newTurn = turn;
         double negInertia = newTurn - oldTurn;
         oldTurn = newTurn;

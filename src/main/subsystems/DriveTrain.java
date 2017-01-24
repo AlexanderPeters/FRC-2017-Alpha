@@ -1,26 +1,33 @@
 package main.subsystems;
 
+import com.ctre.CANTalon;
 import com.ctre.CANTalon.TalonControlMode;
 import com.kauailabs.navx.frc.AHRS;
 
 import Util.DriveHelper;
 import edu.wpi.first.wpilibj.command.Subsystem;
-import edu.wpi.first.wpilibj.TalonSRX;
+import edu.wpi.first.wpilibj.RobotDrive;
 import main.Constants;
 import main.Robot;
 import main.commands.drivetrain.Drive;
 
 
 public class DriveTrain extends Subsystem implements Constants{
+	private static boolean highGear = false;
 	public static DriveTrain instance;
 	private AHRS NavX = Robot.getNavX();
 	private DriveHelper helper = new DriveHelper(5);
-	private static TalonSRX leftDriveMaster = new TalonSRX(Constants.LEFT_Drive_Master);
-	private static TalonSRX leftDriveSlave1 = new TalonSRX(Constants.LEFT_Drive_SLAVE1);
-	//private static TalonSRX leftDriveSlave2 = new TalonSRX(Constants.leftDriveSlaveTalon2);
-	private static TalonSRX rightDriveMaster = new TalonSRX(Constants.RIGHT_Drive_Master);
-	private static TalonSRX rightDriveSlave1 = new TalonSRX(Constants.RIGHT_Drive_SLAVE1);
-	//private static TalonSRX rightDriveSlave2 = new TalonSRX(Constants.rightDriveSlaveTalon2);
+	private static CANTalon leftDriveMaster = new CANTalon(Constants.LEFT_Drive_Master);
+	private static CANTalon leftDriveSlave1 = new CANTalon(Constants.LEFT_Drive_SLAVE1);
+	//private static CANTalon leftDriveSlave2 = new CANTalon(Constants.leftDriveSlaveTalon2);
+	private static CANTalon rightDriveMaster = new CANTalon(Constants.RIGHT_Drive_Master);
+	private static CANTalon rightDriveSlave1 = new CANTalon(Constants.RIGHT_Drive_SLAVE1);
+	//private static CANTalon rightDriveSlave2 = new CANTalon(Constants.rightDriveSlaveTalon2);
+	private static RobotDrive driveTrain = new RobotDrive(leftDriveMaster, rightDriveMaster);
+	
+	public DriveTrain() {
+		setTalonDefaults();
+	}
 	
 	public DriveTrain getInstance() {
 		if(instance == null) {
@@ -30,9 +37,12 @@ public class DriveTrain extends Subsystem implements Constants{
 	}
 
 	public void drive(double throttle, double heading) {
-		leftDriveSlave1.set(heading);
+		driveTrain.arcadeDrive(helper.calculateThrottle(throttle), helper.calculateTurn(heading, highGear));
 		
 		
+	}
+	public void changeGearing(){
+		highGear = !highGear;
 	}
 	/*******************
 	 * SUPPORT METHODS *
@@ -82,6 +92,7 @@ public class DriveTrain extends Subsystem implements Constants{
 		setBrakeMode(true);
 		setCtrlMode(DEFAULT_CTRL_MODE);
 	}
+	
 
 	@Override
 	protected void initDefaultCommand() {
