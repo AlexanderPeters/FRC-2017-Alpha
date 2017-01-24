@@ -1,7 +1,14 @@
 package main;
 
 import edu.wpi.first.wpilibj.buttons.Button;
+import lib.LatchedBoolean;
 import lib.joystick.XboxController;
+import main.commands.climber.WinchForward;
+import main.commands.climber.WinchReverse;
+import main.commands.gearmech.GearMechLiftDown;
+import main.commands.gearmech.GearMechLiftUp;
+import main.commands.intake.IntakeForward;
+import main.commands.intake.IntakeOff;
 
 
 /**
@@ -9,39 +16,47 @@ import lib.joystick.XboxController;
  * interface to the commands and command groups that allow control of the robot.
  */
 public class OI implements Constants{
-	private static XboxController joystick = new XboxController(Constants.Xbox_Port);
+	private static XboxController xbox = new XboxController(Constants.Xbox_Port);
+	private static LatchedBoolean boole = new LatchedBoolean();
+	private static LatchedBoolean boole2 = new LatchedBoolean();
+	
 	
 	
 	
 	public static XboxController getXbox (){
-		return joystick;
+		return xbox;
 		
 	}
-    //// CREATING BUTTONS
-    // One type of button is a joystick button which is any button on a joystick.
-    // You create one by telling it which joystick it's on and which button
-    // number it is.
-    // Joystick stick = new Joystick(port);
-    // Button button = new JoystickButton(stick, buttonNumber);
-    
-    // There are a few additional built in buttons you can use. Additionally,
-    // by subclassing Button you can create custom triggers and bind those to
-    // commands the same as any other Button.
-    
-    //// TRIGGERING COMMANDS WITH BUTTONS
-    // Once you have a button, it's trivial to bind it to a button in one of
-    // three ways:
-    
-    // Start the command when the button is pressed and let it run the command
-    // until it is finished as determined by it's isFinished method.
-    // button.whenPressed(new ExampleCommand());
-    
-    // Run the command while the button is being held down and interrupt it once
-    // the button is released.
-    // button.whileHeld(new ExampleCommand());
-    
-    // Start the command when the button is released  and let it run the command
-    // until it is finished as determined by it's isFinished method.
-    // button.whenReleased(new ExampleCommand());
+
+	public void check(){
+		//xbox.start.whenPressed(new ());
+		//xbox.select.whenPressed(new SwitchCamera());
+		// Bumpers
+		boole.setInput(xbox.leftBumper.get());
+		if(boole.getOutput())
+			new IntakeForward();
+		
+		if(!boole.getOutput())
+			new IntakeOff();
+		
+		
+		boole2.setInput(xbox.rightBumper.get());
+		if(boole2.getOutput())
+			new GearMechLiftDown();
+		
+		if(!boole2.getOutput())
+			new GearMechLiftUp();
+		
+		xbox.leftBumper.whenReleased(new Stop());
+		xbox.rightBumper.whenPressed(new ShootBall());
+		xbox.a.whenPressed(new WinchForward());
+		xbox.x.whenPressed(new WinchReverse());
+		// joy.five.whenPressed(new PivotUp(0.2));
+		// JoystickButton
+		xbox.leftJoystickButton.whenPressed(new ShiftUp());
+		xbox.leftJoystickButton.whenReleased(new ShiftDown());
+		xbox.rightTrigger.whenPressed(new DeployRight());
+		xbox.leftTrigger.whenPressed(new DeployLeft());
+	}
 }
 

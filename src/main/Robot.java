@@ -8,9 +8,12 @@ import edu.wpi.first.wpilibj.command.Scheduler;
 import edu.wpi.first.wpilibj.livewindow.LiveWindow;
 import edu.wpi.first.wpilibj.smartdashboard.SendableChooser;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
-
+import main.subsystems.Climber;
 //Subsystem imports
 import main.subsystems.DriveTrain;
+import main.subsystems.FlyWheel;
+import main.subsystems.GearMech;
+import main.subsystems.Intake;
 import main.subsystems.Pneumatics;
 
 //NavX import
@@ -34,6 +37,9 @@ public class Robot extends IterativeRobot {
 	public static DriveTrain dt;
 	public static Pneumatics pn;
 	private static AHRS ahrs;
+	public static Climber cl;
+	public static GearMech gm;
+	public static Intake in;
 	
     Command autonomousCommand;
     SendableChooser chooser;
@@ -46,6 +52,10 @@ public class Robot extends IterativeRobot {
 		oi = new OI();
 		pn.getInstance();
 		dt.getInstance();
+		cl.getInstance();
+		gm.getInstance();
+		in.getInstance();
+		
 		
 		try {
 	          /* Communicate w/navX-MXP via the MXP SPI Bus.                                     */
