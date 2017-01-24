@@ -1,6 +1,6 @@
 package main;
 
-import com.ctre.CANTalon.TalonControlMode;
+import edu.wpi.first.wpilibj.CANTalon.TalonControlMode;
 import edu.wpi.first.wpilibj.DoubleSolenoid;
 import edu.wpi.first.wpilibj.DoubleSolenoid.Value;
 
@@ -11,7 +11,9 @@ public interface Constants {
 	 * VARIABLES *
 	 *************/
 	// THROTTLE MULTIPLIERS
-		
+	public final int intakeMotorForward = 1;
+	public final int climberMotorForward = 1;
+	public final int shooterMotorForward = 1;
 	
 	/*************
 	 * CONSTANTS *
@@ -46,6 +48,9 @@ public interface Constants {
 	public final int RIGHT_Drive_SLAVE1 = 5;
 	// OTHER MOTOR CONTROLLERS (PWM)
 	public final int Intake_Motor = 0;
+	public final int Climber_Motor = 1;
+	public final int Shooter_Motor = 2;
+	public final int Gear_Piston =3;
 	// PNEUMATICS (PCM)
 	public final int SHIFTER_EXT = 1;
 	public final int SHIFTER_RET = 0;

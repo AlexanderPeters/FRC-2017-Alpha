@@ -21,7 +21,7 @@ public class LatchedBoolean {
 	
 	//This is a public method that allows the user to get the current
 	//state of the output
-	public boolean getOuput(){
+	public boolean getOutput(){
 		return output;
 	}
 

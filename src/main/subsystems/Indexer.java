@@ -1,5 +1,5 @@
 package main.subsystems;
 
-public class Elevator {
+public class Indexer {
 
 }
