@@ -47,16 +47,7 @@ public class OI implements Constants{
 		if(!boole2.getOutput())
 			new GearMechLiftUp();
 		
-		xbox.leftBumper.whenReleased(new Stop());
-		xbox.rightBumper.whenPressed(new ShootBall());
-		xbox.a.whenPressed(new WinchForward());
-		xbox.x.whenPressed(new WinchReverse());
-		// joy.five.whenPressed(new PivotUp(0.2));
-		// JoystickButton
-		xbox.leftJoystickButton.whenPressed(new ShiftUp());
-		xbox.leftJoystickButton.whenReleased(new ShiftDown());
-		xbox.rightTrigger.whenPressed(new DeployRight());
-		xbox.leftTrigger.whenPressed(new DeployLeft());
+		
 	}
 }
 
