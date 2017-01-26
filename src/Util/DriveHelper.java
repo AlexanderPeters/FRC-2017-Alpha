@@ -74,10 +74,10 @@ public class DriveHelper {
 		}
 		return turn;
 	}
-    private double handleDeadband(double val, double deadband) {
+    public double handleDeadband(double val, double deadband) {
         return (Math.abs(val) > Math.abs(deadband)) ? val : 0.0;
     }
-    private double handleOverPower(double joystickVal){
+    public double handleOverPower(double joystickVal){
     	if(Math.abs(joystickVal) > 1.0)
     		return Math.signum(joystickVal);
     	else

@@ -44,8 +44,10 @@ public interface Constants {
 	// TALON SRX'S (CAN BUS)
 	public final int LEFT_Drive_Master = 2;
 	public final int LEFT_Drive_SLAVE1 = 3;
-	public final int RIGHT_Drive_Master = 4;
-	public final int RIGHT_Drive_SLAVE1 = 5;
+	public final int LEFT_Drive_Slave2 = 4;
+	public final int RIGHT_Drive_Master = 5;
+	public final int RIGHT_Drive_SLAVE1 = 6;
+	public final int RIGHT_Drive_Slave2 = 7;
 	// OTHER MOTOR CONTROLLERS (PWM)
 	public final int Intake_Motor = 0;
 	public final int Climber_Motor = 1;
