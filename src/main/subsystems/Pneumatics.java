@@ -11,32 +11,28 @@ public class Pneumatics extends Subsystem implements Constants {
 	/*****************
 	 * INSTANCE DATA *
 	 *****************/
-	public static Pneumatics instance;
 	private DoubleSolenoid shifter;
+	private DoubleSolenoid gearMech;
 	private Compressor comp;
+	private boolean gearMechState = true;
 
 	/**
 	 * Constructor
 	 */
-	private Pneumatics() {
+	public Pneumatics() {
 		shifter = new DoubleSolenoid(1, SHIFTER_EXT, SHIFTER_RET);
+		gearMech = new DoubleSolenoid(1, GEAR_EXT, GEAR_RET);
 		comp = new Compressor(Constants.PCM_Port);
 		comp.setClosedLoopControl(true);
-		shifter.set(DoubleSolenoid.Value.kForward);
-		shifter.set(DoubleSolenoid.Value.kOff);
+		shifter.set(EXT);
+		shifter.set(OFF);
+		gearMech.set(EXT);
+		gearMech.set(OFF);
+
 
 	}
 
-	/**
-	 * Prevents the constructor from running more than once.
-	 * 
-	 * @return Instance - Pneumatic's instance.
-	 */
-	public Pneumatics getInstance() {
-		if (instance == null)
-			instance = new Pneumatics();
-		return instance;
-	}
+	
 	
 	/*******************
 	 * COMMAND METHODS *
@@ -50,6 +46,17 @@ public class Pneumatics extends Subsystem implements Constants {
 	public void shift(DoubleSolenoid.Value v) {
 		shifter.set(v);
 		Robot.dt.changeGearing();
+	}
+	
+	public void shiftGearMech(DoubleSolenoid.Value v) {
+		gearMech.set(v);
+	}
+	public void toggleGearMech() {
+		if(gearMechState)
+			gearMech.set(EXT);
+		else
+			gearMech.set(RET);
+		gearMechState = !gearMechState;
 	}
 
 	/**

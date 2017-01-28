@@ -1,24 +1,20 @@
 package main;
 
-import edu.wpi.first.wpilibj.DriverStation;
+//import edu.wpi.first.wpilibj.DriverStation;
 //Necessary wpilib imports
 import edu.wpi.first.wpilibj.IterativeRobot;
-import edu.wpi.first.wpilibj.command.Command;
+//import edu.wpi.first.wpilibj.command.Command;
 import edu.wpi.first.wpilibj.command.Scheduler;
 import edu.wpi.first.wpilibj.livewindow.LiveWindow;
-import edu.wpi.first.wpilibj.smartdashboard.SendableChooser;
-import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
-import main.subsystems.Climber;
+//import edu.wpi.first.wpilibj.smartdashboard.SendableChooser;
+//import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 //Subsystem imports
 import main.subsystems.DriveTrain;
-import main.subsystems.FlyWheel;
-import main.subsystems.GearMech;
+//import main.subsystems.FlyWheel;
+import main.subsystems.Climber;
 import main.subsystems.Intake;
 import main.subsystems.Pneumatics;
 
-//NavX import
-import com.kauailabs.navx.frc.AHRS;
-import edu.wpi.first.wpilibj.SPI;
 
 
 /**
@@ -31,18 +27,15 @@ import edu.wpi.first.wpilibj.SPI;
 public class Robot extends IterativeRobot {
 
 	//public static final ExampleSubsystem exampleSubsystem = new ExampleSubsystem();
-	private boolean lowGear = true;
+	//private boolean lowGear = true;
 	public static OI oi;
-	;
 	public static DriveTrain dt;
 	public static Pneumatics pn;
-	private static AHRS ahrs;
 	public static Climber cl;
-	public static GearMech gm;
 	public static Intake in;
 	
-    Command autonomousCommand;
-    SendableChooser chooser;
+    //Command autonomousCommand;
+   // SendableChooser chooser;
 
     /**
      * This function is run when the robot is first started up and should be
@@ -50,30 +43,15 @@ public class Robot extends IterativeRobot {
      */
     public void robotInit() {
 		oi = new OI();
-		pn.getInstance();
-		dt.getInstance();
-		cl.getInstance();
-		gm.getInstance();
-		in.getInstance();
+		dt = new DriveTrain();
+		pn = new Pneumatics();		 
+		cl = new Climber();
+		in = new Intake();
 		
-		
-		try {
-	          /* Communicate w/navX-MXP via the MXP SPI Bus.                                     */
-	          /* Alternatively:  I2C.Port.kMXP, SerialPort.Port.kMXP or SerialPort.Port.kUSB     */
-	          /* See http://navx-mxp.kauailabs.com/guidance/selecting-an-interface/ for details. */
-	          ahrs = new AHRS(SPI.Port.kMXP); 
-	      } catch (RuntimeException ex ) {
-	          DriverStation.reportError("Error instantiating navX-MXP:  " + ex.getMessage(), true);
-	      }
-		
-		
-		
-		
-		
-        chooser = new SendableChooser();
+		//chooser = new SendableChooser();
         //chooser.addDefault("Default Auto", new ExampleCommand());
-//        chooser.addObject("My Auto", new MyAutoCommand());
-        SmartDashboard.putData("Auto mode", chooser);
+		//chooser.addObject("My Auto", new MyAutoCommand());
+        //SmartDashboard.putData("Auto mode", chooser);
     }
 	
 	/**
@@ -99,7 +77,7 @@ public class Robot extends IterativeRobot {
 	 * or additional comparisons to the switch structure below with additional strings & commands.
 	 */
     public void autonomousInit() {
-        autonomousCommand = (Command) chooser.getSelected();
+        //autonomousCommand = (Command) chooser.getSelected();
         
 		/* String autoSelected = SmartDashboard.getString("Auto Selector", "Default");
 		switch(autoSelected) {
@@ -113,7 +91,7 @@ public class Robot extends IterativeRobot {
 		} */
     	
     	// schedule the autonomous command (example)
-        if (autonomousCommand != null) autonomousCommand.start();
+        //if (autonomousCommand != null) autonomousCommand.start();
     }
 
     /**
@@ -128,7 +106,7 @@ public class Robot extends IterativeRobot {
         // teleop starts running. If you want the autonomous to 
         // continue until interrupted by another command, remove
         // this line or comment it out.
-        if (autonomousCommand != null) autonomousCommand.cancel();
+        //if (autonomousCommand != null) autonomousCommand.cancel();
     }
 
     /**
@@ -164,7 +142,4 @@ public class Robot extends IterativeRobot {
         LiveWindow.run();
     }
     
-    public static AHRS getNavX(){
-    	return ahrs;
-    }
 }

@@ -1,17 +1,20 @@
 package main;
 
-import edu.wpi.first.wpilibj.buttons.Button;
-import lib.LatchedBoolean;
+//import edu.wpi.first.wpilibj.buttons.Button;
+//import lib.LatchedBoolean;
 import lib.joystick.XboxController;
-import main.commands.climber.WinchForward;
-import main.commands.climber.WinchReverse;
-import main.commands.gearmech.GearMechLiftDown;
-import main.commands.gearmech.GearMechLiftUp;
-import main.commands.intake.IntakeForward;
-import main.commands.intake.IntakeOff;
-import main.commands.pnuematics.Shift;
+//import main.commands.climber.WinchForward;
+//import main.commands.climber.WinchReverse;
+//import main.commands.gearmech.GearMechLiftDown;
+//import main.commands.gearmech.GearMechLiftUp;
+import main.commands.gearmech.GearMechToggleState;
+//import main.commands.intake.IntakeForward;
+//import main.commands.intake.IntakeOff;
+
+//import main.commands.pnuematics.Shift;
 import main.commands.pnuematics.ShiftDown;
 import main.commands.pnuematics.ShiftUp;
+import main.commands.pnuematics.ToggleCompressor;
 
 
 /**
@@ -20,8 +23,8 @@ import main.commands.pnuematics.ShiftUp;
  */
 public class OI implements Constants{
 	private static XboxController xbox = new XboxController(Constants.Xbox_Port);
-	private static LatchedBoolean boole = new LatchedBoolean();
-	private static LatchedBoolean boole2 = new LatchedBoolean();
+	//private static LatchedBoolean boole = new LatchedBoolean();
+	//private static LatchedBoolean boole2 = new LatchedBoolean();
 	
 	
 	
@@ -34,10 +37,15 @@ public class OI implements Constants{
 	public void check(){
 		xbox.leftJoystickButton.whenPressed(new ShiftUp());
 		xbox.leftJoystickButton.whenReleased(new ShiftDown());
+		xbox.start.whenPressed(new ToggleCompressor());
+		xbox.rightBumper.whenPressed(new GearMechToggleState());
+		if(xbox.a.equals(true))
+			System.out.println(doh);
+
 		//xbox.start.whenPressed(new ());
 		//xbox.select.whenPressed(new SwitchCamera());
 		// Bumpers
-		boole.setInput(xbox.leftBumper.get());
+		/*boole.setInput(xbox.leftBumper.get());
 		if(boole.getOutput())
 			new IntakeForward();
 		
@@ -50,7 +58,7 @@ public class OI implements Constants{
 			new GearMechLiftDown();
 		
 		if(!boole2.getOutput())
-			new GearMechLiftUp();
+			new GearMechLiftUp();*/
 		
 		
 	}

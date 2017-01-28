@@ -6,16 +6,10 @@ import main.Constants;
 
 public class Climber extends Subsystem implements Constants {
 	public static Spark climberMotor = new Spark(Constants.Climber_Motor);
-	public static Climber instance;
 	
-	public static Climber getInstance() {
-		if(instance == null) {
-			instance = new Climber();
-		}
-			return instance;
-	}
 	
-	public static void spin(double speed){
+	
+	public void spin(double speed){
 		climberMotor.set(speed);
 	}
 

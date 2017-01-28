@@ -52,8 +52,9 @@ public interface Constants {
 	public final int Intake_Motor = 0;
 	public final int Climber_Motor = 1;
 	public final int Shooter_Motor = 2;
-	public final int Gear_Piston =3;
 	// PNEUMATICS (PCM)
+	public final int GEAR_EXT = 3;
+	public final int GEAR_RET = 2;
 	public final int SHIFTER_EXT = 1;
 	public final int SHIFTER_RET = 0;
 	//CAN BUS (Other Devices)

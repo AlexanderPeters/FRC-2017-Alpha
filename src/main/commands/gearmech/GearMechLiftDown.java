@@ -7,7 +7,7 @@ import main.Robot;
 public class GearMechLiftDown extends Command implements Constants {
 
 	public GearMechLiftDown() {
-        requires(Robot.gm);
+        requires(Robot.pn);
     }
 	
 	@Override
@@ -19,7 +19,7 @@ public class GearMechLiftDown extends Command implements Constants {
 	@Override
 	protected void execute() {
 		// TODO Auto-generated method stub
-		Robot.gm.lift(true);
+		Robot.pn.shiftGearMech(EXT);
 	}
 
 	@Override

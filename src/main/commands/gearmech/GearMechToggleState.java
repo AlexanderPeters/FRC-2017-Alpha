@@ -4,11 +4,10 @@ import edu.wpi.first.wpilibj.command.Command;
 import main.Constants;
 import main.Robot;
 
-public class GearMechLiftUp extends Command implements Constants {
-
-	public GearMechLiftUp() {
-        requires(Robot.pn);
-    }
+public class GearMechToggleState extends Command implements Constants{
+	public GearMechToggleState() {
+		requires(Robot.pn);
+	}
 	
 	@Override
 	protected void initialize() {
@@ -19,7 +18,7 @@ public class GearMechLiftUp extends Command implements Constants {
 	@Override
 	protected void execute() {
 		// TODO Auto-generated method stub
-		Robot.pn.shiftGearMech(RET);
+		Robot.pn.toggleGearMech();
 	}
 
 	@Override
@@ -39,5 +38,5 @@ public class GearMechLiftUp extends Command implements Constants {
 		// TODO Auto-generated method stub
 		
 	}
-
+	
 }

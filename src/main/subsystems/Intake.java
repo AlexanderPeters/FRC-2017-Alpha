@@ -9,14 +9,9 @@ public class Intake extends Subsystem implements Constants {
 	 * Instance Data      *
 	 **********************/
 	public Spark intakeMotor = new Spark(Constants.Intake_Motor);
-	public static Intake instance;
-	//getInstance method so the constructor only runs once
-	public static Intake getInstance() {
-		if(instance == null) {
-			instance = new Intake();
-		}
-			return instance;
-	}
+	
+	
+	
 	
 	/*******************
 	 * COMMAND METHODS *
