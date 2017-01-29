@@ -1,18 +1,10 @@
 package main.subsystems;
 
-import edu.wpi.first.wpilibj.Spark;
 import edu.wpi.first.wpilibj.command.Subsystem;
 import main.Constants;
+import main.HardwareAdapter;
 
-public class Intake extends Subsystem implements Constants {
-	/**********************
-	 * Instance Data      *
-	 **********************/
-	public Spark intakeMotor = new Spark(Constants.Intake_Motor);
-	
-	
-	
-	
+public class Intake extends Subsystem implements Constants, HardwareAdapter {
 	/*******************
 	 * COMMAND METHODS *
 	 * @param speed    *

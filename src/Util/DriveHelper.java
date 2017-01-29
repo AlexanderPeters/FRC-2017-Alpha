@@ -1,17 +1,18 @@
 package Util;
 
+import main.Constants;
+
 /**
  *
  * @author Joseph Grube
  */
-public class DriveHelper {
+public class DriveHelper implements Constants{
     
     private double negInertiaScalar;
     private double negInertiaAccumulator;
     private double oldTurn;
     private double wheelNonLinearity;
-    private double throttleDeadband = 0.02;
-    private double headingDeadband = 0.02;
+    
     
     public DriveHelper(double negInertiaScalar) {
         this.negInertiaScalar = negInertiaScalar;

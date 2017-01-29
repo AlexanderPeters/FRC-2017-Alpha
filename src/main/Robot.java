@@ -28,20 +28,27 @@ public class Robot extends IterativeRobot {
 
 	//public static final ExampleSubsystem exampleSubsystem = new ExampleSubsystem();
 	//private boolean lowGear = true;
+	public static enum RobotState {
+		Disabled, Initializing, Test, Teleop, Autonomous
+	}
+	
 	public static OI oi;
 	public static DriveTrain dt;
 	public static Pneumatics pn;
 	public static Climber cl;
 	public static Intake in;
+	public static RobotState robotState;
 	
     //Command autonomousCommand;
    // SendableChooser chooser;
+	
 
     /**
      * This function is run when the robot is first started up and should be
      * used for any initialization code.
      */
     public void robotInit() {
+    	robotState = RobotState.Initializing;
 		oi = new OI();
 		dt = new DriveTrain();
 		pn = new Pneumatics();		 
@@ -60,7 +67,7 @@ public class Robot extends IterativeRobot {
 	 * the robot is disabled.
      */
     public void disabledInit(){
-
+    	robotState = RobotState.Disabled;
     }
 	
 	public void disabledPeriodic() {
@@ -77,6 +84,7 @@ public class Robot extends IterativeRobot {
 	 * or additional comparisons to the switch structure below with additional strings & commands.
 	 */
     public void autonomousInit() {
+    	robotState = RobotState.Autonomous;
         //autonomousCommand = (Command) chooser.getSelected();
         
 		/* String autoSelected = SmartDashboard.getString("Auto Selector", "Default");
@@ -102,6 +110,7 @@ public class Robot extends IterativeRobot {
     }
 
     public void teleopInit() {
+    	robotState = RobotState.Teleop;
 		// This makes sure that the autonomous stops running when
         // teleop starts running. If you want the autonomous to 
         // continue until interrupted by another command, remove
@@ -141,5 +150,5 @@ public class Robot extends IterativeRobot {
     public void testPeriodic() {
         LiveWindow.run();
     }
-    
+        
 }

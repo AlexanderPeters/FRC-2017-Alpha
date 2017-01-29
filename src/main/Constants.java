@@ -15,13 +15,25 @@ public interface Constants {
 	public final int climberMotorForward = 1;
 	public final int shooterMotorForward = 1;
 	
+	// JOYSTICK DEADBAND'S
+	public final double throttleDeadband = 0.02;
+	public final double headingDeadband = 0.02;
+	
+	// PID VALUES FOR AUTONOMOUS
+	public final double rightWheelVelocityKP = 0.0;
+	public final double rightWheelPositionKP = 0.0;
+	public final double leftWheelVelocityKP = 0.0;
+	public final double leftWheelPositionKP = 0.0;
+	public final double headingControllerKP = 0.0;
+	
 	/*************
 	 * CONSTANTS *
 	 *************/
 	//DOH
 	public final String doh = "DOH!";
+	
 	// DEFAULT TALON MODES
-	public final TalonControlMode DEFAULT_CTRL_MODE = TalonControlMode.PercentVbus;
+	public final TalonControlMode DEFAULT_CTRL_MODE = TalonControlMode.Voltage;//TalonControlMode.PercentVbus;
 	public final boolean DEFAULT_BRAKE_MODE = true;
 	// TALON CONTROL MODES
 	public final TalonControlMode PERCENT_VBUS_MODE = TalonControlMode.PercentVbus;

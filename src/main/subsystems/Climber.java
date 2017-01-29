@@ -1,13 +1,10 @@
 package main.subsystems;
 
-import edu.wpi.first.wpilibj.Spark;
 import edu.wpi.first.wpilibj.command.Subsystem;
 import main.Constants;
+import main.HardwareAdapter;
 
-public class Climber extends Subsystem implements Constants {
-	public static Spark climberMotor = new Spark(Constants.Climber_Motor);
-	
-	
+public class Climber extends Subsystem implements Constants, HardwareAdapter {
 	
 	public void spin(double speed){
 		climberMotor.set(speed);

@@ -1,28 +1,18 @@
 package main.subsystems;
 
-import edu.wpi.first.wpilibj.Compressor;
 import edu.wpi.first.wpilibj.DoubleSolenoid;
 import edu.wpi.first.wpilibj.command.Subsystem;
 import main.Constants;
+import main.HardwareAdapter;
 import main.Robot;
 
-public class Pneumatics extends Subsystem implements Constants {
-
-	/*****************
-	 * INSTANCE DATA *
-	 *****************/
-	private DoubleSolenoid shifter;
-	private DoubleSolenoid gearMech;
-	private Compressor comp;
+public class Pneumatics extends Subsystem implements Constants, HardwareAdapter {
 	private boolean gearMechState = true;
 
 	/**
 	 * Constructor
 	 */
 	public Pneumatics() {
-		shifter = new DoubleSolenoid(1, SHIFTER_EXT, SHIFTER_RET);
-		gearMech = new DoubleSolenoid(1, GEAR_EXT, GEAR_RET);
-		comp = new Compressor(Constants.PCM_Port);
 		comp.setClosedLoopControl(true);
 		shifter.set(EXT);
 		shifter.set(OFF);
@@ -32,8 +22,6 @@ public class Pneumatics extends Subsystem implements Constants {
 
 	}
 
-	
-	
 	/*******************
 	 * COMMAND METHODS *
 	 *******************/

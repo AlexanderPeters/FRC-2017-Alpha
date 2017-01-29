@@ -10,7 +10,7 @@ import lib.joystick.XboxController;
 import main.commands.gearmech.GearMechToggleState;
 //import main.commands.intake.IntakeForward;
 //import main.commands.intake.IntakeOff;
-
+import main.commands.intake.IntakeForward;
 //import main.commands.pnuematics.Shift;
 import main.commands.pnuematics.ShiftDown;
 import main.commands.pnuematics.ShiftUp;
@@ -21,13 +21,10 @@ import main.commands.pnuematics.ToggleCompressor;
  * This class is the glue that binds the controls on the physical operator
  * interface to the commands and command groups that allow control of the robot.
  */
-public class OI implements Constants{
-	private static XboxController xbox = new XboxController(Constants.Xbox_Port);
+public class OI implements Constants, HardwareAdapter {
+	
 	//private static LatchedBoolean boole = new LatchedBoolean();
 	//private static LatchedBoolean boole2 = new LatchedBoolean();
-	
-	
-	
 	
 	public static XboxController getXbox (){
 		return xbox;
@@ -39,6 +36,7 @@ public class OI implements Constants{
 		xbox.leftJoystickButton.whenReleased(new ShiftDown());
 		xbox.start.whenPressed(new ToggleCompressor());
 		xbox.rightBumper.whenPressed(new GearMechToggleState());
+		xbox.a.whileHeld(new IntakeForward());
 		if(xbox.a.equals(true))
 			System.out.println(doh);
 
