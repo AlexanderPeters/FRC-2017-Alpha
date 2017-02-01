@@ -33,7 +33,7 @@ public interface Constants {
 	public final String doh = "DOH!";
 	
 	// DEFAULT TALON MODES
-	public final TalonControlMode DEFAULT_CTRL_MODE = TalonControlMode.Voltage;//TalonControlMode.PercentVbus;
+	public final TalonControlMode DEFAULT_CTRL_MODE = TalonControlMode.PercentVbus;//TalonControlMode.PercentVbus;
 	public final boolean DEFAULT_BRAKE_MODE = true;
 	// TALON CONTROL MODES
 	public final TalonControlMode PERCENT_VBUS_MODE = TalonControlMode.PercentVbus;

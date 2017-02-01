@@ -24,9 +24,10 @@ import edu.wpi.first.wpilibj.SPI;
 public class DriveTrain extends Subsystem implements Constants, HardwareAdapter{
 	private static boolean highGearState = false;
 	private static AHRS NavX;
-	private DriveHelper helper = new DriveHelper(5);
-	private boolean hasBeenDrivingStraight;
+	private DriveHelper helper = new DriveHelper(7.5);
+	private boolean hasBeenDrivingStriaghtWithThrottle;
 	private static RobotDrive driveTrain = new RobotDrive(leftDriveMaster, rightDriveMaster);
+	private static double previousYaw;
 	
 	public DriveTrain() {
 		setTalonDefaults();
@@ -42,7 +43,9 @@ public class DriveTrain extends Subsystem implements Constants, HardwareAdapter{
 		
 	}
 	public void drive(double throttle, double heading, main.Robot.RobotState robotState) {
-		if(helper.handleDeadband(heading, headingDeadband) != 0 && robotState == main.Robot.RobotState.Teleop)
+		double temp = helper.handleDeadband(heading, headingDeadband);
+		//System.out.println(temp);
+		if(temp != 0.0 && robotState == main.Robot.RobotState.Teleop)
 			driveWithHeading(throttle, heading);
 		
 		else if(robotState == main.Robot.RobotState.Teleop)
@@ -59,20 +62,32 @@ public class DriveTrain extends Subsystem implements Constants, HardwareAdapter{
 		Robot.dt.setBrakeMode(false);
 	
 		
-		hasBeenDrivingStraight = false;
-		driveTrain.arcadeDrive(helper.calculateThrottle(throttle), helper.calculateTurn(heading, highGearState));
+		hasBeenDrivingStriaghtWithThrottle = false;
+		//helper.calculateThrottle(throttle), helper.calculateTurn(heading, highGearState)
+		driveTrain.arcadeDrive(helper.handleOverPower(helper.handleDeadband(throttle, throttleDeadband)),helper.handleOverPower(helper.handleDeadband(heading, headingDeadband)));//helper.calculateThrottle(throttle)
 		
 	}
 	private void driveStraight(double throttle){
 			Robot.dt.setBrakeMode(false);
 			
-			if(!hasBeenDrivingStraight)
+			if(!hasBeenDrivingStriaghtWithThrottle){
 				resetGyro();
+				System.out.println("ZEROING");
+			}
 			
-			hasBeenDrivingStraight = true;
 			
-			double theta = NavX.getAngle();
-			driveTrain.arcadeDrive(helper.calculateThrottle(throttle), helper.handleOverPower(theta * -0.03)); //Make this PID Controlled
+			
+			double theta = NavX.getYaw();
+			//double delta = theta - previousYaw;
+			System.out.println(theta);
+			System.out.println("Here");
+			if(helper.handleDeadband(throttle, throttleDeadband) > 0.0){
+				driveTrain.arcadeDrive(helper.calculateThrottle(throttle), helper.handleOverPower(theta * -0.03)); //Make this PID Controlled
+				hasBeenDrivingStriaghtWithThrottle = true;
+			}
+			else {
+				hasBeenDrivingStriaghtWithThrottle = false;
+			}
 	}
 	
 	private void driveAutonomous(double leftThrottle, double rightThrottle) {
@@ -181,6 +196,7 @@ public class DriveTrain extends Subsystem implements Constants, HardwareAdapter{
 		leftDriveMaster.configNominalOutputVoltage(+0f, -0f);
 		rightDriveMaster.configNominalOutputVoltage(+0f, -0f);
 		leftDriveMaster.configPeakOutputVoltage(+12f, -12f);
+		rightDriveMaster.configPeakOutputVoltage(+12f, -12f);
 	}
 	
 	/**
@@ -205,6 +221,8 @@ public class DriveTrain extends Subsystem implements Constants, HardwareAdapter{
 	
 	private void resetGyro() {
 		NavX.reset();
+		NavX.zeroYaw();
+		//previousYaw = NavX.set;
 	}
 	
 

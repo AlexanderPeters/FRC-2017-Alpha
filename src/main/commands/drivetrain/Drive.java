@@ -19,7 +19,7 @@ public class Drive extends Command {
 
     // Called repeatedly when this Command is scheduled to run
     protected void execute() {
-    	Robot.dt.drive(OI.getXbox().getMainY() * -1, OI.getXbox().getAltX() * -1, main.Robot.robotState);
+    	Robot.dt.drive(OI.getXbox().getSmoothedMainY() * -1, OI.getXbox().getSmoothedAltX(), main.Robot.robotState);
     }
     // Make this return true when this Command no longer needs to run execute()
     protected boolean isFinished() {
