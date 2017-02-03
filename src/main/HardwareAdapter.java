@@ -13,10 +13,10 @@ public interface HardwareAdapter {
 	
 	//DriveTrain
 	public static CANTalon leftDriveMaster = new CANTalon(Constants.LEFT_Drive_Master);
-	public static CANTalon leftDriveSlave1 = new CANTalon(Constants.LEFT_Drive_SLAVE1);
+	public static CANTalon leftDriveSlave1 = new CANTalon(Constants.LEFT_Drive_Slave1);
 	public static CANTalon leftDriveSlave2 = new CANTalon(Constants.LEFT_Drive_Slave2);
 	public static CANTalon rightDriveMaster = new CANTalon(Constants.RIGHT_Drive_Master);
-	public static CANTalon rightDriveSlave1 = new CANTalon(Constants.RIGHT_Drive_SLAVE1);
+	public static CANTalon rightDriveSlave1 = new CANTalon(Constants.RIGHT_Drive_Slave1);
 	public static CANTalon rightDriveSlave2 = new CANTalon(Constants.RIGHT_Drive_Slave2);
 	
 	//Climber
@@ -24,6 +24,9 @@ public interface HardwareAdapter {
 	
 	//Intake
 	public static Spark intakeMotor = new Spark(Constants.Intake_Motor);
+	
+	//Stirrer
+	public static Spark stirrerMotor = new Spark(Constants.Stirrer_Motor);
 	
 	//Pnuematics
 	public static DoubleSolenoid shifter = new DoubleSolenoid(1, Constants.SHIFTER_EXT, Constants.SHIFTER_RET);

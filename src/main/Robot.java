@@ -10,10 +10,12 @@ import edu.wpi.first.wpilibj.livewindow.LiveWindow;
 //import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 //Subsystem imports
 import main.subsystems.DriveTrain;
+import main.commands.stirrer.Stir;
 //import main.subsystems.FlyWheel;
 import main.subsystems.Climber;
 import main.subsystems.Intake;
 import main.subsystems.Pneumatics;
+import main.subsystems.Stirrer;
 
 
 
@@ -37,6 +39,7 @@ public class Robot extends IterativeRobot {
 	public static Pneumatics pn;
 	public static Climber cl;
 	public static Intake in;
+	public static Stirrer str;
 	public static RobotState robotState;
 	
     //Command autonomousCommand;
@@ -50,6 +53,7 @@ public class Robot extends IterativeRobot {
     public void robotInit() {
     	robotState = RobotState.Initializing;
 		oi = new OI();
+		str = new Stirrer();
 		dt = new DriveTrain();
 		pn = new Pneumatics();		 
 		cl = new Climber();
@@ -72,6 +76,7 @@ public class Robot extends IterativeRobot {
 	
 	public void disabledPeriodic() {
 		Scheduler.getInstance().run();
+		new Stir(Constants.stirrerMotorOff);
 	}
 
 	/**
@@ -85,6 +90,7 @@ public class Robot extends IterativeRobot {
 	 */
     public void autonomousInit() {
     	robotState = RobotState.Autonomous;
+    	new Stir(Constants.stirrerMotorOn);
         //autonomousCommand = (Command) chooser.getSelected();
         
 		/* String autoSelected = SmartDashboard.getString("Auto Selector", "Default");
@@ -111,6 +117,7 @@ public class Robot extends IterativeRobot {
 
     public void teleopInit() {
     	robotState = RobotState.Teleop;
+    	new Stir(Constants.stirrerMotorOn);
 		// This makes sure that the autonomous stops running when
         // teleop starts running. If you want the autonomous to 
         // continue until interrupted by another command, remove

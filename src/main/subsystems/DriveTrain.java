@@ -43,16 +43,15 @@ public class DriveTrain extends Subsystem implements Constants, HardwareAdapter{
 		
 	}
 	public void drive(double throttle, double heading, main.Robot.RobotState robotState) {
-		double temp = helper.handleDeadband(heading, headingDeadband);
-		//System.out.println(temp);
-		if(temp != 0.0 && robotState == main.Robot.RobotState.Teleop)
+		if(helper.handleDeadband(heading, headingDeadband) != 0.0 && robotState == main.Robot.RobotState.Teleop)
 			driveWithHeading(throttle, heading);
 		
 		else if(robotState == main.Robot.RobotState.Teleop)
 			driveStraight(throttle);
 		
 		else if(robotState == main.Robot.RobotState.Autonomous)
-			driveAutonomous(TrajectoryDriveController.getLeftThrottle(), TrajectoryDriveController.getRightThrottle());
+			;//Start loop for auto
+			
 		else
 			System.out.println("ILLEGAL ROBOT STATE FOR EXECUTION OF DRIVE COMMAND");
 			
@@ -75,22 +74,30 @@ public class DriveTrain extends Subsystem implements Constants, HardwareAdapter{
 				System.out.println("ZEROING");
 			}
 			
-			
-			
 			double theta = NavX.getYaw();
-			//double delta = theta - previousYaw;
 			System.out.println(theta);
 			System.out.println("Here");
-			if(helper.handleDeadband(throttle, throttleDeadband) > 0.0){
-				driveTrain.arcadeDrive(helper.calculateThrottle(throttle), helper.handleOverPower(theta * -0.03)); //Make this PID Controlled
+			if(Math.abs(helper.handleDeadband(throttle, throttleDeadband)) > 0.0){//ABS fixed not driving backwards issue
+				if(Math.signum(throttle) > 0) {
+					//Make this PID Controlled
+					driveTrain.arcadeDrive(helper.calculateThrottle(throttle), helper.handleOverPower(theta * -0.03)); 
+				}
+				else {
+					//Might be unnecessary but I think the gyro bearing changes if you drive backwards
+					driveTrain.arcadeDrive(helper.calculateThrottle(throttle), helper.handleOverPower(theta * 0.03)); 
+				}
+				
 				hasBeenDrivingStriaghtWithThrottle = true;
 			}
 			else {
 				hasBeenDrivingStriaghtWithThrottle = false;
 			}
+			
+			if(theta <= 0.15)
+				resetGyro();//Prevents accumulation of gyro drift (resets gyro noise if robot is on course)
 	}
 	
-	private void driveAutonomous(double leftThrottle, double rightThrottle) {
+	public void driveAutonomous(double leftThrottle, double rightThrottle) {
 		Robot.dt.setBrakeMode(true);
 		driveTrain.tankDrive(helper.handleOverPower(leftThrottle), helper.handleOverPower(rightThrottle));
 		

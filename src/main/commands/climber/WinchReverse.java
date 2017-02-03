@@ -5,9 +5,11 @@ import main.Constants;
 import main.Robot;
 
 public class WinchReverse extends Command implements Constants{
-
-	public WinchReverse() {
+	private double speed;
+	
+	public WinchReverse(double speed) {
         requires(Robot.cl);
+        this.speed = speed;
     }
 	
 	@Override
@@ -19,7 +21,7 @@ public class WinchReverse extends Command implements Constants{
 	@Override
 	protected void execute() {
 		// TODO Auto-generated method stub
-		Robot.cl.spin(climberMotorForward * -1);
+		Robot.cl.spin(speed * -1);
 	}
 
 	@Override

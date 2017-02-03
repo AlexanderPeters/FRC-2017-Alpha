@@ -3,6 +3,7 @@ package main;
 //import edu.wpi.first.wpilibj.buttons.Button;
 //import lib.LatchedBoolean;
 import lib.joystick.XboxController;
+import main.commands.climber.WinchForward;
 //import main.commands.climber.WinchForward;
 //import main.commands.climber.WinchReverse;
 //import main.commands.gearmech.GearMechLiftDown;
@@ -15,6 +16,7 @@ import main.commands.intake.IntakeForward;
 import main.commands.pnuematics.ShiftDown;
 import main.commands.pnuematics.ShiftUp;
 import main.commands.pnuematics.ToggleCompressor;
+import main.commands.stirrer.Stir;
 
 
 /**
@@ -36,9 +38,16 @@ public class OI implements Constants, HardwareAdapter {
 		xbox.leftJoystickButton.whenReleased(new ShiftDown());
 		xbox.start.whenPressed(new ToggleCompressor());
 		xbox.rightBumper.whenPressed(new GearMechToggleState());
+		
 		xbox.a.whileHeld(new IntakeForward());
+		
+		xbox.x.whenPressed(new Stir(Constants.stirrerMotorOff));
+		xbox.b.whenPressed(new Stir(Constants.stirrerMotorOff));
+		xbox.x.whileHeld(new WinchForward(Constants.climberMotorForwardFast));
+		xbox.b.whileHeld(new WinchForward(Constants.climberMotorForwardSlow));
+		
 		if(xbox.a.equals(true))
-			System.out.println(doh);
+			System.out.println(DOH);
 
 		//xbox.start.whenPressed(new ());
 		//xbox.select.whenPressed(new SwitchCamera());
