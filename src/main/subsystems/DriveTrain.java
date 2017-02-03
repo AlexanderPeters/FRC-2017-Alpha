@@ -5,7 +5,6 @@ import com.ctre.CANTalon.TalonControlMode;
 import com.kauailabs.navx.frc.AHRS;
 
 import Util.DriveHelper;
-import controllers.TrajectoryDriveController;
 import edu.wpi.first.wpilibj.command.Subsystem;
 import edu.wpi.first.wpilibj.DriverStation;
 import edu.wpi.first.wpilibj.RobotDrive;
@@ -27,7 +26,6 @@ public class DriveTrain extends Subsystem implements Constants, HardwareAdapter{
 	private DriveHelper helper = new DriveHelper(7.5);
 	private boolean hasBeenDrivingStriaghtWithThrottle;
 	private static RobotDrive driveTrain = new RobotDrive(leftDriveMaster, rightDriveMaster);
-	private static double previousYaw;
 	
 	public DriveTrain() {
 		setTalonDefaults();
@@ -42,25 +40,15 @@ public class DriveTrain extends Subsystem implements Constants, HardwareAdapter{
 		
 		
 	}
-	public void drive(double throttle, double heading, main.Robot.RobotState robotState) {
-		if(helper.handleDeadband(heading, headingDeadband) != 0.0 && robotState == main.Robot.RobotState.Teleop)
+	public void driveTeleop(double throttle, double heading) {
+		if(helper.handleDeadband(heading, headingDeadband) != 0.0)
 			driveWithHeading(throttle, heading);
-		
-		else if(robotState == main.Robot.RobotState.Teleop)
+		else 
 			driveStraight(throttle);
-		
-		else if(robotState == main.Robot.RobotState.Autonomous)
-			;//Start loop for auto
-			
-		else
-			System.out.println("ILLEGAL ROBOT STATE FOR EXECUTION OF DRIVE COMMAND");
-			
 	}
 	
 	private void driveWithHeading(double throttle, double heading) {
 		Robot.dt.setBrakeMode(false);
-	
-		
 		hasBeenDrivingStriaghtWithThrottle = false;
 		//helper.calculateThrottle(throttle), helper.calculateTurn(heading, highGearState)
 		driveTrain.arcadeDrive(helper.handleOverPower(helper.handleDeadband(throttle, throttleDeadband)),helper.handleOverPower(helper.handleDeadband(heading, headingDeadband)));//helper.calculateThrottle(throttle)
@@ -97,9 +85,11 @@ public class DriveTrain extends Subsystem implements Constants, HardwareAdapter{
 				resetGyro();//Prevents accumulation of gyro drift (resets gyro noise if robot is on course)
 	}
 	
-	public void driveAutonomous(double leftThrottle, double rightThrottle) {
-		Robot.dt.setBrakeMode(true);
-		driveTrain.tankDrive(helper.handleOverPower(leftThrottle), helper.handleOverPower(rightThrottle));
+	public void driveLooperControl(double leftThrottle, double rightThrottle) {
+		if(Robot.robotState == Robot.RobotState.Autonomous) {//Friendly check to prevent conflicts
+			Robot.dt.setBrakeMode(true);
+			driveTrain.tankDrive(helper.handleOverPower(leftThrottle), helper.handleOverPower(rightThrottle));
+		}
 		
 	}
 	
@@ -229,7 +219,6 @@ public class DriveTrain extends Subsystem implements Constants, HardwareAdapter{
 	private void resetGyro() {
 		NavX.reset();
 		NavX.zeroYaw();
-		//previousYaw = NavX.set;
 	}
 	
 

@@ -35,6 +35,9 @@ public interface Constants {
 	//DOH
 	public final String DOH = "DOH!";
 	
+	//Loop Time
+	public final double kLooperDt = 0.01;
+	
 	// DEFAULT TALON MODES
 	public final TalonControlMode DEFAULT_CTRL_MODE = TalonControlMode.PercentVbus;//TalonControlMode.PercentVbus;
 	public final boolean DEFAULT_BRAKE_MODE = true;
@@ -76,5 +79,6 @@ public interface Constants {
 	//CAN BUS (Other Devices)
 	public final int PDP_Port = 0;
 	public final int PCM_Port = 1;
+	
 		
 }

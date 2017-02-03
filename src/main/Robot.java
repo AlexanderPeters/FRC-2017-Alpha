@@ -1,11 +1,13 @@
 package main;
 
+import controllers.TrajectoryDriveController;
 //import edu.wpi.first.wpilibj.DriverStation;
 //Necessary wpilib imports
 import edu.wpi.first.wpilibj.IterativeRobot;
 //import edu.wpi.first.wpilibj.command.Command;
 import edu.wpi.first.wpilibj.command.Scheduler;
 import edu.wpi.first.wpilibj.livewindow.LiveWindow;
+import lib.Looper;
 //import edu.wpi.first.wpilibj.smartdashboard.SendableChooser;
 //import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 //Subsystem imports
@@ -42,6 +44,12 @@ public class Robot extends IterativeRobot {
 	public static Stirrer str;
 	public static RobotState robotState;
 	
+	// Enabled looper is called at 100Hz whenever the robot is enabled
+    public static Looper mEnabledLooper = new Looper();
+    // Disabled looper is called at 100Hz whenever the robot is disabled
+    public static Looper mDisabledLooper = new Looper();
+
+	
     //Command autonomousCommand;
    // SendableChooser chooser;
 	
@@ -59,6 +67,9 @@ public class Robot extends IterativeRobot {
 		cl = new Climber();
 		in = new Intake();
 		
+		// Configure loopers
+        mEnabledLooper.register(new TrajectoryDriveController());
+		
 		//chooser = new SendableChooser();
         //chooser.addDefault("Default Auto", new ExampleCommand());
 		//chooser.addObject("My Auto", new MyAutoCommand());
@@ -72,6 +83,9 @@ public class Robot extends IterativeRobot {
      */
     public void disabledInit(){
     	robotState = RobotState.Disabled;
+    	// Configure loopers
+        mEnabledLooper.stop();
+        mDisabledLooper.start();
     }
 	
 	public void disabledPeriodic() {
@@ -91,6 +105,11 @@ public class Robot extends IterativeRobot {
     public void autonomousInit() {
     	robotState = RobotState.Autonomous;
     	new Stir(Constants.stirrerMotorOn);
+    	
+    	// Configure loopers
+        mDisabledLooper.stop();
+        mEnabledLooper.start();
+        
         //autonomousCommand = (Command) chooser.getSelected();
         
 		/* String autoSelected = SmartDashboard.getString("Auto Selector", "Default");
@@ -118,6 +137,11 @@ public class Robot extends IterativeRobot {
     public void teleopInit() {
     	robotState = RobotState.Teleop;
     	new Stir(Constants.stirrerMotorOn);
+    	
+    	// Configure loopers
+        mDisabledLooper.stop();
+        mEnabledLooper.start();
+        
 		// This makes sure that the autonomous stops running when
         // teleop starts running. If you want the autonomous to 
         // continue until interrupted by another command, remove
