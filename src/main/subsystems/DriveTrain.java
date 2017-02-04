@@ -47,10 +47,10 @@ public class DriveTrain extends Subsystem implements Constants, HardwareAdapter,
 		
 	}
 	public void driveTeleop(double throttle, double heading) {
-		if(helper.handleDeadband(heading, headingDeadband) != 0.0)
+		//if(helper.handleDeadband(heading, headingDeadband) != 0.0)
 			driveWithHeading(throttle, heading);
-		else 
-			driveStraight(throttle);
+		//else 
+			//driveStraight(throttle);
 	}
 	
 	private void driveWithHeading(double throttle, double heading) {
@@ -61,7 +61,8 @@ public class DriveTrain extends Subsystem implements Constants, HardwareAdapter,
 			
 			hasBeenDrivingStriaghtWithThrottle = false;
 			//helper.calculateThrottle(throttle), helper.calculateTurn(heading, highGearState)
-			driveTrain.arcadeDrive(helper.handleOverPower(helper.handleDeadband(throttle, throttleDeadband)),helper.handleOverPower(helper.handleDeadband(heading, headingDeadband)));//helper.calculateThrottle(throttle)
+			driveTrain.arcadeDrive(helper.handleOverPower(helper.handleDeadband(throttle * driveThrottle, throttleDeadband)),
+					helper.handleOverPower(helper.handleDeadband(heading * turnThrottle, headingDeadband)));//helper.calculateThrottle(throttle)
 		}
 		
 	}
@@ -79,14 +80,14 @@ public class DriveTrain extends Subsystem implements Constants, HardwareAdapter,
 			double theta = NavX.getYaw();
 			System.out.println(theta);
 			System.out.println("Here");
-			if(Math.abs(helper.handleDeadband(throttle, throttleDeadband)) > 0.0){//ABS fixed not driving backwards issue
+			if(Math.abs(helper.handleDeadband(throttle * driveThrottle, throttleDeadband)) > 0.0){//ABS fixed not driving backwards issue
 				if(Math.signum(throttle) > 0) {
 					//Make this PID Controlled
-					driveTrain.arcadeDrive(helper.calculateThrottle(throttle), helper.handleOverPower(theta * -0.03)); 
+					driveTrain.arcadeDrive(helper.calculateThrottle(throttle), helper.handleOverPower(theta * -0.05)); 
 				}
 				else {
 					//Might be unnecessary but I think the gyro bearing changes if you drive backwards
-					driveTrain.arcadeDrive(helper.calculateThrottle(throttle), helper.handleOverPower(theta * 0.03)); 
+					driveTrain.arcadeDrive(helper.calculateThrottle(throttle), helper.handleOverPower(theta * -0.05)); 
 				}
 				
 				hasBeenDrivingStriaghtWithThrottle = true;
@@ -95,7 +96,7 @@ public class DriveTrain extends Subsystem implements Constants, HardwareAdapter,
 				hasBeenDrivingStriaghtWithThrottle = false;
 			}
 			
-			if(theta <= 0.15)
+			if(theta <= 0.05)
 				resetGyro();//Prevents accumulation of gyro drift (resets gyro noise if robot is on course)
 		}
 	}

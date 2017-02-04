@@ -11,12 +11,16 @@ public interface Constants {
 	 * VARIABLES *
 	 *************/
 	// THROTTLE MULTIPLIERS
-	public final int intakeMotorForward = 1;
+	public final double intakeMotorForward = -1.0;
+	public final double intakeMotorReverse = 1.0;
+	public final double intakeMotorOff = 0.0;
 	public final double climberMotorForwardFast = 1;
 	public final double climberMotorForwardSlow = 0.25; //Needs to be field tested so that the climber doesn't stop turning
 	public final int shooterMotorForward = 1;
 	public final double stirrerMotorOn = 1.0;
 	public final double stirrerMotorOff = 0.0;
+	public final double driveThrottle = 1.0;
+	public final double turnThrottle = 1.0;
 	
 	// JOYSTICK DEADBAND'S
 	public final double throttleDeadband = 0.02;

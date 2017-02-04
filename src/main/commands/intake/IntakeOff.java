@@ -19,7 +19,7 @@ public class IntakeOff extends Command implements Constants{
 	@Override
 	protected void execute() {
 		// TODO Auto-generated method stub
-		Robot.in.spin(0);
+		Robot.in.spin(intakeMotorOff);
 	}
 
 	@Override

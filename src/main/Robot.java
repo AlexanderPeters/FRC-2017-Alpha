@@ -64,12 +64,14 @@ public class Robot extends IterativeRobot {
      */
     public void robotInit() {
     	gameState = GameState.Initializing;
-		oi = new OI();
+		pn = new Pneumatics();	
 		str = new Stirrer();
 		dt = new DriveTrain();
-		pn = new Pneumatics();		 
 		cl = new Climber();
 		in = new Intake();
+		//This has to be last as the subsystems can not be null when a command requires them
+		oi = new OI();
+
 		
 		// Configure loopers
         mEnabledLooper.register(new TrajectoryDriveController());

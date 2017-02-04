@@ -4,19 +4,21 @@ package main;
 //import lib.LatchedBoolean;
 import lib.joystick.XboxController;
 import main.commands.climber.WinchForward;
+import main.commands.climber.WinchOff;
+import main.commands.gearmech.GearDown;
+import main.commands.gearmech.GearUp;
 //import main.commands.climber.WinchForward;
 //import main.commands.climber.WinchReverse;
 //import main.commands.gearmech.GearMechLiftDown;
 //import main.commands.gearmech.GearMechLiftUp;
-import main.commands.gearmech.GearMechToggleState;
 //import main.commands.intake.IntakeForward;
 //import main.commands.intake.IntakeOff;
 import main.commands.intake.IntakeForward;
+import main.commands.intake.IntakeOff;
 //import main.commands.pnuematics.Shift;
 import main.commands.pnuematics.ShiftDown;
 import main.commands.pnuematics.ShiftUp;
 import main.commands.pnuematics.ToggleCompressor;
-import main.commands.stirrer.Stir;
 
 
 /**
@@ -40,17 +42,20 @@ public class OI implements Constants, HardwareAdapter {
 		xbox.leftJoystickButton.whenPressed(new ShiftUp());
 		xbox.leftJoystickButton.whenReleased(new ShiftDown());
 		xbox.start.whenPressed(new ToggleCompressor());
-		xbox.rightBumper.whenPressed(new GearMechToggleState());
+		xbox.rightBumper.whenPressed(new GearDown());
+		xbox.rightBumper.whenReleased(new GearUp());
 		
 		xbox.a.whileHeld(new IntakeForward());
+		xbox.a.whenReleased(new IntakeOff());
 		
-		xbox.x.whenPressed(new Stir(Constants.stirrerMotorOff));
-		xbox.b.whenPressed(new Stir(Constants.stirrerMotorOff));
+		//xbox.x.whenPressed(new Stir(Constants.stirrerMotorOff));
+		//xbox.b.whenPressed(new Stir(Constants.stirrerMotorOff));
 		xbox.x.whileHeld(new WinchForward(Constants.climberMotorForwardFast));
 		xbox.b.whileHeld(new WinchForward(Constants.climberMotorForwardSlow));
+		xbox.b.whenReleased(new WinchOff());
 		
-		if(xbox.a.equals(true))
-			System.out.println(DOH);
+		//if(xbox.a.equals(true))
+			//System.out.println(DOH);
 
 		
 		//xbox.start.whenPressed(new ());

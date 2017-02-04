@@ -7,8 +7,6 @@ import main.HardwareAdapter;
 import main.Robot;
 
 public class Pneumatics extends Subsystem implements Constants, HardwareAdapter {
-	private boolean gearMechState = true;
-
 	/**
 	 * Constructor
 	 */
@@ -21,6 +19,7 @@ public class Pneumatics extends Subsystem implements Constants, HardwareAdapter 
 
 
 	}
+	
 
 	/*******************
 	 * COMMAND METHODS *
@@ -39,14 +38,7 @@ public class Pneumatics extends Subsystem implements Constants, HardwareAdapter 
 	public void shiftGearMech(DoubleSolenoid.Value v) {
 		gearMech.set(v);
 	}
-	public void toggleGearMech() {
-		if(gearMechState)
-			gearMech.set(EXT);
-		else
-			gearMech.set(RET);
-		gearMechState = !gearMechState;
-	}
-
+	
 	/**
 	 * Toggles the compressor (ON/OFF)
 	 */

@@ -20,7 +20,7 @@ public class IntakeReverse extends Command implements Constants{
 	protected void execute() {
 		// TODO Auto-generated method stub
 		if(Robot.robotState != Robot.RobotState.Climbing)
-			Robot.in.spin(intakeMotorForward * -1);
+			Robot.in.spin(intakeMotorReverse);
 		else
 			Robot.in.spin(0);
 	}
