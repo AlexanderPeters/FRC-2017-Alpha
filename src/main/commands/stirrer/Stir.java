@@ -8,7 +8,7 @@ public class Stir extends Command implements Constants{
 	private double speed;
 	
 	public Stir() {
-		
+		requires(Robot.str);
 	}
 	
 	public Stir(double speed) {
@@ -22,7 +22,10 @@ public class Stir extends Command implements Constants{
 
     // Called repeatedly when this Command is scheduled to run
     protected void execute() {
-    	Robot.str.spin(speed);
+    	if(Robot.robotState != Robot.RobotState.Climbing)
+    		Robot.str.spin(speed);
+    	else
+    		Robot.str.spin(0);
     }
 
     // Make this return true when this Command no longer needs to run execute()

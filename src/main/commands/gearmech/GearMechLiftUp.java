@@ -19,7 +19,8 @@ public class GearMechLiftUp extends Command implements Constants {
 	@Override
 	protected void execute() {
 		// TODO Auto-generated method stub
-		Robot.pn.shiftGearMech(RET);
+    	if(Robot.robotState != Robot.RobotState.Climbing)
+    		Robot.pn.shiftGearMech(RET);
 	}
 
 	@Override

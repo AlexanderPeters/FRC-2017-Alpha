@@ -29,6 +29,21 @@ public interface Constants {
 	public final double leftWheelPositionKP = 0.0;
 	public final double headingControllerKP = 0.0;
 	
+	//PID VALUES FOR DRIVETRAIN
+	public final double turnInPlaceKP = 0.03;
+	public final double turnInPlaceKI = 0.0;
+	public final double turnInPlaceKD = 0.0;
+	public final double turnInPlaceKF = 0.0;
+	public final double kToleranceDegrees = 2.0f;//Subject to change
+	public final double leftDisplacementKP = 0.0;
+	public final double leftDisplacementKI = 0.0;
+	public final double leftDisplacementKD = 0.0;
+	public final int leftDisplacementTolerance = 0;
+	public final double rightDisplacementKP = 0.0;
+	public final double rightDisplacementKI = 0.0;
+	public final double rightDisplacementKD = 0.0;
+	public final int rightDisplacementTolerance = 0;
+	
 	/*************
 	 * CONSTANTS *
 	 *************/
@@ -43,6 +58,7 @@ public interface Constants {
 	public final boolean DEFAULT_BRAKE_MODE = true;
 	// TALON CONTROL MODES
 	public final TalonControlMode PERCENT_VBUS_MODE = TalonControlMode.PercentVbus;
+	public final TalonControlMode POSITION = TalonControlMode.Position;
 	public final TalonControlMode VOLTAGE_MODE = TalonControlMode.Voltage;
 	public final TalonControlMode SLAVE_MODE = TalonControlMode.Follower;
 	public final TalonControlMode DISABLED = TalonControlMode.Disabled;
@@ -53,6 +69,8 @@ public interface Constants {
 	public final DoubleSolenoid.Value EXT = Value.kForward;
 	public final DoubleSolenoid.Value RET = Value.kReverse;
 	public final DoubleSolenoid.Value OFF = Value.kOff;
+	//ENCODER CODES PER REV
+	public final int codesPerRev = 0;
 	
 	/****************
 	 * DEVICE PORTS *

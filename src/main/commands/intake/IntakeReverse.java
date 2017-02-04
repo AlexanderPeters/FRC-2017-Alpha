@@ -19,7 +19,10 @@ public class IntakeReverse extends Command implements Constants{
 	@Override
 	protected void execute() {
 		// TODO Auto-generated method stub
-		Robot.in.spin(intakeMotorForward * -1);
+		if(Robot.robotState != Robot.RobotState.Climbing)
+			Robot.in.spin(intakeMotorForward * -1);
+		else
+			Robot.in.spin(0);
 	}
 
 	@Override

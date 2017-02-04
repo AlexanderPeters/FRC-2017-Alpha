@@ -25,6 +25,8 @@ public class WinchOff extends Command implements Constants{
 	@Override
 	protected boolean isFinished() {
 		// TODO Auto-generated method stub
+		if(Robot.robotState != Robot.RobotState.Driving)
+    		Robot.robotState = Robot.RobotState.Neither;
 		return true;
 	}
 

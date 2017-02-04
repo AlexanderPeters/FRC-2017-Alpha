@@ -56,6 +56,11 @@ public class Pneumatics extends Subsystem implements Constants, HardwareAdapter 
 		else
 			comp.start();
 	}
+	
+	public void turnCompOff() {
+		if (comp.enabled())
+			comp.stop();
+	}
 
 	/*******************
 	 * DEFAULT METHODS *

@@ -18,7 +18,8 @@ public class GearMechToggleState extends Command implements Constants{
 	@Override
 	protected void execute() {
 		// TODO Auto-generated method stub
-		Robot.pn.toggleGearMech();
+    	if(Robot.robotState != Robot.RobotState.Climbing)
+    		Robot.pn.toggleGearMech();
 	}
 
 	@Override

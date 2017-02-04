@@ -27,6 +27,9 @@ public class OI implements Constants, HardwareAdapter {
 	
 	//private static LatchedBoolean boole = new LatchedBoolean();
 	//private static LatchedBoolean boole2 = new LatchedBoolean();
+	public OI() {
+		check();
+	}
 	
 	public static XboxController getXbox (){
 		return xbox;
@@ -49,6 +52,7 @@ public class OI implements Constants, HardwareAdapter {
 		if(xbox.a.equals(true))
 			System.out.println(DOH);
 
+		
 		//xbox.start.whenPressed(new ());
 		//xbox.select.whenPressed(new SwitchCamera());
 		// Bumpers

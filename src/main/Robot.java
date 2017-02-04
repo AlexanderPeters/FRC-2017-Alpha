@@ -32,8 +32,11 @@ public class Robot extends IterativeRobot {
 
 	//public static final ExampleSubsystem exampleSubsystem = new ExampleSubsystem();
 	//private boolean lowGear = true;
-	public static enum RobotState {
+	public static enum GameState {
 		Disabled, Initializing, Test, Teleop, Autonomous
+	}
+	public static enum RobotState {
+		Driving, Climbing, Neither
 	}
 	
 	public static OI oi;
@@ -42,7 +45,8 @@ public class Robot extends IterativeRobot {
 	public static Climber cl;
 	public static Intake in;
 	public static Stirrer str;
-	public static RobotState robotState;
+	public static GameState gameState;
+	public static RobotState robotState = RobotState.Neither;
 	
 	// Enabled looper is called at 100Hz whenever the robot is enabled
     public static Looper mEnabledLooper = new Looper();
@@ -59,7 +63,7 @@ public class Robot extends IterativeRobot {
      * used for any initialization code.
      */
     public void robotInit() {
-    	robotState = RobotState.Initializing;
+    	gameState = GameState.Initializing;
 		oi = new OI();
 		str = new Stirrer();
 		dt = new DriveTrain();
@@ -82,7 +86,7 @@ public class Robot extends IterativeRobot {
 	 * the robot is disabled.
      */
     public void disabledInit(){
-    	robotState = RobotState.Disabled;
+    	gameState = GameState.Disabled;
     	// Configure loopers
         mEnabledLooper.stop();
         mDisabledLooper.start();
@@ -103,7 +107,7 @@ public class Robot extends IterativeRobot {
 	 * or additional comparisons to the switch structure below with additional strings & commands.
 	 */
     public void autonomousInit() {
-    	robotState = RobotState.Autonomous;
+    	gameState = GameState.Autonomous;
     	new Stir(Constants.stirrerMotorOn);
     	
     	// Configure loopers
@@ -135,7 +139,7 @@ public class Robot extends IterativeRobot {
     }
 
     public void teleopInit() {
-    	robotState = RobotState.Teleop;
+    	gameState = GameState.Teleop;
     	new Stir(Constants.stirrerMotorOn);
     	
     	// Configure loopers
@@ -153,26 +157,7 @@ public class Robot extends IterativeRobot {
      * This function is called periodically during operator control
      */
     public void teleopPeriodic() {
-    	/*try{
-    		double throttle = oi.getJoystick().getMainY();
-    		double turn = oi.getJoystick().getAltX();
-    		
-    		if(lowGear){
-    			Rotation2d heading_setpoint = dt.getGyroAngle();
-    			dt.setBrakeMode(true);
-    			new main.commands.pnuematics.ShiftDown();
-    			
-    		}
-    		else {
-    			dt.setBrakeMode(false);
-    			new main.commands.pnuematics.ShiftUp();
-    		}
-    		
-    	}
-    	finally{
-    		
-    	}*/
-        Scheduler.getInstance().run();
+    	Scheduler.getInstance().run();
     }
     
     /**

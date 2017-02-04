@@ -1,12 +1,11 @@
 package main.commands.drivetrain;
 
 import edu.wpi.first.wpilibj.command.Command;
-import main.OI;
 import main.Robot;
 
-public class Shimmy extends Command {
+public class TurnItOff extends Command {
 
-    public Shimmy() {
+    public TurnItOff() {
     	requires(Robot.dt);
     }
 
@@ -16,7 +15,7 @@ public class Shimmy extends Command {
 
     // Called repeatedly when this Command is scheduled to run
     protected void execute() {
-    	
+    	Robot.dt.driveTeleop(0,0);
     }
     // Make this return true when this Command no longer needs to run execute()
     protected boolean isFinished() {

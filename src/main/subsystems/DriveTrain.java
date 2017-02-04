@@ -7,12 +7,16 @@ import com.kauailabs.navx.frc.AHRS;
 import Util.DriveHelper;
 import edu.wpi.first.wpilibj.command.Subsystem;
 import edu.wpi.first.wpilibj.DriverStation;
+import edu.wpi.first.wpilibj.PIDController;
+import edu.wpi.first.wpilibj.PIDOutput;
 import edu.wpi.first.wpilibj.RobotDrive;
 import main.Constants;
 import main.HardwareAdapter;
 import main.Robot;
 //import main.Robot;
 import main.commands.drivetrain.Drive;
+import main.commands.pnuematics.ShiftDown;
+
 //import Util.MathHelper;
 //NavX import
 import com.kauailabs.navx.frc.AHRS;
@@ -20,12 +24,14 @@ import edu.wpi.first.wpilibj.SPI;
 
 
 
-public class DriveTrain extends Subsystem implements Constants, HardwareAdapter{
+public class DriveTrain extends Subsystem implements Constants, HardwareAdapter, PIDOutput{
 	private static boolean highGearState = false;
 	private static AHRS NavX;
 	private DriveHelper helper = new DriveHelper(7.5);
 	private boolean hasBeenDrivingStriaghtWithThrottle;
 	private static RobotDrive driveTrain = new RobotDrive(leftDriveMaster, rightDriveMaster);
+	PIDController turnController;
+	private static double rotateToAngleRate;
 	
 	public DriveTrain() {
 		setTalonDefaults();
@@ -48,13 +54,21 @@ public class DriveTrain extends Subsystem implements Constants, HardwareAdapter{
 	}
 	
 	private void driveWithHeading(double throttle, double heading) {
-		Robot.dt.setBrakeMode(false);
-		hasBeenDrivingStriaghtWithThrottle = false;
-		//helper.calculateThrottle(throttle), helper.calculateTurn(heading, highGearState)
-		driveTrain.arcadeDrive(helper.handleOverPower(helper.handleDeadband(throttle, throttleDeadband)),helper.handleOverPower(helper.handleDeadband(heading, headingDeadband)));//helper.calculateThrottle(throttle)
+		if(Robot.gameState == Robot.GameState.Teleop) {//Friendly game state check
+			
+			Robot.robotState = Robot.RobotState.Driving;
+			Robot.dt.setBrakeMode(false);
+			
+			hasBeenDrivingStriaghtWithThrottle = false;
+			//helper.calculateThrottle(throttle), helper.calculateTurn(heading, highGearState)
+			driveTrain.arcadeDrive(helper.handleOverPower(helper.handleDeadband(throttle, throttleDeadband)),helper.handleOverPower(helper.handleDeadband(heading, headingDeadband)));//helper.calculateThrottle(throttle)
+		}
 		
 	}
 	private void driveStraight(double throttle){
+		if(Robot.gameState == Robot.GameState.Teleop) {//Friendly game state check
+			
+			Robot.robotState = Robot.RobotState.Driving;
 			Robot.dt.setBrakeMode(false);
 			
 			if(!hasBeenDrivingStriaghtWithThrottle){
@@ -83,23 +97,50 @@ public class DriveTrain extends Subsystem implements Constants, HardwareAdapter{
 			
 			if(theta <= 0.15)
 				resetGyro();//Prevents accumulation of gyro drift (resets gyro noise if robot is on course)
+		}
 	}
 	
 	public void driveLooperControl(double leftThrottle, double rightThrottle) {
-		if(Robot.robotState == Robot.RobotState.Autonomous) {//Friendly check to prevent conflicts
+		if(Robot.gameState == Robot.GameState.Autonomous) {//Friendly game state check
+			
+			Robot.robotState = Robot.RobotState.Driving;
 			Robot.dt.setBrakeMode(true);
+			new ShiftDown();
+			
 			driveTrain.tankDrive(helper.handleOverPower(leftThrottle), helper.handleOverPower(rightThrottle));
 		}
 		
 	}
 	
 	public void turnToHeading(double heading) {
+		new ShiftDown();
+		resetGyro();
+		turnController = new PIDController(turnInPlaceKP, turnInPlaceKI, turnInPlaceKD, turnInPlaceKF, NavX, this);
+		turnController.setInputRange(-180.0f,  180.0f);
+	    turnController.setOutputRange(-1.0, 1.0);
+	    turnController.setAbsoluteTolerance(kToleranceDegrees);
+	    turnController.setContinuous(true);
+		turnController.enable();
+		driveTrain.arcadeDrive(0.0, rotateToAngleRate);
 		
 		
 	}
 	
 	public void driveDisplacement(double displacement) {
+		new ShiftDown();
+		setCtrlMode(POSITION); //Change control mode of talon, default is PercentVbus (-1.0 to 1.0)
 		
+		leftDriveMaster.setPID(leftDisplacementKP, leftDisplacementKI, leftDisplacementKD); 
+		leftDriveMaster.setAllowableClosedLoopErr(leftDisplacementTolerance);
+		
+		rightDriveMaster.setPID(rightDisplacementKP, rightDisplacementKI, rightDisplacementKD); 
+		rightDriveMaster.setAllowableClosedLoopErr(rightDisplacementTolerance);
+		
+		leftDriveMaster.enableControl(); //Enable PID control on the talon
+		rightDriveMaster.enableControl(); //Enable PID control on the talon
+		
+		leftDriveMaster.set(convertToEncoderTicks(displacement));
+		rightDriveMaster.set(convertToEncoderTicks(displacement));
 	}
 	
 	public void changeGearing(){
@@ -118,6 +159,14 @@ public class DriveTrain extends Subsystem implements Constants, HardwareAdapter{
 		return rightDriveMaster.getEncPosition();
 	}
 	
+	public double convertToEncoderTicks(double dispacement) {//ft
+		return 0;
+	}
+	
+	public double getDistanceTraveledRight() {
+		return 0;
+	}
+	
 	public double getLeftEncoderVelocity() {
 		return leftDriveMaster.getEncVelocity();
 	}
@@ -125,6 +174,12 @@ public class DriveTrain extends Subsystem implements Constants, HardwareAdapter{
 	public double getRightEncoderVelocity() {
 		return rightDriveMaster.getEncVelocity();
 	}
+	
+	public void resetGyro() {
+		NavX.reset();
+		NavX.zeroYaw();
+	}
+	
 	
 	
 	
@@ -182,6 +237,8 @@ public class DriveTrain extends Subsystem implements Constants, HardwareAdapter{
 	private void setFeedBackDefaults() {
 		leftDriveMaster.setFeedbackDevice(FeedbackDevice.QuadEncoder);
 		rightDriveMaster.setFeedbackDevice(FeedbackDevice.QuadEncoder);
+		leftDriveMaster.configEncoderCodesPerRev(codesPerRev);
+		rightDriveMaster.configEncoderCodesPerRev(codesPerRev);
 		leftDriveMaster.reverseSensor(false);
 		rightDriveMaster.reverseSensor(false);
 	}
@@ -216,16 +273,14 @@ public class DriveTrain extends Subsystem implements Constants, HardwareAdapter{
 		setCtrlMode(DEFAULT_CTRL_MODE);
 	}
 	
-	private void resetGyro() {
-		NavX.reset();
-		NavX.zeroYaw();
-	}
-	
-
 	@Override
 	protected void initDefaultCommand() {
 		setDefaultCommand(new Drive());
 		
+	}
+	@Override
+	public void pidWrite(double output) {
+		rotateToAngleRate = output;		
 	}
 
 }
