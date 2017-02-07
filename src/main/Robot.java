@@ -89,6 +89,8 @@ public class Robot extends IterativeRobot {
      */
     public void disabledInit(){
     	gameState = GameState.Disabled;
+		new Stir(Constants.stirrerMotorOff);
+
     	// Configure loopers
         mEnabledLooper.stop();
         mDisabledLooper.start();
@@ -137,6 +139,7 @@ public class Robot extends IterativeRobot {
      * This function is called periodically during autonomous
      */
     public void autonomousPeriodic() {
+    	new Stir(Constants.stirrerMotorOn);
         Scheduler.getInstance().run();
     }
 
@@ -159,6 +162,7 @@ public class Robot extends IterativeRobot {
      * This function is called periodically during operator control
      */
     public void teleopPeriodic() {
+    	new Stir(Constants.stirrerMotorOn);
     	Scheduler.getInstance().run();
     }
     
