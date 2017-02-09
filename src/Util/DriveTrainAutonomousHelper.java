@@ -1,4 +1,4 @@
-package controllers;
+package Util;
 
 import main.Constants;
 import main.Robot;
@@ -27,7 +27,7 @@ public class DriveTrainAutonomousHelper implements Constants{
 		this.headingTarget = heading;		
 	}
 	
-	private void doTheMath() {
+	public void doTheMath() {
 		double left = ((leftVelocityTarget - Robot.dt.getLeftEncoderVelocity()) * leftWheelVelocityKP) + ((leftPositionTarget - Robot.dt.getLeftEncoderPosition()) * leftWheelPositionKP);
 		double right = ((rightVelocityTarget - Robot.dt.getRightEncoderVelocity()) * rightWheelVelocityKP) + ((rightPositionTarget - Robot.dt.getRightEncoderPosition()) * rightWheelPositionKP);	
 		double heading = (headingTarget - Robot.dt.getGyro().getYaw()) * headingControllerKP;
@@ -37,10 +37,10 @@ public class DriveTrainAutonomousHelper implements Constants{
 	}
 	
 	public double getAdjustedLeftVelocity() {
-		return 0;
+		return leftVelocityOut;
 	}
 	
 	public double getAdjustedRightVelocity() {
-		return 0;
+		return rightVelocityOut;
 	}
 }

@@ -76,6 +76,10 @@ public interface Constants {
 	public final DoubleSolenoid.Value OFF = Value.kOff;
 	//ENCODER CODES PER REV
 	public final int codesPerRev = 0;
+	//UDP_PORT
+	public final int udpPort = 10;
+	//DRIVERCAM_FPS
+	public final int fps = 30;
 	
 	/****************
 	 * DEVICE PORTS *

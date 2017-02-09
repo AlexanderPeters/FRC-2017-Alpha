@@ -1,5 +1,5 @@
 package main.commands.indexer;
 
-public class Index5ShotBurst {
+public class ShootTestBurst {
 
 }

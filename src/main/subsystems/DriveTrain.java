@@ -116,6 +116,7 @@ public class DriveTrain extends Subsystem implements Constants, HardwareAdapter,
 	
 	public void turnToHeading(double heading) {
 		new ShiftDown();
+		setBrakeMode(true);
 		resetGyro();
 		turnController = new PIDController(turnInPlaceKP, turnInPlaceKI, turnInPlaceKD, turnInPlaceKF, NavX, this);
 		turnController.setInputRange(-180.0f,  180.0f);
@@ -130,6 +131,7 @@ public class DriveTrain extends Subsystem implements Constants, HardwareAdapter,
 	
 	public void driveDisplacement(double displacement) {
 		new ShiftDown();
+		setBrakeMode(true);
 		setCtrlMode(POSITION); //Change control mode of talon, default is PercentVbus (-1.0 to 1.0)
 		
 		leftDriveMaster.setPID(leftDisplacementKP, leftDisplacementKI, leftDisplacementKD); 

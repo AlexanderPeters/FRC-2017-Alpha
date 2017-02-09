@@ -1,5 +1,6 @@
 package controllers;
 
+import Util.DriveTrainAutonomousHelper;
 import autoModes.TestAroundAirShip;
 import lib.Loop;
 import main.Robot;
@@ -27,9 +28,9 @@ public class TrajectoryDriveController implements Loop{
 		// TODO Auto-generated method stub
 		if(headingArray.length -1 <= index) {
 			helper.setHeadingTargets(headingArray[index][1]);
-			helper.setLeftTargets(leftVelocityArray[index][1], rightVelocityArray[index][1]);
-			helper.setRightTargets(rightVelocityArray[index][1], rightVelocityArray[index][1]);
-		
+			helper.setLeftTargets(leftVelocityArray[index][1], leftPositionArray[index][1]);
+			helper.setRightTargets(rightVelocityArray[index][1], rightPositionArray[index][1]);
+			helper.doTheMath();
 			Robot.dt.driveLooperControl(helper.getAdjustedLeftVelocity(), helper.getAdjustedRightVelocity());
 			index++;
 

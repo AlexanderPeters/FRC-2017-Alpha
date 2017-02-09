@@ -1,6 +1,7 @@
 package main;
 
 import controllers.TrajectoryDriveController;
+import controllers.UDPController;
 //import edu.wpi.first.wpilibj.DriverStation;
 //Necessary wpilib imports
 import edu.wpi.first.wpilibj.IterativeRobot;
@@ -13,6 +14,7 @@ import lib.Looper;
 //Subsystem imports
 import main.subsystems.DriveTrain;
 import main.commands.stirrer.Stir;
+import main.subsystems.CameraController;
 //import main.subsystems.FlyWheel;
 import main.subsystems.Climber;
 import main.subsystems.Intake;
@@ -45,6 +47,7 @@ public class Robot extends IterativeRobot {
 	public static Climber cl;
 	public static Intake in;
 	public static Stirrer str;
+	public static CameraController cc;
 	public static GameState gameState;
 	public static RobotState robotState = RobotState.Neither;
 	
@@ -69,12 +72,14 @@ public class Robot extends IterativeRobot {
 		dt = new DriveTrain();
 		cl = new Climber();
 		in = new Intake();
+		cc = new CameraController(50);
 		//This has to be last as the subsystems can not be null when a command requires them
 		oi = new OI();
 
 		
 		// Configure loopers
         mEnabledLooper.register(new TrajectoryDriveController());
+        mEnabledLooper.register(new UDPController());
 		
 		//chooser = new SendableChooser();
         //chooser.addDefault("Default Auto", new ExampleCommand());

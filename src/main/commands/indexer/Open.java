@@ -1,5 +1,5 @@
 package main.commands.indexer;
 
-public class OnFull {
+public class Open {
 
 }
