@@ -29,6 +29,7 @@ public class UDPForVision implements Constants {
 		String corrected = sentence.replaceAll("\u0000.*", "");
 		String[] values = corrected.split(",");
 
+		//Add an if statement to prevent out of bounds exceptions when values[x] is called
 		System.out.println("X is " + Double.parseDouble(values[0]));
 		System.out.println("Y is " + Double.parseDouble(values[1]));
 		System.out.println("Distance is " + Double.parseDouble(values[2]));
