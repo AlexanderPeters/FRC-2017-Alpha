@@ -77,7 +77,7 @@ public interface Constants {
 	//ENCODER CODES PER REV
 	public final int codesPerRev = 0;
 	//UDP_PORT
-	public final int udpPort = 10;
+	public final int udpPort = 5800;
 	//DRIVERCAM_FPS
 	public final int fps = 30;
 	

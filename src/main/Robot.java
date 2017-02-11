@@ -1,5 +1,9 @@
 package main;
 
+import java.net.DatagramPacket;
+import java.net.DatagramSocket;
+import java.net.SocketException;
+
 import controllers.TrajectoryDriveController;
 import controllers.UDPController;
 //import edu.wpi.first.wpilibj.DriverStation;
@@ -9,12 +13,13 @@ import edu.wpi.first.wpilibj.IterativeRobot;
 import edu.wpi.first.wpilibj.command.Scheduler;
 import edu.wpi.first.wpilibj.livewindow.LiveWindow;
 import lib.Looper;
+import lib.UDPForVision;
 //import edu.wpi.first.wpilibj.smartdashboard.SendableChooser;
 //import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 //Subsystem imports
 import main.subsystems.DriveTrain;
 import main.commands.stirrer.Stir;
-import main.subsystems.CameraController;
+//import main.subsystems.CameraController;
 //import main.subsystems.FlyWheel;
 import main.subsystems.Climber;
 import main.subsystems.Intake;
@@ -30,7 +35,7 @@ import main.subsystems.Stirrer;
  * creating this project, you must also update the manifest file in the resource
  * directory.
  */
-public class Robot extends IterativeRobot {
+public class Robot extends IterativeRobot implements Constants{
 
 	//public static final ExampleSubsystem exampleSubsystem = new ExampleSubsystem();
 	//private boolean lowGear = true;
@@ -47,7 +52,7 @@ public class Robot extends IterativeRobot {
 	public static Climber cl;
 	public static Intake in;
 	public static Stirrer str;
-	public static CameraController cc;
+	//public static CameraController cc;
 	public static GameState gameState;
 	public static RobotState robotState = RobotState.Neither;
 	
@@ -55,6 +60,8 @@ public class Robot extends IterativeRobot {
     public static Looper mEnabledLooper = new Looper();
     // Disabled looper is called at 100Hz whenever the robot is disabled
     public static Looper mDisabledLooper = new Looper();
+    
+    public static UDPForVision comms = new UDPForVision();
 
 	
     //Command autonomousCommand;
@@ -72,10 +79,11 @@ public class Robot extends IterativeRobot {
 		dt = new DriveTrain();
 		cl = new Climber();
 		in = new Intake();
-		cc = new CameraController(50);
+		//cc = new CameraController(50);
 		//This has to be last as the subsystems can not be null when a command requires them
 		oi = new OI();
 
+		
 		
 		// Configure loopers
         mEnabledLooper.register(new TrajectoryDriveController());

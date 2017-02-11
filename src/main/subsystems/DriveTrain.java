@@ -60,7 +60,7 @@ public class DriveTrain extends Subsystem implements Constants, HardwareAdapter,
 			Robot.dt.setBrakeMode(false);
 			
 			hasBeenDrivingStriaghtWithThrottle = false;
-			System.out.println(throttle);
+			//System.out.println(throttle);
 			//helper.calculateThrottle(throttle), helper.calculateTurn(heading, highGearState)
 			driveTrain.arcadeDrive(helper.handleOverPower(helper.handleJoystickHatingMe(helper.handleDeadband(throttle * driveThrottle, throttleDeadband))),
 					helper.handleOverPower(helper.handleJoystickHatingMe(helper.handleDeadband(heading * turnThrottle, headingDeadband))));//helper.calculateThrottle(throttle)
