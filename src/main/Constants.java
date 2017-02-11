@@ -11,17 +11,19 @@ public interface Constants {
 	 * VARIABLES *
 	 *************/
 	// THROTTLE MULTIPLIERS
-	public final double intakeMotorForward = -1.0;
-	public final double intakeMotorReverse = 1.0;
+	public final double intakeMotorForward = 1.0;
+	public final double intakeMotorReverse = -1.0;
 	public final double intakeMotorOff = 0.0;
-	public final double climberMotorForwardFast = 1;
-	public final double climberMotorForwardSlow = 0.25; //Needs to be field tested so that the climber doesn't stop turning
+	public final double climberMotorForwardFast = -1;
+	public final double climberMotorForwardSlow = -0.25; //Needs to be field tested so that the climber doesn't stop turning
 	public final int shooterMotorForward = 1;
 	public final double stirrerMotorOn = 1.0;
 	public final double stirrerMotorReverse = -1.0;
 	public final double stirrerMotorOff = 0.0;
 	public final double driveThrottle = 1.0;
 	public final double turnThrottle = 1.0;
+	public final double shooterForward = -1.0;
+	public final double shooterOff = 0.0;
 	
 	// JOYSTICK DEADBAND'S
 	public final double throttleDeadband = 0.02;
@@ -97,13 +99,13 @@ public interface Constants {
 	public final int Shooter_Hood = 9;
 	// OTHER MOTOR CONTROLLERS (PWM)
 	public final int Intake_Motor = 0;
-	public final int Climber_Motor = 1;
-	public final int Stirrer_Motor = 2;
+	public final int Climber_Motor = 2;
+	public final int Stirrer_Motor = 1;
 	// PNEUMATICS (PCM)
-	public final int GEAR_EXT = 3;
-	public final int GEAR_RET = 2;
-	public final int SHIFTER_EXT = 1;
-	public final int SHIFTER_RET = 0;
+	public final int GEAR_EXT = 2;
+	public final int GEAR_RET = 5;
+	public final int SHIFTER_EXT = 3;
+	public final int SHIFTER_RET = 6;
 	//CAN BUS (Other Devices)
 	public final int PDP_Port = 0;
 	public final int PCM_Port = 1;

@@ -19,6 +19,9 @@ public interface HardwareAdapter {
 	public static CANTalon rightDriveSlave1 = new CANTalon(Constants.RIGHT_Drive_Slave1);
 	public static CANTalon rightDriveSlave2 = new CANTalon(Constants.RIGHT_Drive_Slave2);
 	
+	//Shooter
+	public static CANTalon shooter = new CANTalon(Constants.Shooter_Flywheel);
+	
 	//Climber
 	public static Spark climberMotor = new Spark(Constants.Climber_Motor);
 	

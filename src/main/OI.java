@@ -1,5 +1,6 @@
 package main;
 
+import edu.wpi.first.wpilibj.command.Command;
 //import edu.wpi.first.wpilibj.buttons.Button;
 //import lib.LatchedBoolean;
 import lib.joystick.XboxController;
@@ -19,6 +20,8 @@ import main.commands.intake.IntakeOff;
 import main.commands.pnuematics.ShiftDown;
 import main.commands.pnuematics.ShiftUp;
 import main.commands.pnuematics.ToggleCompressor;
+import main.commands.shooter.FlyWheelForward;
+import main.commands.shooter.FlyWheelOff;
 
 
 /**
@@ -53,6 +56,8 @@ public class OI implements Constants, HardwareAdapter {
 		xbox.x.whileHeld(new WinchForward(Constants.climberMotorForwardFast));
 		xbox.b.whileHeld(new WinchForward(Constants.climberMotorForwardSlow));
 		xbox.b.whenReleased(new WinchOff());
+		xbox.y.whileHeld(new FlyWheelForward(shooterForward));
+		xbox.y.whenReleased(new FlyWheelOff());
 		
 		//if(xbox.a.equals(true))
 			//System.out.println(DOH);

@@ -18,6 +18,7 @@ import lib.UDPForVision;
 //import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 //Subsystem imports
 import main.subsystems.DriveTrain;
+import main.subsystems.FlyWheel;
 import main.commands.stirrer.Stir;
 //import main.subsystems.CameraController;
 //import main.subsystems.FlyWheel;
@@ -52,6 +53,7 @@ public class Robot extends IterativeRobot implements Constants{
 	public static Climber cl;
 	public static Intake in;
 	public static Stirrer str;
+	public static FlyWheel shooter;
 	//public static CameraController cc;
 	public static GameState gameState;
 	public static RobotState robotState = RobotState.Neither;
@@ -79,6 +81,7 @@ public class Robot extends IterativeRobot implements Constants{
 		dt = new DriveTrain();
 		cl = new Climber();
 		in = new Intake();
+		shooter = new FlyWheel();
 		//cc = new CameraController(50);
 		//This has to be last as the subsystems can not be null when a command requires them
 		oi = new OI();
