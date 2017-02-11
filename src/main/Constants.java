@@ -77,7 +77,7 @@ public interface Constants {
 	//ENCODER CODES PER REV
 	public final int codesPerRev = 0;
 	//UDP_PORT
-	public final int udpPort = 5800;
+	public final int udpPort = 5803;
 	//DRIVERCAM_FPS
 	public final int fps = 30;
 	
@@ -93,6 +93,8 @@ public interface Constants {
 	public final int RIGHT_Drive_Master = 5;
 	public final int RIGHT_Drive_Slave1 = 6;
 	public final int RIGHT_Drive_Slave2 = 7;
+	public final int Shooter_Flywheel = 8;
+	public final int Shooter_Hood = 9;
 	// OTHER MOTOR CONTROLLERS (PWM)
 	public final int Intake_Motor = 0;
 	public final int Climber_Motor = 1;
