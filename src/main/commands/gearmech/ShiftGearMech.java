@@ -23,7 +23,9 @@ public class ShiftGearMech extends Command implements Constants{
 
     // Called repeatedly when this Command is scheduled to run
     protected void execute() {
-    	Robot.pn.shiftGearMech(v);
+    	if(Robot.robotState != Robot.RobotState.Climbing)
+    		Robot.pn.shiftGearMech(v);
+    	
     }
 
     // Make this return true when this Command no longer needs to run execute()

@@ -17,7 +17,10 @@ public class FlyWheelForward extends Command{
 
     // Called repeatedly when this Command is scheduled to run
     protected void execute() {
-    	Robot.shooter.speed(speed);
+    	if(Robot.robotState != Robot.RobotState.Climbing)
+    		Robot.shooter.speed(speed);
+    	else
+    		Robot.shooter.speed(0.0);
     }
 
     // Make this return true when this Command no longer needs to run execute()

@@ -113,8 +113,8 @@ public class Robot extends IterativeRobot implements Constants{
     }
 	
 	public void disabledPeriodic() {
-		Scheduler.getInstance().run();
 		new Stir(Constants.stirrerMotorOff);
+		Scheduler.getInstance().run();
 	}
 
 	/**
