@@ -12,6 +12,7 @@ public interface HardwareAdapter {
 	public static XboxController xbox = new XboxController(Constants.Xbox_Port);
 	
 	//DriveTrain
+	//Verified for Competition Bot 1 2/13/17
 	public static CANTalon leftDriveMaster = new CANTalon(Constants.LEFT_Drive_Master);
 	public static CANTalon leftDriveSlave1 = new CANTalon(Constants.LEFT_Drive_Slave1);
 	public static CANTalon leftDriveSlave2 = new CANTalon(Constants.LEFT_Drive_Slave2);

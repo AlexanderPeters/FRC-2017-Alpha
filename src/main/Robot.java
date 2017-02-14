@@ -41,7 +41,7 @@ public class Robot extends IterativeRobot implements Constants{
 	//public static final ExampleSubsystem exampleSubsystem = new ExampleSubsystem();
 	//private boolean lowGear = true;
 	public static enum GameState {
-		Disabled, Initializing, Test, Teleop, Autonomous
+		Initializing, Test, Teleop, Autonomous
 	}
 	public static enum RobotState {
 		Driving, Climbing, Neither
@@ -61,9 +61,11 @@ public class Robot extends IterativeRobot implements Constants{
 	// Enabled looper is called at 100Hz whenever the robot is enabled
     public static Looper mEnabledLooper = new Looper();
     // Disabled looper is called at 100Hz whenever the robot is disabled
-    public static Looper mDisabledLooper = new Looper();
+    //public static Looper mDisabledLooper = new Looper();
+    public static Looper mAutonomousLooper = new Looper();
     
     public static UDPForVision comms = new UDPForVision();
+    
 
 	
     //Command autonomousCommand;
@@ -89,8 +91,10 @@ public class Robot extends IterativeRobot implements Constants{
 		
 		
 		// Configure loopers
-        mEnabledLooper.register(new TrajectoryDriveController());
+        mAutonomousLooper.register(new TrajectoryDriveController());
         mEnabledLooper.register(new UDPController());
+        mEnabledLooper.start();
+
 		
 		//chooser = new SendableChooser();
         //chooser.addDefault("Default Auto", new ExampleCommand());
@@ -104,20 +108,22 @@ public class Robot extends IterativeRobot implements Constants{
 	 * the robot is disabled.
      */
     public void disabledInit(){
-    	gameState = GameState.Disabled;
 		new Stir(Constants.stirrerMotorOff);
 
+
     	// Configure loopers
-        mEnabledLooper.stop();
-        mDisabledLooper.start();
+        //mEnabledLooper.stop();
+        //mDisabledLooper.start();
     }
 	
 	public void disabledPeriodic() {
 		new Stir(Constants.stirrerMotorOff);
+
 		Scheduler.getInstance().run();
 	}
+	
 
-	/**
+	/**4
 	 * This autonomous (along with the chooser code above) shows how to select between different autonomous modes
 	 * using the dashboard. The sendable chooser code works with the Java SmartDashboard. If you prefer the LabVIEW
 	 * Dashboard, remove all of the chooser code and uncomment the getString code to get the auto name from the text box
@@ -128,11 +134,13 @@ public class Robot extends IterativeRobot implements Constants{
 	 */
     public void autonomousInit() {
     	gameState = GameState.Autonomous;
+    	mAutonomousLooper.start();
     	new Stir(Constants.stirrerMotorOn);
+
     	
     	// Configure loopers
-        mDisabledLooper.stop();
-        mEnabledLooper.start();
+        //mDisabledLooper.stop();
+        //mEnabledLooper.start();
         
         //autonomousCommand = (Command) chooser.getSelected();
         
@@ -155,17 +163,18 @@ public class Robot extends IterativeRobot implements Constants{
      * This function is called periodically during autonomous
      */
     public void autonomousPeriodic() {
+    	gameState = GameState.Autonomous;
     	new Stir(Constants.stirrerMotorOn);
         Scheduler.getInstance().run();
     }
-
+    
     public void teleopInit() {
     	gameState = GameState.Teleop;
     	new Stir(Constants.stirrerMotorOn);
-    	
+
     	// Configure loopers
-        mDisabledLooper.stop();
-        mEnabledLooper.start();
+        //mDisabledLooper.stop();
+        mAutonomousLooper.stop();
         
 		// This makes sure that the autonomous stops running when
         // teleop starts running. If you want the autonomous to 
@@ -178,14 +187,17 @@ public class Robot extends IterativeRobot implements Constants{
      * This function is called periodically during operator control
      */
     public void teleopPeriodic() {
+    	gameState = GameState.Teleop;
     	new Stir(Constants.stirrerMotorOn);
     	Scheduler.getInstance().run();
     }
+    
     
     /**
      * This function is called periodically during test mode
      */
     public void testPeriodic() {
+
         LiveWindow.run();
     }
         

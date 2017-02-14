@@ -32,6 +32,8 @@ public class DriveTrain extends Subsystem implements Constants, HardwareAdapter,
 	private static RobotDrive driveTrain = new RobotDrive(leftDriveMaster, rightDriveMaster);
 	PIDController turnController;
 	private static double rotateToAngleRate;
+	private static double totalCodesLeft;
+	private static double totalCodesRight;
 	
 	public DriveTrain() {
 		setTalonDefaults();
@@ -163,20 +165,23 @@ public class DriveTrain extends Subsystem implements Constants, HardwareAdapter,
 		return rightDriveMaster.getEncPosition();
 	}
 	
-	public double convertToEncoderTicks(double dispacement) {//ft
-		return 0;
+	public double convertToEncoderTicks(double displacement) {//ft
+		return (displacement / (wheelSize*Math.PI)) * codesPerRev;
+	}
+	public double getDistanceTraveledLeft() {
+		return wheelSize*Math.PI*(totalCodesLeft/codesPerRev);//totalCodes must be set
 	}
 	
 	public double getDistanceTraveledRight() {
-		return 0;
+		return wheelSize*Math.PI*(totalCodesRight/codesPerRev);//totalCodes must be set
 	}
 	
 	public double getLeftEncoderVelocity() {
-		return leftDriveMaster.getEncVelocity();
+		return leftDriveMaster.getEncVelocity() * wheelEncoderVelMult;
 	}
 	
 	public double getRightEncoderVelocity() {
-		return rightDriveMaster.getEncVelocity();
+		return rightDriveMaster.getEncVelocity() * wheelEncoderVelMult;
 	}
 	
 	public void resetGyro() {
@@ -232,6 +237,7 @@ public class DriveTrain extends Subsystem implements Constants, HardwareAdapter,
 		rightDriveSlave1.set(rightDriveMaster.getDeviceID());
 		rightDriveSlave2.changeControlMode(SLAVE_MODE);
 		rightDriveSlave2.set(rightDriveMaster.getDeviceID());
+		
 	}
 	
 	/**

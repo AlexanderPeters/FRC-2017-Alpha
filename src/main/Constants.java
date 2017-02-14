@@ -82,6 +82,10 @@ public interface Constants {
 	public final int udpPort = 5803;
 	//DRIVERCAM_FPS
 	public final int fps = 30;
+	//WHEEL_SIZE
+	public final int wheelSize = 6;//Inches
+	//Encoder velocity to wheel velocity multiplier
+	public final int wheelEncoderVelMult = 0;
 	
 	/****************
 	 * DEVICE PORTS *
@@ -102,7 +106,7 @@ public interface Constants {
 	public final int Climber_Motor = 2;
 	public final int Stirrer_Motor = 1;
 	// PNEUMATICS (PCM)
-	public final int GEAR_EXT = 2;
+	public final int GEAR_EXT = 2;//Currently in by default
 	public final int GEAR_RET = 5;
 	public final int SHIFTER_EXT = 3;
 	public final int SHIFTER_RET = 6;
