@@ -2,8 +2,7 @@ package main.subsystems;
 
 import com.ctre.CANTalon.FeedbackDevice;
 import com.ctre.CANTalon.TalonControlMode;
-import com.kauailabs.navx.frc.AHRS;
-
+import com.kauailabs.navx.frc.AHRS;//NavX import
 import Util.DriveHelper;
 import edu.wpi.first.wpilibj.command.Subsystem;
 import edu.wpi.first.wpilibj.DriverStation;
@@ -13,16 +12,9 @@ import edu.wpi.first.wpilibj.RobotDrive;
 import main.Constants;
 import main.HardwareAdapter;
 import main.Robot;
-//import main.Robot;
 import main.commands.drivetrain.Drive;
 import main.commands.pnuematics.ShiftDown;
-
-//import Util.MathHelper;
-//NavX import
-import com.kauailabs.navx.frc.AHRS;
 import edu.wpi.first.wpilibj.SPI;
-
-
 
 public class DriveTrain extends Subsystem implements Constants, HardwareAdapter, PIDOutput{
 	private static boolean highGearState = false;
@@ -32,9 +24,7 @@ public class DriveTrain extends Subsystem implements Constants, HardwareAdapter,
 	private static RobotDrive driveTrain = new RobotDrive(leftDriveMaster, rightDriveMaster);
 	PIDController turnController;
 	private static double rotateToAngleRate;
-	private static double totalCodesLeft;
-	private static double totalCodesRight;
-	
+		
 	public DriveTrain() {
 		setTalonDefaults();
 		try {
@@ -45,14 +35,15 @@ public class DriveTrain extends Subsystem implements Constants, HardwareAdapter,
 	      } catch (RuntimeException ex ) {
 	          DriverStation.reportError("Error instantiating navX-MXP:  " + ex.getMessage(), true);
 	      }
+		resetSensors();//Must happen after NavX is instantiated!
 		
 		
 	}
 	public void driveTeleop(double throttle, double heading) {
-		//if(helper.handleDeadband(heading, headingDeadband) != 0.0)
+		if(helper.handleDeadband(heading, headingDeadband) != 0.0)
 			driveWithHeading(throttle, heading);
-		//else 
-			//driveStraight(throttle);
+		else 
+			driveStraight(throttle);
 	}
 	
 	private void driveWithHeading(double throttle, double heading) {
@@ -60,12 +51,14 @@ public class DriveTrain extends Subsystem implements Constants, HardwareAdapter,
 			
 			Robot.robotState = Robot.RobotState.Driving;
 			Robot.dt.setBrakeMode(false);
+			setCtrlMode(PERCENT_VBUS_MODE);
 			
 			hasBeenDrivingStriaghtWithThrottle = false;
 			//System.out.println(throttle);
 			//helper.calculateThrottle(throttle), helper.calculateTurn(heading, highGearState)
 			driveTrain.arcadeDrive(helper.handleOverPower(helper.handleJoystickHatingMe(helper.handleDeadband(throttle * driveThrottle, throttleDeadband))),
 					helper.handleOverPower(helper.handleJoystickHatingMe(helper.handleDeadband(heading * turnThrottle, headingDeadband))));//helper.calculateThrottle(throttle)
+			System.out.println("Gyro" + NavX.getYaw());
 		}
 		
 	}
@@ -74,6 +67,7 @@ public class DriveTrain extends Subsystem implements Constants, HardwareAdapter,
 			
 			Robot.robotState = Robot.RobotState.Driving;
 			Robot.dt.setBrakeMode(false);
+			setCtrlMode(PERCENT_VBUS_MODE);
 			
 			if(!hasBeenDrivingStriaghtWithThrottle){
 				resetGyro();
@@ -81,16 +75,16 @@ public class DriveTrain extends Subsystem implements Constants, HardwareAdapter,
 			}
 			
 			double theta = NavX.getYaw();
-			System.out.println(theta);
-			System.out.println("Here");
+			//System.out.println(theta);
+			//System.out.println("Here");
 			if(Math.abs(helper.handleDeadband(throttle * driveThrottle, throttleDeadband)) > 0.0){//ABS fixed not driving backwards issue
 				if(Math.signum(throttle) > 0) {
 					//Make this PID Controlled
-					driveTrain.arcadeDrive(helper.calculateThrottle(throttle), helper.handleOverPower(theta * -0.05)); 
+					driveTrain.arcadeDrive(helper.calculateThrottle(throttle), helper.handleOverPower(theta * straightLineKP)); 
 				}
 				else {
 					//Might be unnecessary but I think the gyro bearing changes if you drive backwards
-					driveTrain.arcadeDrive(helper.calculateThrottle(throttle), helper.handleOverPower(theta * -0.05)); 
+					driveTrain.arcadeDrive(helper.calculateThrottle(throttle), helper.handleOverPower(theta * straightLineKPReverse)); 
 				}
 				
 				hasBeenDrivingStriaghtWithThrottle = true;
@@ -98,9 +92,11 @@ public class DriveTrain extends Subsystem implements Constants, HardwareAdapter,
 			else {
 				hasBeenDrivingStriaghtWithThrottle = false;
 			}
+			System.out.println("Straight Gyro" + NavX.getYaw());
+
 			
-			if(theta <= 0.05)
-				resetGyro();//Prevents accumulation of gyro drift (resets gyro noise if robot is on course)
+			//if(theta <= 0.05)
+				//resetGyro();//Prevents accumulation of gyro drift (resets gyro noise if robot is on course)
 		}
 	}
 	
@@ -108,8 +104,10 @@ public class DriveTrain extends Subsystem implements Constants, HardwareAdapter,
 		if(Robot.gameState == Robot.GameState.Autonomous) {//Friendly game state check
 			
 			Robot.robotState = Robot.RobotState.Driving;
-			Robot.dt.setBrakeMode(true);
 			new ShiftDown();
+			Robot.dt.setBrakeMode(true);
+			setCtrlMode(PERCENT_VBUS_MODE);
+
 			
 			driveTrain.tankDrive(helper.handleOverPower(leftThrottle), helper.handleOverPower(rightThrottle));
 		}
@@ -119,6 +117,7 @@ public class DriveTrain extends Subsystem implements Constants, HardwareAdapter,
 	public void turnToHeading(double heading) {
 		new ShiftDown();
 		setBrakeMode(true);
+		setCtrlMode(PERCENT_VBUS_MODE);
 		resetGyro();
 		turnController = new PIDController(turnInPlaceKP, turnInPlaceKI, turnInPlaceKD, turnInPlaceKF, NavX, this);
 		turnController.setInputRange(-180.0f,  180.0f);
@@ -156,37 +155,37 @@ public class DriveTrain extends Subsystem implements Constants, HardwareAdapter,
 	public AHRS getGyro(){
 		return NavX;
 	}
-	
-	public double getLeftEncoderPosition() {
-		return leftDriveMaster.getEncPosition();
-	}
-	
-	public double getRightEncoderPosition() {
-		return rightDriveMaster.getEncPosition();
-	}
-	
+		
 	public double convertToEncoderTicks(double displacement) {//ft
 		return (displacement / (wheelSize*Math.PI)) * codesPerRev;
 	}
 	public double getDistanceTraveledLeft() {
-		return wheelSize*Math.PI*(totalCodesLeft/codesPerRev);//totalCodes must be set
+		return wheelSize*Math.PI*(getLeftEncoderPosition()/codesPerRev);//totalCodes must be set
 	}
 	
 	public double getDistanceTraveledRight() {
-		return wheelSize*Math.PI*(totalCodesRight/codesPerRev);//totalCodes must be set
+		return wheelSize*Math.PI*(getRightEncoderPosition()/codesPerRev);//totalCodes must be set
 	}
 	
-	public double getLeftEncoderVelocity() {
-		return leftDriveMaster.getEncVelocity() * wheelEncoderVelMult;
+	public double getLeftVelocity() {
+		return leftDriveMaster.getEncVelocity() / wheelEncoderVelMult;
 	}
 	
-	public double getRightEncoderVelocity() {
-		return rightDriveMaster.getEncVelocity() * wheelEncoderVelMult;
+	public double getRightVelocity() {
+		return rightDriveMaster.getEncVelocity() / wheelEncoderVelMult;
 	}
 	
 	public void resetGyro() {
 		NavX.reset();
 		NavX.zeroYaw();
+	}
+	public void resetEncoders() {
+		leftDriveMaster.setPosition(0);
+		rightDriveMaster.setPosition(0);
+	}
+	public void resetSensors() {
+		resetGyro();
+		resetEncoders();
 	}
 	
 	
@@ -195,6 +194,13 @@ public class DriveTrain extends Subsystem implements Constants, HardwareAdapter,
 	/*******************
 	 * SUPPORT METHODS *
 	 *******************/
+	private double getLeftEncoderPosition() {
+		return leftDriveMaster.getEncPosition();
+	}
+	
+	private double getRightEncoderPosition() {
+		return rightDriveMaster.getPosition();
+	}
 	
 	/**
 	 * Reverses the output of the Talon SRX's
@@ -277,7 +283,7 @@ public class DriveTrain extends Subsystem implements Constants, HardwareAdapter,
 	private void setTalonDefaults() {
 		setFeedBackDefaults();
 		setVoltageDefaults();
-		setRampRate(18);//0-12v in 3/4 of a second
+		setRampRate(12);//0-12v in 1 of a second
 		reverseTalons(false);//Changing this didn't do anything, mathematically negated in drive command
 		setBrakeMode(false);
 		setCtrlMode(DEFAULT_CTRL_MODE);

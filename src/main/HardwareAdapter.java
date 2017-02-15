@@ -4,6 +4,7 @@ import com.ctre.CANTalon;
 
 import edu.wpi.first.wpilibj.Compressor;
 import edu.wpi.first.wpilibj.DoubleSolenoid;
+import edu.wpi.first.wpilibj.PowerDistributionPanel;
 import edu.wpi.first.wpilibj.Spark;
 import lib.joystick.XboxController;
 
@@ -33,9 +34,12 @@ public interface HardwareAdapter {
 	public static Spark stirrerMotor = new Spark(Constants.Stirrer_Motor);
 	
 	//Pnuematics
-	public static DoubleSolenoid shifter = new DoubleSolenoid(1, Constants.SHIFTER_EXT, Constants.SHIFTER_RET);
-	public static DoubleSolenoid gearMech = new DoubleSolenoid(1, Constants.GEAR_EXT, Constants.GEAR_RET);
+	public static DoubleSolenoid shifter = new DoubleSolenoid(Constants.PCM_Port, Constants.SHIFTER_EXT, Constants.SHIFTER_RET);
+	public static DoubleSolenoid gearMech = new DoubleSolenoid(Constants.PCM_Port, Constants.GEAR_EXT, Constants.GEAR_RET);
 	public static Compressor comp = new Compressor(Constants.PCM_Port);
+	
+	//PDP
+	public static PowerDistributionPanel pdp = new PowerDistributionPanel(Constants.PDP_Port);
 	
 
 }

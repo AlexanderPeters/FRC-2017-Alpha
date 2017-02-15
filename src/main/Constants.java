@@ -29,6 +29,10 @@ public interface Constants {
 	public final double throttleDeadband = 0.02;
 	public final double headingDeadband = 0.02;
 	
+	//DRIVETRAIN STRAIGHT LINE kp
+	public final double straightLineKP = -0.03;
+	public final double straightLineKPReverse = 0.03;
+	
 	// PID VALUES FOR AUTONOMOUS
 	public final double rightWheelVelocityKP = 0.0;
 	public final double rightWheelPositionKP = 0.0;
@@ -77,15 +81,18 @@ public interface Constants {
 	public final DoubleSolenoid.Value RET = Value.kReverse;
 	public final DoubleSolenoid.Value OFF = Value.kOff;
 	//ENCODER CODES PER REV
-	public final int codesPerRev = 0;
+	public final int codesPerRev = 256;
 	//UDP_PORT
 	public final int udpPort = 5803;
 	//DRIVERCAM_FPS
 	public final int fps = 30;
 	//WHEEL_SIZE
 	public final int wheelSize = 6;//Inches
-	//Encoder velocity to wheel velocity multiplier
-	public final int wheelEncoderVelMult = 0;
+	//Encoder velocity to wheel velocity multiplier 
+	public final double wheelEncoderVelMult = 5.1;//low gear
+	public final double wheelEncoderVelMultHigh = 13.5;//high gear
+	
+	
 	
 	/****************
 	 * DEVICE PORTS *

@@ -21,6 +21,7 @@ public class TrajectoryDriveController implements Loop{
 		this.rightVelocityArray = TestAroundAirShip.rightVelocity;
 		this.leftPositionArray = TestAroundAirShip.leftPath;
 		this.rightPositionArray = TestAroundAirShip.rightPath;
+		Robot.dt.resetSensors();
 		
 	}
 	@Override

@@ -28,8 +28,8 @@ public class DriveTrainAutonomousHelper implements Constants{
 	}
 	
 	public void doTheMath() {
-		double left = ((leftVelocityTarget - Robot.dt.getLeftEncoderVelocity()) * leftWheelVelocityKP) + ((leftPositionTarget - Robot.dt.getDistanceTraveledLeft()) * leftWheelPositionKP);
-		double right = ((rightVelocityTarget - Robot.dt.getRightEncoderVelocity()) * rightWheelVelocityKP) + ((rightPositionTarget - Robot.dt.getDistanceTraveledRight()) * rightWheelPositionKP);	
+		double left = ((leftVelocityTarget - Robot.dt.getLeftVelocity()) * leftWheelVelocityKP) + ((leftPositionTarget - Robot.dt.getDistanceTraveledLeft()) * leftWheelPositionKP);
+		double right = ((rightVelocityTarget - Robot.dt.getRightVelocity()) * rightWheelVelocityKP) + ((rightPositionTarget - Robot.dt.getDistanceTraveledRight()) * rightWheelPositionKP);	
 		double heading = (headingTarget - Robot.dt.getGyro().getYaw()) * headingControllerKP;
 		
 		leftVelocityOut = left + heading;

@@ -10,6 +10,7 @@ public class Climber extends Subsystem implements Constants, HardwareAdapter {
 	public void spin(double speed){
 		Robot.robotState = Robot.RobotState.Climbing;
 		climberMotor.set(speed);
+		//System.out.println("Draw 1: " + pdp.getCurrent(10) + " Draw 2: " + pdp.getCurrent(11));
 	}
 
 	@Override
