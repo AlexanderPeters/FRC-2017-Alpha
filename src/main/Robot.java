@@ -4,14 +4,20 @@ import java.net.DatagramPacket;
 import java.net.DatagramSocket;
 import java.net.SocketException;
 
+import org.opencv.core.Mat;
+
 import controllers.TrajectoryDriveController;
 import controllers.UDPController;
+import edu.wpi.cscore.CvSink;
+import edu.wpi.cscore.CvSource;
+import edu.wpi.cscore.UsbCamera;
 //import edu.wpi.first.wpilibj.DriverStation;
 //Necessary wpilib imports
 import edu.wpi.first.wpilibj.IterativeRobot;
 //import edu.wpi.first.wpilibj.command.Command;
 import edu.wpi.first.wpilibj.command.Scheduler;
 import edu.wpi.first.wpilibj.livewindow.LiveWindow;
+import edu.wpi.first.wpilibj.vision.CameraServer;
 import lib.Looper;
 import lib.UDPForVision;
 //import edu.wpi.first.wpilibj.smartdashboard.SendableChooser;
@@ -20,6 +26,8 @@ import lib.UDPForVision;
 import main.subsystems.DriveTrain;
 import main.subsystems.FlyWheel;
 import main.commands.stirrer.Stir;
+import main.subsystems.CameraController;
+//import main.subsystems.CameraController;
 //import main.subsystems.CameraController;
 //import main.subsystems.FlyWheel;
 import main.subsystems.Climber;
@@ -54,7 +62,7 @@ public class Robot extends IterativeRobot implements Constants{
 	public static Intake in;
 	public static Stirrer str;
 	public static FlyWheel shooter;
-	//public static CameraController cc;
+	public static CameraController cc;
 	public static GameState gameState;
 	public static RobotState robotState = RobotState.Neither;
 	
@@ -65,7 +73,7 @@ public class Robot extends IterativeRobot implements Constants{
     public static Looper mAutonomousLooper = new Looper();
     
     public static UDPForVision comms = new UDPForVision();
-    
+    private static CameraServer server = CameraServer.getInstance();
 
 	
     //Command autonomousCommand;
@@ -84,7 +92,7 @@ public class Robot extends IterativeRobot implements Constants{
 		cl = new Climber();
 		in = new Intake();
 		shooter = new FlyWheel();
-		//cc = new CameraController(50);
+		cc = new CameraController(50);
 		//This has to be last as the subsystems can not be null when a command requires them
 		oi = new OI();
 
@@ -94,7 +102,7 @@ public class Robot extends IterativeRobot implements Constants{
         mAutonomousLooper.register(new TrajectoryDriveController());
         mEnabledLooper.register(new UDPController());
         mEnabledLooper.start();
-
+        
 		
 		//chooser = new SendableChooser();
         //chooser.addDefault("Default Auto", new ExampleCommand());

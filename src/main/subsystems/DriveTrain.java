@@ -40,10 +40,10 @@ public class DriveTrain extends Subsystem implements Constants, HardwareAdapter,
 		
 	}
 	public void driveTeleop(double throttle, double heading) {
-		if(helper.handleDeadband(heading, headingDeadband) != 0.0)
-			driveWithHeading(throttle, heading);
-		else 
-			driveStraight(throttle);
+		//if(helper.handleDeadband(heading, headingDeadband) != 0.0)
+		driveWithHeading(throttle, heading);
+		//else if(Math.abs(helper.handleDeadband(throttle, throttleDeadband)) > 0.0)
+			//driveStraight(throttle);
 	}
 	
 	private void driveWithHeading(double throttle, double heading) {
@@ -62,7 +62,7 @@ public class DriveTrain extends Subsystem implements Constants, HardwareAdapter,
 		}
 		
 	}
-	private void driveStraight(double throttle){
+	private void driveStraight(double throttle) {
 		if(Robot.gameState == Robot.GameState.Teleop) {//Friendly game state check
 			
 			Robot.robotState = Robot.RobotState.Driving;

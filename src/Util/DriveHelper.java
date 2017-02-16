@@ -86,7 +86,7 @@ public class DriveHelper implements Constants{
     }
     public double handleJoystickHatingMe(double throttle) {
     	if(Math.abs(throttle) >= 0.95)
-    		return 1 * Math.signum(throttle);
+    		return Math.signum(throttle);
     	else 
     		return throttle;
     }

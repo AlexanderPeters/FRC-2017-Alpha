@@ -1,111 +1,55 @@
-//package main.subsystems;
-//
-//import com.ni.vision.NIVision;
-//import com.ni.vision.NIVision.Image;
-//import edu.wpi.first.wpilibj.CameraServer;
-//import edu.wpi.first.wpilibj.command.Subsystem;
-//import edu.wpi.first.wpilibj.vision.USBCamera;
-//import main.commands.driverCam.StreamCamera;
-//
-///**
-// *
-// */
-//public class CameraController extends Subsystem {
-//	//private static CameraController instance;
-//    private static CameraServer server = CameraServer.getInstance();
-//    private static USBCamera bowCam, sternCam, targetCam;
-//	private static boolean init = false;
-//    public enum Camera {FRONT, BACK, TARGET};
-//	
-//	private Camera cur;
-//	private Image frame;
-//	private int quality;
-//	
-//	public CameraController(final int quality) {
-//		setQuality(quality);
-//		frame = NIVision.imaqCreateImage(NIVision.ImageType.IMAGE_RGB, 0);
-//		//bowCam = new USBCamera("cam0");
-//		//sternCam = new USBCamera("cam1");
-//		stream();
-//	}
-//	
-//	public void setQuality(int quality) {
-//	    if (quality < 0) 
-//	    	quality = 0;
-//	    else if (quality > 100) 
-//	    	quality = 100;
-//
-//	    this.quality = quality;
-//	    server.setQuality(quality);
-//	  }
-//	
-//	 public int getQuality() {
-//		    return quality;
-//		  }
-//	 
-//	  public static void initCameras() {
-//		    if (init) 
-//		    	return;
-//
-//		    bowCam = new USBCamera("cam0");
-//		    sternCam = new USBCamera("cam1");
-//		    //targetCam = new USBCamera("cam2");
-//		    
-//		    init = true;
-//		  }
-//	  
-//	  public void stream() {
-//		    if (!init) {
-//		      initCameras();
-//		      startStream();
-//		    }
-//
-//		    System.out.println("stream");
-//
-//		    switch (cur) {
-//		      case FRONT:
-//		        bowCam.getImage(frame);
-//		        break;
-//		      case BACK:
-//		        sternCam.getImage(frame);
-//		        break;
-//		      case TARGET:
-//		        throw new IllegalStateException("Pi camera not implemented");
-//		    }
-//		    server.setImage(frame);
-//
-//		    //System.out.println("done stream");
-//		  }
-//	  
-//	  public void startStream() {
-//		    startStream(Camera.FRONT);
-//		  }
-//	  
-//	  public void startStream(Camera camera) {
-//		    cur = camera;
-//		    System.out.println("Start stream");
-//		    switch (camera) {
-//		      case FRONT:
-//			    sternCam.stopCapture();
-//		        bowCam.startCapture();
-////		        target.stopCapture();
-//		        break;
-//		      case BACK:
-//		        bowCam.stopCapture();
-//		        sternCam.startCapture();
-////		        target.stopCapture();
-//		        break;
-//		      case TARGET:
-//		        throw new IllegalStateException("Shooter camera not implemented");
-//		    }
-//		  }
-//	  
-//	  public Camera getCurCamera() {
-//		  return cur;
-//	  }
-//	
-//
-//    public void initDefaultCommand() {
-//    	setDefaultCommand(new StreamCamera());
-//    }
-//}
+package main.subsystems;
+
+import com.ni.vision.NIVision;
+import com.ni.vision.NIVision.Image;
+import edu.wpi.first.wpilibj.command.Subsystem;
+import edu.wpi.first.wpilibj.vision.CameraServer;
+import edu.wpi.first.wpilibj.vision.USBCamera;
+
+/**
+ *
+ */
+public class CameraController extends Subsystem {
+	private static CameraServer server = CameraServer.getInstance();
+	private static USBCamera bowCam, sternCam;
+	private static boolean front = true;
+	private Image frame;
+	
+	public CameraController(final int quality) {
+		setQuality(quality);
+		frame = NIVision.imaqCreateImage(NIVision.ImageType.IMAGE_RGB, 0);
+		bowCam = new USBCamera("cam0");
+		sternCam = new USBCamera("cam1");
+	}
+
+	public void setQuality(int quality) {
+		quality = (quality < 0) ? 0 : quality;
+		quality = (quality > 0) ? 100 : quality;
+		server.setQuality(quality);
+	}
+
+	public void switchCamera() {
+		if(front) {
+			sternCam.stopCapture();
+			bowCam.startCapture();
+		}
+		else {
+			bowCam.stopCapture();
+			sternCam.startCapture();
+			front = !front;
+		}
+		
+	}
+	
+	public void poke() {
+		if(front)
+			bowCam.getImage(frame);
+		else
+			sternCam.getImage(frame);
+		server.setImage(frame);
+	}
+	
+	public void initDefaultCommand() {
+		setDefaultCommand(null);
+	}
+}

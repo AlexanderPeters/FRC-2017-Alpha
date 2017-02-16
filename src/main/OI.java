@@ -6,6 +6,7 @@ import edu.wpi.first.wpilibj.command.Command;
 import lib.joystick.XboxController;
 import main.commands.climber.WinchForward;
 import main.commands.climber.WinchOff;
+import main.commands.driverCam.SwitchCamera;
 import main.commands.gearmech.GearDown;
 import main.commands.gearmech.GearUp;
 //import main.commands.climber.WinchForward;
@@ -58,6 +59,7 @@ public class OI implements Constants, HardwareAdapter {
 		xbox.b.whenReleased(new WinchOff());
 		xbox.y.whileHeld(new FlyWheelForward(shooterForward));
 		xbox.y.whenReleased(new FlyWheelOff());
+		xbox.start.whenPressed(new SwitchCamera());
 		
 		//if(xbox.a.equals(true))
 			//System.out.println(DOH);
