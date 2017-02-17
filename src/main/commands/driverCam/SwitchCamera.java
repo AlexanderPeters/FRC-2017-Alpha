@@ -6,7 +6,7 @@ import main.Robot;
 public class SwitchCamera extends Command {
 
     public SwitchCamera() {
-    	requires(Robot.cc);
+    	requires(Robot.dc);
     }
 
     @Override
@@ -15,7 +15,7 @@ public class SwitchCamera extends Command {
 
     // Called repeatedly when this Command is scheduled to run
     protected void execute() {
-        Robot.cc.switchCamera();
+        Robot.dc.switchCamera();
 
     }
 

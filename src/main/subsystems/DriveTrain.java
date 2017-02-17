@@ -40,10 +40,17 @@ public class DriveTrain extends Subsystem implements Constants, HardwareAdapter,
 		
 	}
 	public void driveTeleop(double throttle, double heading) {
-		//if(helper.handleDeadband(heading, headingDeadband) != 0.0)
-		driveWithHeading(throttle, heading);
-		//else if(Math.abs(helper.handleDeadband(throttle, throttleDeadband)) > 0.0)
-			//driveStraight(throttle);
+		if(helper.handleDeadband(heading, headingDeadband) != 0.0)
+			driveWithHeading(throttle, heading);
+		//double mini = (pdp.getCurrent(12) + pdp.getCurrent(13)) / 2;
+		//double cim = (pdp.getCurrent(0) + pdp.getCurrent(1) + pdp.getCurrent(2) + pdp.getCurrent(3)) / 4;
+		//System.out.println("Cim: " + cim + ", Mini: " + mini + ", Total: " + pdp.getTotalCurrent());
+		//System.out.printboolean(helper.handleDeadband(throttle, throttleDeadband)) > 0.0);
+		else if(Math.abs(helper.handleDeadband(throttle, 0.18)) > 0.0)
+			driveStraight(throttle);
+		System.out.print(Math.abs(helper.handleDeadband(throttle, 0.2)) > 0.0);
+		System.out.println(Math.abs(helper.handleDeadband(throttle, 0.2)));
+
 	}
 	
 	private void driveWithHeading(double throttle, double heading) {
@@ -58,7 +65,7 @@ public class DriveTrain extends Subsystem implements Constants, HardwareAdapter,
 			//helper.calculateThrottle(throttle), helper.calculateTurn(heading, highGearState)
 			driveTrain.arcadeDrive(helper.handleOverPower(helper.handleJoystickHatingMe(helper.handleDeadband(throttle * driveThrottle, throttleDeadband))),
 					helper.handleOverPower(helper.handleJoystickHatingMe(helper.handleDeadband(heading * turnThrottle, headingDeadband))));//helper.calculateThrottle(throttle)
-			System.out.println("Gyro" + NavX.getYaw());
+			//System.out.println("Gyro" + NavX.getYaw());
 		}
 		
 	}
@@ -71,7 +78,7 @@ public class DriveTrain extends Subsystem implements Constants, HardwareAdapter,
 			
 			if(!hasBeenDrivingStriaghtWithThrottle){
 				resetGyro();
-				System.out.println("ZEROING");
+				//System.out.println("ZEROING");
 			}
 			
 			double theta = NavX.getYaw();
@@ -92,7 +99,7 @@ public class DriveTrain extends Subsystem implements Constants, HardwareAdapter,
 			else {
 				hasBeenDrivingStriaghtWithThrottle = false;
 			}
-			System.out.println("Straight Gyro" + NavX.getYaw());
+			//System.out.println("Straight Gyro" + NavX.getYaw());
 
 			
 			//if(theta <= 0.05)

@@ -9,17 +9,17 @@ import edu.wpi.first.wpilibj.vision.USBCamera;
 /**
  *
  */
-public class CameraController extends Subsystem {
+public class DriverCamera extends Subsystem {
 	private static CameraServer server = CameraServer.getInstance();
-	private static USBCamera bowCam, sternCam;
-	private static boolean front = true;
+	private static USBCamera gearCam, ropeCam;
+	private static boolean camBool = true;
 	private Image frame;
 	
-	public CameraController(final int quality) {
+	public DriverCamera(final int quality) {
 		setQuality(quality);
 		frame = NIVision.imaqCreateImage(NIVision.ImageType.IMAGE_RGB, 0);
-		bowCam = new USBCamera("cam0");
-		sternCam = new USBCamera("cam1");
+		gearCam = new USBCamera("cam0");
+		ropeCam = new USBCamera("cam1");
 	}
 
 	public void setQuality(int quality) {
@@ -29,23 +29,23 @@ public class CameraController extends Subsystem {
 	}
 
 	public void switchCamera() {
-		if(front) {
-			sternCam.stopCapture();
-			bowCam.startCapture();
+		if(camBool) {
+			gearCam.startCapture();
+			ropeCam.stopCapture();
 		}
 		else {
-			bowCam.stopCapture();
-			sternCam.startCapture();
-			front = !front;
+			gearCam.stopCapture();
+			ropeCam.startCapture();
+			camBool = !camBool;
 		}
 		
 	}
 	
 	public void poke() {
-		if(front)
-			bowCam.getImage(frame);
+		if(camBool)
+			gearCam.getImage(frame);
 		else
-			sternCam.getImage(frame);
+			ropeCam.getImage(frame);
 		server.setImage(frame);
 	}
 	
