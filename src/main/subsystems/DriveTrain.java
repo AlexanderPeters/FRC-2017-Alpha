@@ -48,8 +48,8 @@ public class DriveTrain extends Subsystem implements Constants, HardwareAdapter,
 		//System.out.printboolean(helper.handleDeadband(throttle, throttleDeadband)) > 0.0);
 		else if(Math.abs(helper.handleDeadband(throttle, 0.18)) > 0.0)
 			driveStraight(throttle);
-		System.out.print(Math.abs(helper.handleDeadband(throttle, 0.2)) > 0.0);
-		System.out.println(Math.abs(helper.handleDeadband(throttle, 0.2)));
+		//System.out.print(Math.abs(helper.handleDeadband(throttle, 0.2)) > 0.0);
+		//System.out.println(Math.abs(helper.handleDeadband(throttle, 0.2)));
 
 	}
 	

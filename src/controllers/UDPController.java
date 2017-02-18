@@ -17,6 +17,8 @@ public class UDPController implements Loop, Constants{
 
 	@Override
 	public void onLoop() {
+		System.out.println("here");
+
 		try {
 			Robot.comms.poke();
 		} catch (IOException e) {

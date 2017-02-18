@@ -1,6 +1,6 @@
 package controllers;
 
-import lib.Loop;
+/*import lib.Loop;
 import main.Robot;
 
 public class TeleopCameraController implements Loop {
@@ -14,6 +14,7 @@ public class TeleopCameraController implements Loop {
 	@Override
 	public void onLoop() {
 		Robot.dc.poke();
+		System.out.println("here");
 		
 	}
 
@@ -23,3 +24,4 @@ public class TeleopCameraController implements Loop {
 		
 	}
 }
+*/

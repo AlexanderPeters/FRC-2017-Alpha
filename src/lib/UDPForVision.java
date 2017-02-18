@@ -23,7 +23,7 @@ public class UDPForVision implements Constants {
 	}
 
 	public void poke() throws IOException {
-
+		System.out.println("here!");
 		serverSocket.receive(receivePacket);
 		String sentence = new String(receivePacket.getData());
 		String corrected = sentence.replaceAll("\u0000.*", "");

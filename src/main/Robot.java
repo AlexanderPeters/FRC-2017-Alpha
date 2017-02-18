@@ -1,12 +1,14 @@
 package main;
 
-import controllers.TeleopCameraController;
+//import controllers.TeleopCameraController;
 import controllers.TrajectoryDriveController;
 import controllers.UDPController;
-
+import edu.wpi.cscore.MjpegServer;
+import edu.wpi.cscore.UsbCamera;
 //import edu.wpi.first.wpilibj.DriverStation;
 //Necessary wpilib imports
 import edu.wpi.first.wpilibj.IterativeRobot;
+import edu.wpi.first.wpilibj.Timer;
 //import edu.wpi.first.wpilibj.command.Command;
 import edu.wpi.first.wpilibj.command.Scheduler;
 import edu.wpi.first.wpilibj.livewindow.LiveWindow;
@@ -17,7 +19,7 @@ import lib.UDPForVision;
 //import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 //Subsystem imports
 import main.subsystems.DriveTrain;
-import main.subsystems.DriverCamera;
+//import main.subsystems.DriverCamera;
 import main.subsystems.FlyWheel;
 import main.commands.stirrer.Stir;
 //import main.subsystems.CameraController;
@@ -53,7 +55,6 @@ public class Robot extends IterativeRobot implements Constants{
 	public static Intake in;
 	public static Stirrer str;
 	public static FlyWheel shooter;
-	public static DriverCamera dc;
 	public static GameState gameState;
 	public static RobotState robotState = RobotState.Neither;
 	
@@ -64,6 +65,9 @@ public class Robot extends IterativeRobot implements Constants{
     public static Looper mAutonomousLooper = new Looper();
     
     public static UDPForVision comms = new UDPForVision();
+	//public static DriverCamera dc = new DriverCamera(50);
+	private Thread captureThread;
+
 
 	
     //Command autonomousCommand;
@@ -82,19 +86,32 @@ public class Robot extends IterativeRobot implements Constants{
 		cl = new Climber();
 		in = new Intake();
 		shooter = new FlyWheel();
-		dc = new DriverCamera(50);
+		//dc = new DriverCamera(50);
 		//This has to be last as the subsystems can not be null when a command requires them
 		oi = new OI();
 
 		
-		
+		UsbCamera usbCamera = new UsbCamera("USB Camera 0", 0);
+
+		MjpegServer mjpegServer1 = new MjpegServer("serve_USB Camera 0", 1181);
+
+		mjpegServer1.setSource(usbCamera);
 		// Configure loopers
         mAutonomousLooper.register(new TrajectoryDriveController());
         mEnabledLooper.register(new UDPController());
-        mEnabledLooper.register(new TeleopCameraController());
+       // mEnabledLooper.register(new TeleopCameraController());
         mEnabledLooper.start();
+        /*captureThread = new Thread(() -> {
+  	      while (true) {
+  	        dc.poke();
+  	        Timer.delay(1 / (double) Constants.fps);
+  	      }
+  	    });*/
+  	    //captureThread.setName("Camera Capture Thread");
+  	    //captureThread.start();
+  	  
         
-		
+		//System.out.println("init2");
 		//chooser = new SendableChooser();
         //chooser.addDefault("Default Auto", new ExampleCommand());
 		//chooser.addObject("My Auto", new MyAutoCommand());
