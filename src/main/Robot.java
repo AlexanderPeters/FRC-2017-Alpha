@@ -3,29 +3,27 @@ package main;
 //import controllers.TeleopCameraController;
 import controllers.TrajectoryDriveController;
 import controllers.UDPController;
-import edu.wpi.cscore.MjpegServer;
-import edu.wpi.cscore.UsbCamera;
 //import edu.wpi.first.wpilibj.DriverStation;
 //Necessary wpilib imports
 import edu.wpi.first.wpilibj.IterativeRobot;
-import edu.wpi.first.wpilibj.Timer;
 //import edu.wpi.first.wpilibj.command.Command;
 import edu.wpi.first.wpilibj.command.Scheduler;
 import edu.wpi.first.wpilibj.livewindow.LiveWindow;
 import edu.wpi.first.wpilibj.vision.CameraServer;
 import lib.Looper;
 import lib.UDPForVision;
+//import main.commands.stirrer.Stir;
+//import main.subsystems.CameraController;
+//import main.subsystems.CameraController;
+//import main.subsystems.FlyWheel;
+import main.subsystems.Climber;
 //import edu.wpi.first.wpilibj.smartdashboard.SendableChooser;
 //import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 //Subsystem imports
 import main.subsystems.DriveTrain;
 //import main.subsystems.DriverCamera;
 import main.subsystems.FlyWheel;
-//import main.commands.stirrer.Stir;
-//import main.subsystems.CameraController;
-//import main.subsystems.CameraController;
-//import main.subsystems.FlyWheel;
-import main.subsystems.Climber;
+import main.subsystems.Hood;
 import main.subsystems.Intake;
 import main.subsystems.Pneumatics;
 import main.subsystems.Stirrer;
@@ -55,6 +53,7 @@ public class Robot extends IterativeRobot implements Constants{
 	public static Intake in;
 	public static Stirrer str;
 	public static FlyWheel shooter;
+	public static Hood hd;
 	public static GameState gameState;
 	public static RobotState robotState = RobotState.Neither;
 	
@@ -86,6 +85,7 @@ public class Robot extends IterativeRobot implements Constants{
 		cl = new Climber();
 		in = new Intake();
 		shooter = new FlyWheel();
+		hd = new Hood();
 		//dc = new DriverCamera(50);
 		//This has to be last as the subsystems can not be null when a command requires them
 		oi = new OI();
