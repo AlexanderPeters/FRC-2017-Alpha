@@ -21,7 +21,7 @@ import lib.UDPForVision;
 import main.subsystems.DriveTrain;
 //import main.subsystems.DriverCamera;
 import main.subsystems.FlyWheel;
-import main.commands.stirrer.Stir;
+//import main.commands.stirrer.Stir;
 //import main.subsystems.CameraController;
 //import main.subsystems.CameraController;
 //import main.subsystems.FlyWheel;
@@ -90,12 +90,13 @@ public class Robot extends IterativeRobot implements Constants{
 		//This has to be last as the subsystems can not be null when a command requires them
 		oi = new OI();
 
-		
+		CameraServer.getInstance().startAutomaticCapture();
+		/*
 		UsbCamera usbCamera = new UsbCamera("USB Camera 0", 0);
 
 		MjpegServer mjpegServer1 = new MjpegServer("serve_USB Camera 0", 1181);
 
-		mjpegServer1.setSource(usbCamera);
+		mjpegServer1.setSource(usbCamera);*/
 		// Configure loopers
         mAutonomousLooper.register(new TrajectoryDriveController());
         mEnabledLooper.register(new UDPController());
@@ -124,7 +125,7 @@ public class Robot extends IterativeRobot implements Constants{
 	 * the robot is disabled.
      */
     public void disabledInit(){
-		new Stir(Constants.stirrerMotorOff);
+		//new Stir(Constants.stirrerMotorOff);
 
 
     	// Configure loopers
@@ -133,7 +134,7 @@ public class Robot extends IterativeRobot implements Constants{
     }
 	
 	public void disabledPeriodic() {
-		new Stir(Constants.stirrerMotorOff);
+		//new Stir(Constants.stirrerMotorOff);
 
 		Scheduler.getInstance().run();
 	}
@@ -151,7 +152,7 @@ public class Robot extends IterativeRobot implements Constants{
     public void autonomousInit() {
     	gameState = GameState.Autonomous;
     	mAutonomousLooper.start();
-    	new Stir(Constants.stirrerMotorOn);
+    	//new Stir(Constants.stirrerMotorOn);
 
     	
     	// Configure loopers
@@ -180,13 +181,13 @@ public class Robot extends IterativeRobot implements Constants{
      */
     public void autonomousPeriodic() {
     	gameState = GameState.Autonomous;
-    	new Stir(Constants.stirrerMotorOn);
+    	//new Stir(Constants.stirrerMotorOn);
         Scheduler.getInstance().run();
     }
     
     public void teleopInit() {
     	gameState = GameState.Teleop;
-    	new Stir(Constants.stirrerMotorOn);
+    	//new Stir(Constants.stirrerMotorOn);
 
     	// Configure loopers
         //mDisabledLooper.stop();
@@ -204,7 +205,7 @@ public class Robot extends IterativeRobot implements Constants{
      */
     public void teleopPeriodic() {
     	gameState = GameState.Teleop;
-    	new Stir(Constants.stirrerMotorOn);
+    	//new Stir(Constants.stirrerMotorOn);
     	Scheduler.getInstance().run();
     }
     

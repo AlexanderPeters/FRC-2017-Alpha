@@ -55,6 +55,12 @@ public interface Constants {
 	public final double rightDisplacementKD = 0.0;
 	public final int rightDisplacementTolerance = 0;
 	
+	//PID VALUES FOR FLYWHEEL
+	public final double flyWheelKP = 0.0;
+	public final double flyWheelKI = 0.0;
+	public final double flyWheelKD = 0.0;
+	public final int flyWheelTargetVel = 3000;
+	
 	/*************
 	 * CONSTANTS *
 	 *************/
@@ -68,6 +74,7 @@ public interface Constants {
 	public final TalonControlMode DEFAULT_CTRL_MODE = TalonControlMode.PercentVbus;//TalonControlMode.PercentVbus;
 	public final boolean DEFAULT_BRAKE_MODE = true;
 	// TALON CONTROL MODES
+	public final TalonControlMode VELOCITY = TalonControlMode.Speed;
 	public final TalonControlMode PERCENT_VBUS_MODE = TalonControlMode.PercentVbus;
 	public final TalonControlMode POSITION = TalonControlMode.Position;
 	public final TalonControlMode VOLTAGE_MODE = TalonControlMode.Voltage;

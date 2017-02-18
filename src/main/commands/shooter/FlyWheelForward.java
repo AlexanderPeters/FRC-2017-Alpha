@@ -19,6 +19,8 @@ public class FlyWheelForward extends Command{
     protected void execute() {
     	if(Robot.robotState != Robot.RobotState.Climbing)
     		Robot.shooter.speed(speed);
+    	else if(speed == -1)
+    		Robot.shooter.speed();
     	else
     		Robot.shooter.speed(0.0);
     }

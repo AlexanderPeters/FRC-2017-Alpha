@@ -59,6 +59,8 @@ public class OI implements Constants, HardwareAdapter {
 		xbox.b.whenReleased(new WinchOff());
 		xbox.y.whileHeld(new FlyWheelForward(shooterForward));
 		xbox.y.whenReleased(new FlyWheelOff());
+		xbox.rightTrigger.whileHeld(new FlyWheelForward(-1.0));
+		xbox.rightTrigger.whenReleased(new FlyWheelOff());
 		//xbox.start.whenPressed(new SwitchCamera());
 		
 		//if(xbox.a.equals(true))
