@@ -40,14 +40,20 @@ public class DriveTrain extends Subsystem implements Constants, HardwareAdapter,
 		
 	}
 	public void driveTeleop(double throttle, double heading) {
-		if(helper.handleDeadband(heading, headingDeadband) != 0.0)
+		if(helper.handleDeadband(heading, headingDeadband) != 0.0) {
 			driveWithHeading(throttle, heading);
+			Robot.robotState = Robot.RobotState.Driving;
+		}
 		//double mini = (pdp.getCurrent(12) + pdp.getCurrent(13)) / 2;
 		//double cim = (pdp.getCurrent(0) + pdp.getCurrent(1) + pdp.getCurrent(2) + pdp.getCurrent(3)) / 4;
 		//System.out.println("Cim: " + cim + ", Mini: " + mini + ", Total: " + pdp.getTotalCurrent());
 		//System.out.printboolean(helper.handleDeadband(throttle, throttleDeadband)) > 0.0);
-		else if(Math.abs(helper.handleDeadband(throttle, 0.18)) > 0.0)
+		else if(Math.abs(helper.handleDeadband(throttle, 0.18)) > 0.0) {
 			driveStraight(throttle);
+			Robot.robotState = Robot.RobotState.Driving;
+		}
+		else if(Robot.robotState != Robot.RobotState.Climbing)
+			Robot.robotState = Robot.RobotState.Neither;
 		//System.out.print(Math.abs(helper.handleDeadband(throttle, 0.2)) > 0.0);
 		//System.out.println(Math.abs(helper.handleDeadband(throttle, 0.2)));
 
@@ -56,7 +62,6 @@ public class DriveTrain extends Subsystem implements Constants, HardwareAdapter,
 	private void driveWithHeading(double throttle, double heading) {
 		if(Robot.gameState == Robot.GameState.Teleop) {//Friendly game state check
 			
-			Robot.robotState = Robot.RobotState.Driving;
 			Robot.dt.setBrakeMode(false);
 			setCtrlMode(PERCENT_VBUS_MODE);
 			
@@ -72,7 +77,6 @@ public class DriveTrain extends Subsystem implements Constants, HardwareAdapter,
 	private void driveStraight(double throttle) {
 		if(Robot.gameState == Robot.GameState.Teleop) {//Friendly game state check
 			
-			Robot.robotState = Robot.RobotState.Driving;
 			Robot.dt.setBrakeMode(false);
 			setCtrlMode(PERCENT_VBUS_MODE);
 			
@@ -110,13 +114,12 @@ public class DriveTrain extends Subsystem implements Constants, HardwareAdapter,
 	public void driveLooperControl(double leftThrottle, double rightThrottle) {
 		if(Robot.gameState == Robot.GameState.Autonomous) {//Friendly game state check
 			
-			Robot.robotState = Robot.RobotState.Driving;
 			new ShiftDown();
 			Robot.dt.setBrakeMode(true);
 			setCtrlMode(PERCENT_VBUS_MODE);
 
 			
-			driveTrain.tankDrive(helper.handleOverPower(leftThrottle), helper.handleOverPower(rightThrottle));
+			driveTrain.tankDrive(-1*helper.handleOverPower(leftThrottle), -1*helper.handleOverPower(rightThrottle));
 		}
 		
 	}

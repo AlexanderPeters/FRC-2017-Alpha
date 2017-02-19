@@ -16,12 +16,13 @@ public class Shimmy extends Command {
 
     // Called repeatedly when this Command is scheduled to run
     protected void execute() {
+    	Robot.robotState = Robot.RobotState.Driving;
     	
     }
     // Make this return true when this Command no longer needs to run execute()
     protected boolean isFinished() {
-    	if(Robot.robotState != Robot.RobotState.Climbing)
-    		Robot.robotState = Robot.RobotState.Neither;
+    	//if(Robot.robotState != Robot.RobotState.Climbing)
+    		//Robot.robotState = Robot.RobotState.Neither;
         return true;
     }
 

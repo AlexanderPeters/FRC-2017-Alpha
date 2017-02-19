@@ -54,8 +54,8 @@ public class OI implements Constants, HardwareAdapter {
 		
 		//xbox.x.whenPressed(new Stir(Constants.stirrerMotorOff));
 		//xbox.b.whenPressed(new Stir(Constants.stirrerMotorOff));
-		xbox.x.whileHeld(new WinchForward(Constants.climberMotorForwardFast));
-		xbox.b.whileHeld(new WinchForward(Constants.climberMotorForwardSlow));
+		xbox.x.whileHeld(new WinchForward(true));
+		xbox.b.whileHeld(new WinchForward(false));
 		xbox.b.whenReleased(new WinchOff());
 		xbox.y.whileHeld(new FlyWheelForward(shooterForward));
 		xbox.y.whenReleased(new FlyWheelOff());

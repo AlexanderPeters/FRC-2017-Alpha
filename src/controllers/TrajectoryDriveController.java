@@ -27,13 +27,14 @@ public class TrajectoryDriveController implements Loop{
 	@Override
 	public void onLoop() {
 		// TODO Auto-generated method stub
-		if(headingArray.length -1 <= index) {
+		if(index < headingArray.length) {
 			helper.setHeadingTargets(headingArray[index][1]);
 			helper.setLeftTargets(leftVelocityArray[index][1], leftPositionArray[index][1]);
 			helper.setRightTargets(rightVelocityArray[index][1], rightPositionArray[index][1]);
 			helper.doTheMath();
 			Robot.dt.driveLooperControl(helper.getAdjustedLeftVelocity(), helper.getAdjustedRightVelocity());
 			index++;
+			System.out.println("hereatauto");
 
 		}
 

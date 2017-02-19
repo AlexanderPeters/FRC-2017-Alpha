@@ -5,11 +5,11 @@ import main.Constants;
 import main.Robot;
 
 public class WinchReverse extends Command implements Constants{
-	private double speed;
-	
-	public WinchReverse(double speed) {
-        requires(Robot.cl);
-        this.speed = speed;
+	private boolean fastClimb;
+		
+	public WinchReverse(boolean fastClimb) {
+        requires(Robot.cl);    
+        this.fastClimb = fastClimb;
     }
 	
 	@Override
@@ -21,14 +21,17 @@ public class WinchReverse extends Command implements Constants{
 	@Override
 	protected void execute() {
 		// TODO Auto-generated method stub
-		Robot.cl.spin(speed * -1);
+		if(fastClimb)
+			Robot.cl.spin(climberMotorForwardFast * -1);
+		else
+			Robot.cl.spin(climberMotorForwardSlow * -1);
 	}
 
 	@Override
 	protected boolean isFinished() {
 		// TODO Auto-generated method stub
-		if(Robot.robotState != Robot.RobotState.Driving)
-    		Robot.robotState = Robot.RobotState.Neither;
+		//if(Robot.robotState != Robot.RobotState.Driving)
+    		//Robot.robotState = Robot.RobotState.Neither;
 		return true;
 	}
 

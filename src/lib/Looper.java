@@ -16,7 +16,7 @@ import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
  * match.
  */
 public class Looper {
-    public final double kPeriod = Constants.kLooperDt;
+    public final double kPeriod;
 
     private boolean running_;
 
@@ -41,10 +41,11 @@ public class Looper {
         }
     };
 
-    public Looper() {
+    public Looper(double clock) {
         notifier_ = new Notifier(runnable_);
         running_ = false;
         loops_ = new ArrayList<>();
+        kPeriod = clock;
     }
 
     public synchronized void register(Loop loop) {

@@ -26,14 +26,15 @@ public class DriveTrainAutonomousHelper implements Constants{
 	public void setHeadingTargets(double heading) {
 		this.headingTarget = heading;		
 	}
+	//im gay
 	
 	public void doTheMath() {
-		double left = ((leftVelocityTarget - Robot.dt.getLeftVelocity()) * leftWheelVelocityKP) + ((leftPositionTarget - Robot.dt.getDistanceTraveledLeft()) * leftWheelPositionKP);
-		double right = ((rightVelocityTarget - Robot.dt.getRightVelocity()) * rightWheelVelocityKP) + ((rightPositionTarget - Robot.dt.getDistanceTraveledRight()) * rightWheelPositionKP);	
+		double left = leftVelocityTarget / 5.85;// - Robot.dt.getLeftVelocity())/leftVelocityTarget); //* leftWheelVelocityKP);// + ((leftPositionTarget - Robot.dt.getDistanceTraveledLeft()) * leftWheelPositionKP);
+		double right = rightVelocityTarget / 5.85;//- Robot.dt.getRightVelocity())/rightVelocityTarget); //* rightWheelVelocityKP);// + ((rightPositionTarget - Robot.dt.getDistanceTraveledRight()) * rightWheelPositionKP);	
 		double heading = (headingTarget - Robot.dt.getGyro().getYaw()) * headingControllerKP;
 		
-		leftVelocityOut = left + heading;
-		rightVelocityOut = right - heading;
+		leftVelocityOut = left;// + heading; 
+		rightVelocityOut = right;// - heading;
 	}
 	
 	public double getAdjustedLeftVelocity() {

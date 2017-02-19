@@ -59,10 +59,10 @@ public class Robot extends IterativeRobot implements Constants{
 	public static RobotState robotState = RobotState.Neither;
 	
 	// Enabled looper is called at 100Hz whenever the robot is enabled
-    public static Looper mEnabledLooper = new Looper();
+    public static Looper mEnabledLooper = new Looper(kEnabledLooperDt);
     // Disabled looper is called at 100Hz whenever the robot is disabled
     //public static Looper mDisabledLooper = new Looper();
-    public static Looper mAutonomousLooper = new Looper();
+    public static Looper mAutonomousLooper = new Looper(kAutoLooperDt);
     
     public static UDPForVision comms = new UDPForVision();
 	//public static DriverCamera dc = new DriverCamera(50);

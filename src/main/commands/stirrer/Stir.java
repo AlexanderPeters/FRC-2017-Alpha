@@ -21,9 +21,9 @@ public class Stir extends Command implements Constants{
 
     // Called repeatedly when this Command is scheduled to run
     protected void execute() {
-    	System.out.println(Robot.robotState);
+    	//System.out.println(Robot.robotState);
     	if(Robot.robotState != Robot.RobotState.Climbing)
-    		Robot.str.spin(stirrerMotorOn);
+    		Robot.str.spin(stirrerMotorReverse);
     	else
     		Robot.str.spin(0);
     }
