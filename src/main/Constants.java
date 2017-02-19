@@ -107,6 +107,8 @@ public interface Constants {
 	 ****************/
 	// JOYSTICKS (USB)
 	public final int Xbox_Port = 0;
+	// DIGITAL IO
+	public final int Shooter_Switch = 0;
 	// TALON SRX'S (CAN BUS)
 	public final int LEFT_Drive_Master = 2;
 	public final int LEFT_Drive_Slave1 = 3;
@@ -115,11 +117,11 @@ public interface Constants {
 	public final int RIGHT_Drive_Slave1 = 6;
 	public final int RIGHT_Drive_Slave2 = 7;
 	public final int Shooter_Flywheel = 8;
-	public final int Shooter_Hood = 9;
 	// OTHER MOTOR CONTROLLERS (PWM)
 	public final int Intake_Motor = 0;
 	public final int Climber_Motor = 2;
 	public final int Stirrer_Motor = 1;
+	public final int Shooter_Hood = 3;
 	// PNEUMATICS (PCM)
 	public final int GEAR_EXT = 2;//Currently in by default
 	public final int GEAR_RET = 5;

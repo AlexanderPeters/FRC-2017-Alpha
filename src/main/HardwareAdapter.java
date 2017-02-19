@@ -3,8 +3,10 @@ package main;
 import com.ctre.CANTalon;
 
 import edu.wpi.first.wpilibj.Compressor;
+import edu.wpi.first.wpilibj.DigitalInput;
 import edu.wpi.first.wpilibj.DoubleSolenoid;
 import edu.wpi.first.wpilibj.PowerDistributionPanel;
+import edu.wpi.first.wpilibj.Servo;
 import edu.wpi.first.wpilibj.Spark;
 import lib.joystick.XboxController;
 
@@ -23,6 +25,8 @@ public interface HardwareAdapter {
 	
 	//Shooter
 	public static CANTalon shooter = new CANTalon(Constants.Shooter_Flywheel);
+	public static Servo hoodServo = new Servo(Constants.Shooter_Hood);
+	public static DigitalInput hoodSwitch = new DigitalInput(Constants.Shooter_Switch);
 	
 	//Climber
 	public static Spark climberMotor = new Spark(Constants.Climber_Motor);
