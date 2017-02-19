@@ -45,6 +45,8 @@ public class Robot extends IterativeRobot implements Constants{
 	public static enum RobotState {
 		Driving, Climbing, Neither
 	}
+
+	private static final double kAutoLooperDt = 0;
 	
 	public static OI oi;
 	public static DriveTrain dt;
@@ -56,6 +58,7 @@ public class Robot extends IterativeRobot implements Constants{
 	public static Hood hd;
 	public static GameState gameState;
 	public static RobotState robotState = RobotState.Neither;
+	private static double kEnabledLooperDt;
 	
 	// Enabled looper is called at 100Hz whenever the robot is enabled
     public static Looper mEnabledLooper = new Looper(kEnabledLooperDt);
