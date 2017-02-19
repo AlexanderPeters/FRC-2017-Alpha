@@ -34,11 +34,11 @@ public interface Constants {
 	public final double straightLineKPReverse = 0.03;
 	
 	// PID VALUES FOR AUTONOMOUS
-	public final double rightWheelVelocityKP = 1.0;
-	public final double rightWheelPositionKP = 1.0;
-	public final double leftWheelVelocityKP = 1.0;
-	public final double leftWheelPositionKP = 1.0;
-	public final double headingControllerKP = 1.0;
+	public final double rightWheelVelocityKP = 0.0;
+	public final double rightWheelPositionKP = 0.0;
+	public final double leftWheelVelocityKP = 0.0;
+	public final double leftWheelPositionKP = 0.0;
+	public final double headingControllerKP = 0.0;
 	
 	//PID VALUES FOR DRIVETRAIN
 	public final double turnInPlaceKP = 0.03;
@@ -68,8 +68,7 @@ public interface Constants {
 	public final String DOH = "DOH!";
 	
 	//Loop Time
-	public final double kEnabledLooperDt = 0.01;//For enabled
-	public final double kAutoLooperDt = 0.1;//For Trajectory drive and auto
+	public final double kLooperDt = 0.01;
 	
 	// DEFAULT TALON MODES
 	public final TalonControlMode DEFAULT_CTRL_MODE = TalonControlMode.PercentVbus;//TalonControlMode.PercentVbus;
@@ -122,6 +121,8 @@ public interface Constants {
 	public final int Climber_Motor = 2;
 	public final int Stirrer_Motor = 1;
 	public final int Shooter_Hood = 3;
+	public final int LEFT_Climber_Intake = 4;
+	public final int RIGHT_Climber_Intake = 5;
 	// PNEUMATICS (PCM)
 	public final int GEAR_EXT = 2;//Currently in by default
 	public final int GEAR_RET = 5;

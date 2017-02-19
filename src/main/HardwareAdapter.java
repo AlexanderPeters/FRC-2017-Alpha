@@ -30,6 +30,8 @@ public interface HardwareAdapter {
 	
 	//Climber
 	public static Spark climberMotor = new Spark(Constants.Climber_Motor);
+	public static Servo climberLeft = new Servo(Constants.LEFT_Climber_Intake);
+	public static Servo climberRight = new Servo(Constants.RIGHT_Climber_Intake);
 	
 	//Intake
 	public static Spark intakeMotor = new Spark(Constants.Intake_Motor);

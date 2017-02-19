@@ -16,6 +16,11 @@ public class Climber extends Subsystem implements Constants, HardwareAdapter {
 		climberMotor.set(speed);
 		//System.out.println("Draw 1: " + pdp.getCurrent(10) + " Draw 2: " + pdp.getCurrent(11));
 	}
+	
+	public void intake(double speed){
+		climberLeft.set(-speed);
+		climberRight.set(speed);
+	}
 
 	@Override
 	protected void initDefaultCommand() {

@@ -3,12 +3,13 @@ package main;
 //import edu.wpi.first.wpilibj.buttons.Button;
 //import lib.LatchedBoolean;
 import lib.joystick.XboxController;
+import main.commands.climber.ClimberIntakeForward;
+import main.commands.climber.ClimberIntakeOff;
 import main.commands.climber.WinchForward;
 import main.commands.climber.WinchOff;
 //import main.commands.driverCam.SwitchCamera;
 import main.commands.gearmech.GearDown;
 import main.commands.gearmech.GearUp;
-import main.commands.hood.MoveToAngle;
 //import main.commands.climber.WinchForward;
 //import main.commands.climber.WinchReverse;
 //import main.commands.gearmech.GearMechLiftDown;
@@ -61,7 +62,9 @@ public class OI implements Constants, HardwareAdapter {
 		xbox.y.whenReleased(new FlyWheelOff());
 		xbox.rightTrigger.whileHeld(new FlyWheelForward(-1.0));
 		xbox.rightTrigger.whenReleased(new FlyWheelOff());
-		xbox.start.whenPressed(new MoveToAngle(90));
+		xbox.start.whenPressed(new ClimberIntakeForward());
+		xbox.start.whenReleased(new ClimberIntakeOff());
+		
 		
 		//if(xbox.a.equals(true))
 			//System.out.println(DOH);
