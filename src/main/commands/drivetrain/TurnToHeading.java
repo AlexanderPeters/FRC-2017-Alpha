@@ -1,32 +1,39 @@
 package main.commands.drivetrain;
 
-import edu.wpi.first.wpilibj.command.Command;
-import main.OI;
+import edu.wpi.first.wpilibj.command.InstantCommand;
 import main.Robot;
 
 /**
  *
  */
-public class Drive extends Command {
+public class TurnToHeading extends InstantCommand {
 
-    public Drive() {
+	private double heading;
+	private double tolerance;
+	
+	//@param heading: the desired angle to go to (+ or - (right turn, left turn; respectively)), tolerance: the absolute difference allowable 
+    public TurnToHeading(double heading, double tolerance) {
     	requires(Robot.dt);
+    	this.heading = heading;
+    	this.tolerance = tolerance;
     }
 
     // Called just before this Command runs the first time
     protected void initialize() {
+    	Robot.dt.resetGyro();
     }
 
     // Called repeatedly when this Command is scheduled to run
     protected void execute() {
-    	Robot.dt.driveTeleop(OI.getXbox().getMainY(), OI.getXbox().getMainX());//OI.getXbox().getSmoothedAltX());
-    	//System.out.println(OI.getXbox().getMainX());
+    	Robot.dt.turnToHeading(heading, tolerance);
     }
+
     // Make this return true when this Command no longer needs to run execute()
     protected boolean isFinished() {
-    	//if(Robot.robotState != Robot.RobotState.Climbing)
-    		//Robot.robotState = Robot.RobotState.Neither;
-        return true;
+    	if(Math.abs(heading - Robot.dt.getGyro().getYaw()) <= tolerance)
+    		return true;
+    	else
+    		return false;
     }
 
     // Called once after isFinished returns true

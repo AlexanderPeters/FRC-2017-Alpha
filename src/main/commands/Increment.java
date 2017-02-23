@@ -1,4 +1,4 @@
-package main.commands.hood;
+package main.commands;
 
 import edu.wpi.first.wpilibj.command.Command;
 import main.Robot;
@@ -6,18 +6,10 @@ import main.Robot;
 /**
  *
  */
-public class MoveToAngle extends Command {
-	
-	private int angle;
-	
-	/**
-	 * Positive => Up
-	 * Negative => Down
-	 * @param angle
-	 */
-    public MoveToAngle(int angle) {
+public class Increment extends Command {
+
+    public Increment() {
     	requires(Robot.hd);
-    	this.angle = angle;
     }
 
     // Called just before this Command runs the first time
@@ -26,17 +18,17 @@ public class MoveToAngle extends Command {
 
     // Called repeatedly when this Command is scheduled to run
     protected void execute() {
-    	Robot.hd.setI();
+    	Robot.hd.angle = (Robot.hd.angle+30.0);
+    	System.out.println(Robot.hd.angle);
     }
 
     // Make this return true when this Command no longer needs to run execute()
     protected boolean isFinished() {
-        return Robot.hd.getSwitch();
+        return true;
     }
 
     // Called once after isFinished returns true
     protected void end() {
-    	Robot.hd.disable();
     }
 
     // Called when another command which requires one or more of the same

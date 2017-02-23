@@ -8,7 +8,6 @@ import edu.wpi.first.wpilibj.DoubleSolenoid;
 import edu.wpi.first.wpilibj.PowerDistributionPanel;
 import edu.wpi.first.wpilibj.Servo;
 import edu.wpi.first.wpilibj.Spark;
-import lib.ContinuousServo;
 import lib.joystick.XboxController;
 
 public interface HardwareAdapter {
@@ -28,6 +27,7 @@ public interface HardwareAdapter {
 	public static CANTalon shooter = new CANTalon(Constants.Shooter_Flywheel);
 	public static Servo hoodServo = new Servo(Constants.Shooter_Hood);
 	public static DigitalInput hoodSwitch = new DigitalInput(Constants.Shooter_Switch);
+	public static Servo shooterIndexer = new Servo(Constants.Shooter_Indexer);
 	
 	//Climber
 	public static Spark climberMotor = new Spark(Constants.Climber_Motor);

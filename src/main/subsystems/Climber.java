@@ -20,14 +20,14 @@ public class Climber extends Subsystem implements Constants, HardwareAdapter {
 
 	public void intake(double speed) {
 		if (speed == 180) {
-			climberLeft.set(speed);
+			climberLeft.set(-1);
 			climberRight.set(0);
 		} else if (speed == 90) {
-			climberLeft.set(speed);
-			climberLeft.set(speed);
+			climberLeft.set(0);
+			climberLeft.set(0);
 		} else if (speed == 0) {
-			climberLeft.set(speed);
-			climberRight.set(180);
+			climberLeft.set(0);
+			climberRight.set(1);
 		}
 	}
 

@@ -6,6 +6,8 @@ import main.HardwareAdapter;
 
 public class Hood extends Subsystem implements Constants, HardwareAdapter{
 
+	public double angle = 0;
+
 	@Override
 	protected void initDefaultCommand() {
 		setDefaultCommand(null);
@@ -13,9 +15,16 @@ public class Hood extends Subsystem implements Constants, HardwareAdapter{
 	}
 	
 	public void set(double angle){
-		hoodServo.set(angle);
+		hoodServo.setAngle(angle);
 	}
 	
+	public void setI(){
+		hoodServo.setAngle(angle);
+	}
+	
+	public double get() {
+		return hoodServo.getAngle();
+	}
 	public void disable() {
 		hoodServo.setDisabled();
 	}

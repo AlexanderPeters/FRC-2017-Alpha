@@ -24,6 +24,7 @@ import main.subsystems.DriveTrain;
 //import main.subsystems.DriverCamera;
 import main.subsystems.FlyWheel;
 import main.subsystems.Hood;
+import main.subsystems.Indexer;
 import main.subsystems.Intake;
 import main.subsystems.Pneumatics;
 import main.subsystems.Stirrer;
@@ -56,6 +57,7 @@ public class Robot extends IterativeRobot implements Constants{
 	public static Stirrer str;
 	public static FlyWheel shooter;
 	public static Hood hd;
+	public static Indexer id;
 	public static GameState gameState;
 	public static RobotState robotState = RobotState.Neither;
 	private static double kEnabledLooperDt;
@@ -87,6 +89,7 @@ public class Robot extends IterativeRobot implements Constants{
 		dt = new DriveTrain();
 		cl = new Climber();
 		in = new Intake();
+		id = new Indexer();
 		shooter = new FlyWheel();
 		hd = new Hood();
 		//dc = new DriverCamera(50);

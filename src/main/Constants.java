@@ -10,19 +10,22 @@ public interface Constants {
 	/*************
 	 * VARIABLES *
 	 *************/
+	// ROBOT VARIABLES
+	public final boolean isCompRobot = false;
 	// THROTTLE MULTIPLIERS
 	public final double intakeMotorForward = 1.0;
 	public final double intakeMotorReverse = -1.0;
 	public final double intakeMotorOff = 0.0;
-	public final double climberMotorForwardFast = -1;
-	public final double climberMotorForwardSlow = -0.45; //Needs to be field tested so that the climber doesn't stop turning
+	
+	public final double climberMotorForwardFast = (isCompRobot?1:-1);
+	public final double climberMotorForwardSlow = (isCompRobot?0.8:1-0.8); //Needs to be field tested so that the climber doesn't stop turning
 	public final int shooterMotorForward = 1;
 	public final double stirrerMotorOn = 1.0;
 	public final double stirrerMotorReverse = -1.0;
 	public final double stirrerMotorOff = 0.0;
 	public final double driveThrottle = 1.0;
 	public final double turnThrottle = 1.0;
-	public final double shooterForward = -0.70;
+	public final double shooterForward = -0.40;
 	public final double shooterOff = 0.0;
 	
 	// JOYSTICK DEADBAND'S
@@ -41,20 +44,17 @@ public interface Constants {
 	public final double headingControllerKP = 0.0;
 	
 	//PID VALUES FOR DRIVETRAIN
-	public final double turnInPlaceKP = 0.03;
+	public final double turnInPlaceKP = 0.03;//Need to tune
 	public final double turnInPlaceKI = 0.0;
 	public final double turnInPlaceKD = 0.0;
 	public final double turnInPlaceKF = 0.0;
-	public final double kToleranceDegrees = 2.0f;//Subject to change
-	public final double leftDisplacementKP = 0.0;
-	public final double leftDisplacementKI = 0.0;
-	public final double leftDisplacementKD = 0.0;
-	public final int leftDisplacementTolerance = 0;
-	public final double rightDisplacementKP = 0.0;
-	public final double rightDisplacementKI = 0.0;
-	public final double rightDisplacementKD = 0.0;
-	public final int rightDisplacementTolerance = 0;
+	public final double kToleranceDegreesDefault = 2.0f;//Subject to change
 	
+	public final double displacementKP = 0.03;//Need to tune
+	public final double displacementKI = 0.0;
+	public final double displacementKD = 0.0;
+	public final int kToleranceDisplacementDefault = 10;//Subject to change
+		
 	//PID VALUES FOR FLYWHEEL
 	public final double flyWheelKP = 0.0;
 	public final double flyWheelKI = 0.0;
@@ -123,6 +123,7 @@ public interface Constants {
 	public final int Shooter_Hood = 3;
 	public final int LEFT_Climber_Intake = 4;
 	public final int RIGHT_Climber_Intake = 5;
+	public final int Shooter_Indexer = 6;
 	// PNEUMATICS (PCM)
 	public final int GEAR_EXT = 2;//Currently in by default
 	public final int GEAR_RET = 5;

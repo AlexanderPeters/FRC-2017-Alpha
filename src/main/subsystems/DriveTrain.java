@@ -22,8 +22,8 @@ public class DriveTrain extends Subsystem implements Constants, HardwareAdapter,
 	private DriveHelper helper = new DriveHelper(7.5);
 	private boolean hasBeenDrivingStriaghtWithThrottle;
 	private static RobotDrive driveTrain = new RobotDrive(leftDriveMaster, rightDriveMaster);
-	PIDController turnController;
 	private static double rotateToAngleRate;
+	private PIDController turnController;
 		
 	public DriveTrain() {
 		setTalonDefaults();
@@ -36,6 +36,7 @@ public class DriveTrain extends Subsystem implements Constants, HardwareAdapter,
 	          DriverStation.reportError("Error instantiating navX-MXP:  " + ex.getMessage(), true);
 	      }
 		resetSensors();//Must happen after NavX is instantiated!
+		turnController = new PIDController(turnInPlaceKP, turnInPlaceKI, turnInPlaceKD, turnInPlaceKF, NavX, this);
 		
 		
 	}
@@ -48,7 +49,7 @@ public class DriveTrain extends Subsystem implements Constants, HardwareAdapter,
 		//double cim = (pdp.getCurrent(0) + pdp.getCurrent(1) + pdp.getCurrent(2) + pdp.getCurrent(3)) / 4;
 		//System.out.println("Cim: " + cim + ", Mini: " + mini + ", Total: " + pdp.getTotalCurrent());
 		//System.out.printboolean(helper.handleDeadband(throttle, throttleDeadband)) > 0.0);
-		else if(Math.abs(helper.handleDeadband(throttle, 0.18)) > 0.0) {
+		else if(Math.abs(helper.handleDeadband(throttle, 0.25)) > 0.0) {
 			driveStraight(throttle);
 			Robot.robotState = Robot.RobotState.Driving;
 		}
@@ -56,7 +57,6 @@ public class DriveTrain extends Subsystem implements Constants, HardwareAdapter,
 			Robot.robotState = Robot.RobotState.Neither;
 		//System.out.print(Math.abs(helper.handleDeadband(throttle, 0.2)) > 0.0);
 		//System.out.println(Math.abs(helper.handleDeadband(throttle, 0.2)));
-
 	}
 	
 	private void driveWithHeading(double throttle, double heading) {
@@ -86,6 +86,7 @@ public class DriveTrain extends Subsystem implements Constants, HardwareAdapter,
 			}
 			
 			double theta = NavX.getYaw();
+			System.out.println(theta);
 			//System.out.println(theta);
 			//System.out.println("Here");
 			if(Math.abs(helper.handleDeadband(throttle * driveThrottle, throttleDeadband)) > 0.0){//ABS fixed not driving backwards issue
@@ -124,38 +125,41 @@ public class DriveTrain extends Subsystem implements Constants, HardwareAdapter,
 		
 	}
 	
-	public void turnToHeading(double heading) {
-		new ShiftDown();
+	public void turnToHeading(double heading, double tolerance) {
+		if(highGearState)
+			new ShiftDown();
 		setBrakeMode(true);
 		setCtrlMode(PERCENT_VBUS_MODE);
-		resetGyro();
-		turnController = new PIDController(turnInPlaceKP, turnInPlaceKI, turnInPlaceKD, turnInPlaceKF, NavX, this);
+				
 		turnController.setInputRange(-180.0f,  180.0f);
 	    turnController.setOutputRange(-1.0, 1.0);
-	    turnController.setAbsoluteTolerance(kToleranceDegrees);
+	    turnController.setAbsoluteTolerance(tolerance);
 	    turnController.setContinuous(true);
 		turnController.enable();
+		turnController.setSetpoint(heading);
 		driveTrain.arcadeDrive(0.0, rotateToAngleRate);
 		
 		
 	}
 	
-	public void driveDisplacement(double displacement) {
-		new ShiftDown();
+	public void driveDisplacement(double displacement, int tolerance) {
+		if(highGearState)
+			new ShiftDown();
 		setBrakeMode(true);
 		setCtrlMode(POSITION); //Change control mode of talon, default is PercentVbus (-1.0 to 1.0)
 		
-		leftDriveMaster.setPID(leftDisplacementKP, leftDisplacementKI, leftDisplacementKD); 
-		leftDriveMaster.setAllowableClosedLoopErr(leftDisplacementTolerance);
+		leftDriveMaster.setPID(displacementKP, displacementKI, displacementKD); 
+		leftDriveMaster.setAllowableClosedLoopErr(tolerance);
 		
-		rightDriveMaster.setPID(rightDisplacementKP, rightDisplacementKI, rightDisplacementKD); 
-		rightDriveMaster.setAllowableClosedLoopErr(rightDisplacementTolerance);
+		rightDriveMaster.setPID(displacementKP, displacementKI, displacementKD); 
+		rightDriveMaster.setAllowableClosedLoopErr(tolerance);
 		
 		leftDriveMaster.enableControl(); //Enable PID control on the talon
 		rightDriveMaster.enableControl(); //Enable PID control on the talon
 		
-		leftDriveMaster.set(convertToEncoderTicks(displacement));
+		leftDriveMaster.set(-convertToEncoderTicks(displacement));
 		rightDriveMaster.set(convertToEncoderTicks(displacement));
+		
 	}
 	
 	public void changeGearing(){
@@ -165,9 +169,9 @@ public class DriveTrain extends Subsystem implements Constants, HardwareAdapter,
 	public AHRS getGyro(){
 		return NavX;
 	}
-		
-	public double convertToEncoderTicks(double displacement) {//ft
-		return (displacement / (wheelSize*Math.PI)) * codesPerRev;
+	
+	public int convertToEncoderTicks(double displacement) {//ft
+		return (int) ((displacement / (wheelSize*Math.PI)) * codesPerRev);
 	}
 	public double getDistanceTraveledLeft() {
 		return wheelSize*Math.PI*(getLeftEncoderPosition()/codesPerRev);//totalCodes must be set
@@ -265,8 +269,8 @@ public class DriveTrain extends Subsystem implements Constants, HardwareAdapter,
 		rightDriveMaster.setFeedbackDevice(FeedbackDevice.QuadEncoder);
 		leftDriveMaster.configEncoderCodesPerRev(codesPerRev);
 		rightDriveMaster.configEncoderCodesPerRev(codesPerRev);
-		leftDriveMaster.reverseSensor(false);
-		rightDriveMaster.reverseSensor(false);
+		leftDriveMaster.reverseSensor(true);//Check this later
+		rightDriveMaster.reverseSensor(true);//Check this later
 	}
 	
 	/**
