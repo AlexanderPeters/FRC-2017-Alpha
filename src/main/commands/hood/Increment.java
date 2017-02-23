@@ -1,4 +1,4 @@
-package main.commands;
+package main.commands.hood;
 
 import edu.wpi.first.wpilibj.command.Command;
 import main.Robot;

@@ -1,5 +1,6 @@
 package main;
 
+import Util.SmartDashboardInteractions;
 //import controllers.TeleopCameraController;
 import controllers.TrajectoryDriveController;
 import controllers.UDPController;
@@ -47,7 +48,7 @@ public class Robot extends IterativeRobot implements Constants{
 		Driving, Climbing, Neither
 	}
 
-	private static final double kAutoLooperDt = 0;
+	//private static final double kAutoLooperDt = 0;
 	
 	public static OI oi;
 	public static DriveTrain dt;
@@ -58,9 +59,10 @@ public class Robot extends IterativeRobot implements Constants{
 	public static FlyWheel shooter;
 	public static Hood hd;
 	public static Indexer id;
+	public static SmartDashboardInteractions sdb;
 	public static GameState gameState;
 	public static RobotState robotState = RobotState.Neither;
-	private static double kEnabledLooperDt;
+	//private static double kEnabledLooperDt;
 	
 	// Enabled looper is called at 100Hz whenever the robot is enabled
     public static Looper mEnabledLooper = new Looper(kEnabledLooperDt);
@@ -70,7 +72,7 @@ public class Robot extends IterativeRobot implements Constants{
     
     public static UDPForVision comms = new UDPForVision();
 	//public static DriverCamera dc = new DriverCamera(50);
-	private Thread captureThread;
+	//private Thread captureThread;
 
 
 	

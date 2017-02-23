@@ -68,7 +68,8 @@ public interface Constants {
 	public final String DOH = "DOH!";
 	
 	//Loop Time
-	public final double kLooperDt = 0.01;
+	public final double kEnabledLooperDt = 0.01;
+	public final double kAutoLooperDt = 0.1;
 	
 	// DEFAULT TALON MODES
 	public final TalonControlMode DEFAULT_CTRL_MODE = TalonControlMode.PercentVbus;//TalonControlMode.PercentVbus;
