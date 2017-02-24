@@ -55,6 +55,7 @@ public class DriveTrain extends Subsystem implements Constants, HardwareAdapter,
 		}
 		else if(Robot.robotState != Robot.RobotState.Climbing)
 			Robot.robotState = Robot.RobotState.Neither;
+		System.out.println("left " + getDistanceTraveledLeft() + " right " + getDistanceTraveledRight());
 		//System.out.print(Math.abs(helper.handleDeadband(throttle, 0.2)) > 0.0);
 		//System.out.println(Math.abs(helper.handleDeadband(throttle, 0.2)));
 	}
@@ -74,7 +75,7 @@ public class DriveTrain extends Subsystem implements Constants, HardwareAdapter,
 		}
 		
 	}
-	private void driveStraight(double throttle) {
+	public void driveStraight(double throttle) {
 		if(Robot.gameState == Robot.GameState.Teleop) {//Friendly game state check
 			
 			Robot.dt.setBrakeMode(false);
@@ -156,9 +157,10 @@ public class DriveTrain extends Subsystem implements Constants, HardwareAdapter,
 		
 		leftDriveMaster.enableControl(); //Enable PID control on the talon
 		rightDriveMaster.enableControl(); //Enable PID control on the talon
+		//rightDriveMaster.setFeedbackDevice(leftDriveMaster.getEncPosition());
 		
-		leftDriveMaster.set(-convertToEncoderTicks(displacement));
-		rightDriveMaster.set(convertToEncoderTicks(displacement));
+		leftDriveMaster.setSetpoint(-convertToEncoderTicks(displacement));
+		rightDriveMaster.setSetpoint(convertToEncoderTicks(displacement));
 		
 	}
 	
@@ -173,12 +175,12 @@ public class DriveTrain extends Subsystem implements Constants, HardwareAdapter,
 	public int convertToEncoderTicks(double displacement) {//ft
 		return (int) ((displacement / (wheelSize*Math.PI)) * codesPerRev);
 	}
-	public double getDistanceTraveledLeft() {
-		return wheelSize*Math.PI*(getLeftEncoderPosition()/codesPerRev);//totalCodes must be set
+	public double getDistanceTraveledLeft() {//Inches
+		return wheelSize*Math.PI*(getLeftEncoderPosition()/codesPerRev);
 	}
 	
-	public double getDistanceTraveledRight() {
-		return wheelSize*Math.PI*(getRightEncoderPosition()/codesPerRev);//totalCodes must be set
+	public double getDistanceTraveledRight() {//Inches
+		return wheelSize*Math.PI*(getRightEncoderPosition()/codesPerRev);
 	}
 	
 	public double getLeftVelocity() {
@@ -213,7 +215,7 @@ public class DriveTrain extends Subsystem implements Constants, HardwareAdapter,
 	}
 	
 	private double getRightEncoderPosition() {
-		return rightDriveMaster.getPosition();
+		return rightDriveMaster.getEncPosition();//F*#k Me
 	}
 	
 	/**
