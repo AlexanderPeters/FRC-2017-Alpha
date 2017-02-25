@@ -33,9 +33,9 @@ public class DriveDistance extends Command {
 
     // Make this return true when this Command no longer needs to run execute()
     protected boolean isFinished() {
-    	if(Math.abs(Robot.dt.getDistanceTraveledLeft() - distance) <= tolerance && Math.abs(Robot.dt.getDistanceTraveledRight() - distance) <= tolerance){//Check this later
+    	if(Math.abs(Robot.dt.getDistanceTraveledLeft() - distance) <= tolerance && Math.abs(Robot.dt.getDistanceTraveledRight() - distance) <= tolerance)//Check this later
     		return true;
-    	}else
+    	else
     		return false;
     }
 

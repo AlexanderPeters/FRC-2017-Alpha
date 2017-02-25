@@ -144,6 +144,7 @@ public class DriveTrain extends Subsystem implements Constants, HardwareAdapter,
 	}
 	
 	public void driveDisplacement(double displacement, double tolerance) {//feet, feet
+		//Positive encoder value needs to mean a positive displacement and positive power to the motor
 		if(highGearState)
 			new ShiftDown();
 		setBrakeMode(true);
@@ -175,22 +176,23 @@ public class DriveTrain extends Subsystem implements Constants, HardwareAdapter,
 	}
 	
 	public int convertToEncoderTicks(double displacement) {//ft
-		return (int) (((displacement / (wheelSize*Math.PI)) * codesPerRev));
+		return (int) (((displacement / (wheelSize*Math.PI)) * conversionFactor));
 	}
 	public double getDistanceTraveledLeft() {//Feet
-		return wheelSize*Math.PI*(getLeftEncoderPosition()/codesPerRev);
+		return wheelSize*Math.PI*(getLeftEncoderPosition()/conversionFactor);
 	}
 	
 	public double getDistanceTraveledRight() {//Feet
-		return -wheelSize*Math.PI*(getRightEncoderPosition()/codesPerRev);
+		//Removed - value and changed with reverseSensor() so that pid has correct feedback
+		return wheelSize*Math.PI*(getRightEncoderPosition()/conversionFactor);
 	}
 	
 	public double getLeftVelocity() {
-		return leftDriveMaster.getEncVelocity() / wheelEncoderVelMult;
+		return leftDriveMaster.getEncVelocity() / wheelEncoderMult;
 	}
 	
 	public double getRightVelocity() {
-		return rightDriveMaster.getEncVelocity() / wheelEncoderVelMult;
+		return rightDriveMaster.getEncVelocity() / wheelEncoderMult;
 	}
 	
 	public void resetGyro() {
@@ -198,8 +200,10 @@ public class DriveTrain extends Subsystem implements Constants, HardwareAdapter,
 		NavX.zeroYaw();
 	}
 	public void resetEncoders() {
-		leftDriveMaster.setPosition(0);
-		rightDriveMaster.setPosition(0);
+		leftDriveMaster.setEncPosition(0);//I'm gay
+		rightDriveMaster.setEncPosition(0);//I'm gay
+		//leftDriveMaster.setPosition(0);
+		//rightDriveMaster.setPosition(0);
 	}
 	public void resetSensors() {
 		resetGyro();
@@ -274,7 +278,7 @@ public class DriveTrain extends Subsystem implements Constants, HardwareAdapter,
 		leftDriveMaster.configEncoderCodesPerRev(codesPerRev);
 		rightDriveMaster.configEncoderCodesPerRev(codesPerRev);
 		//leftDriveMaster.reverseSensor(true);//Check this later
-		//rightDriveMaster.reverseSensor(true);//Check this later
+		rightDriveMaster.reverseSensor(true);//Check this later
 	}
 	
 	/**
@@ -301,7 +305,7 @@ public class DriveTrain extends Subsystem implements Constants, HardwareAdapter,
 	private void setTalonDefaults() {
 		setFeedBackDefaults();
 		setVoltageDefaults();
-		setRampRate(12);//0-12v in 1 of a second
+		//setRampRate(12);//0-12v in 1 of a second //COMMENTED TO SEE IF THIS PREVENTS PID FROM FUNCTIONING
 		reverseTalons(false);//Changing this didn't do anything, mathematically negated in drive command
 		setBrakeMode(false);
 		setCtrlMode(DEFAULT_CTRL_MODE);
