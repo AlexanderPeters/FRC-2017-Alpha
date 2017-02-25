@@ -62,6 +62,7 @@ public class Robot extends IterativeRobot implements Constants{
 	public static SmartDashboardInteractions sdb;
 	public static GameState gameState;
 	public static RobotState robotState = RobotState.Neither;
+	public static CameraServer cam;
 	//private static double kEnabledLooperDt;
 	
 	// Enabled looper is called at 100Hz whenever the robot is enabled
@@ -85,6 +86,8 @@ public class Robot extends IterativeRobot implements Constants{
      * used for any initialization code.
      */
     public void robotInit() {
+		cam.getInstance().startAutomaticCapture();
+		
     	gameState = GameState.Initializing;
 		pn = new Pneumatics();	
 		str = new Stirrer();
@@ -98,7 +101,7 @@ public class Robot extends IterativeRobot implements Constants{
 		//This has to be last as the subsystems can not be null when a command requires them
 		oi = new OI();
 
-		CameraServer.getInstance().startAutomaticCapture();
+
 		/*
 		UsbCamera usbCamera = new UsbCamera("USB Camera 0", 0);
 

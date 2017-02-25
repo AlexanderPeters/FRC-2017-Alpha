@@ -89,13 +89,13 @@ public interface Constants {
 	public final DoubleSolenoid.Value RET = Value.kReverse;
 	public final DoubleSolenoid.Value OFF = Value.kOff;
 	//ENCODER CODES PER REV
-	public final int codesPerRev = 256;
+	public final int codesPerRev = 5600;
 	//UDP_PORT
 	public final int udpPort = 5803;
 	//DRIVERCAM_FPS
 	public final int fps = 30;
 	//WHEEL_SIZE
-	public final int wheelSize = 6;//Inches
+	public final double wheelSize = 0.5;//Inches
 	//Encoder velocity to wheel velocity multiplier 
 	public final double wheelEncoderVelMult = 5.1;//low gear
 	public final double wheelEncoderVelMultHigh = 13.5;//high gear

@@ -55,7 +55,7 @@ public class DriveTrain extends Subsystem implements Constants, HardwareAdapter,
 		}
 		else if(Robot.robotState != Robot.RobotState.Climbing)
 			Robot.robotState = Robot.RobotState.Neither;
-		System.out.println("left " + getDistanceTraveledLeft() + " right " + getDistanceTraveledRight());
+		//System.out.println("left " + getDistanceTraveledLeft() + " right " + getDistanceTraveledRight());
 		//System.out.print(Math.abs(helper.handleDeadband(throttle, 0.2)) > 0.0);
 		//System.out.println(Math.abs(helper.handleDeadband(throttle, 0.2)));
 	}
@@ -143,17 +143,17 @@ public class DriveTrain extends Subsystem implements Constants, HardwareAdapter,
 		
 	}
 	
-	public void driveDisplacement(double displacement, int tolerance) {
+	public void driveDisplacement(double displacement, double tolerance) {//feet, feet
 		if(highGearState)
 			new ShiftDown();
 		setBrakeMode(true);
 		setCtrlMode(POSITION); //Change control mode of talon, default is PercentVbus (-1.0 to 1.0)
 		
 		leftDriveMaster.setPID(displacementKP, displacementKI, displacementKD); 
-		leftDriveMaster.setAllowableClosedLoopErr(tolerance);
+		leftDriveMaster.setAllowableClosedLoopErr(convertToEncoderTicks(tolerance));
 		
 		rightDriveMaster.setPID(displacementKP, displacementKI, displacementKD); 
-		rightDriveMaster.setAllowableClosedLoopErr(tolerance);
+		rightDriveMaster.setAllowableClosedLoopErr(convertToEncoderTicks(tolerance));
 		
 		leftDriveMaster.enableControl(); //Enable PID control on the talon
 		rightDriveMaster.enableControl(); //Enable PID control on the talon
@@ -161,6 +161,8 @@ public class DriveTrain extends Subsystem implements Constants, HardwareAdapter,
 		
 		leftDriveMaster.setSetpoint(-convertToEncoderTicks(displacement));
 		rightDriveMaster.setSetpoint(convertToEncoderTicks(displacement));
+		System.out.println(getDistanceTraveledLeft()+ " " +getDistanceTraveledRight()+ " " + leftDriveMaster.getEncPosition()+ " " + rightDriveMaster.getEncPosition());
+
 		
 	}
 	
@@ -173,14 +175,14 @@ public class DriveTrain extends Subsystem implements Constants, HardwareAdapter,
 	}
 	
 	public int convertToEncoderTicks(double displacement) {//ft
-		return (int) ((displacement / (wheelSize*Math.PI)) * codesPerRev);
+		return (int) (((displacement / (wheelSize*Math.PI)) * codesPerRev));
 	}
-	public double getDistanceTraveledLeft() {//Inches
+	public double getDistanceTraveledLeft() {//Feet
 		return wheelSize*Math.PI*(getLeftEncoderPosition()/codesPerRev);
 	}
 	
-	public double getDistanceTraveledRight() {//Inches
-		return wheelSize*Math.PI*(getRightEncoderPosition()/codesPerRev);
+	public double getDistanceTraveledRight() {//Feet
+		return -wheelSize*Math.PI*(getRightEncoderPosition()/codesPerRev);
 	}
 	
 	public double getLeftVelocity() {
@@ -271,8 +273,8 @@ public class DriveTrain extends Subsystem implements Constants, HardwareAdapter,
 		rightDriveMaster.setFeedbackDevice(FeedbackDevice.QuadEncoder);
 		leftDriveMaster.configEncoderCodesPerRev(codesPerRev);
 		rightDriveMaster.configEncoderCodesPerRev(codesPerRev);
-		leftDriveMaster.reverseSensor(true);//Check this later
-		rightDriveMaster.reverseSensor(true);//Check this later
+		//leftDriveMaster.reverseSensor(true);//Check this later
+		//rightDriveMaster.reverseSensor(true);//Check this later
 	}
 	
 	/**
