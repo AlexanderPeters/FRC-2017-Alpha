@@ -54,6 +54,8 @@ public interface Constants {
 	public final double displacementKI = 0.0;
 	public final double displacementKD = 0.0;
 	public final int kToleranceDisplacementDefault = 10;//Subject to change
+	
+	public final double distanceBetweenRobotAndGearPeg = (double) 1/6;//2 inches in feet
 		
 	//PID VALUES FOR FLYWHEEL
 	public final double flyWheelKP = 0.0;
