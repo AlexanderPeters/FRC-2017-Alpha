@@ -5,6 +5,7 @@ import com.ctre.CANTalon.TalonControlMode;
 import com.kauailabs.navx.frc.AHRS;//NavX import
 import Util.DriveHelper;
 import edu.wpi.first.wpilibj.command.Subsystem;
+import edu.wpi.first.wpilibj.CameraServer;
 import edu.wpi.first.wpilibj.DriverStation;
 import edu.wpi.first.wpilibj.PIDController;
 import edu.wpi.first.wpilibj.PIDOutput;
@@ -26,6 +27,7 @@ public class DriveTrain extends Subsystem implements Constants, HardwareAdapter,
 	private PIDController turnController;
 		
 	public DriveTrain() {
+		CameraServer.getInstance().startAutomaticCapture();
 		setTalonDefaults();
 		try {
 	          /* Communicate w/navX-MXP via the MXP SPI Bus.                                     */
@@ -41,6 +43,8 @@ public class DriveTrain extends Subsystem implements Constants, HardwareAdapter,
 		
 	}
 	public void driveTeleop(double throttle, double heading) {
+		driveTrain.arcadeDrive(throttle, heading);
+		/*
 		if(helper.handleDeadband(heading, headingDeadband) != 0.0) {
 			driveWithHeading(throttle, heading);
 			Robot.robotState = Robot.RobotState.Driving;
@@ -50,7 +54,8 @@ public class DriveTrain extends Subsystem implements Constants, HardwareAdapter,
 		//System.out.println("Cim: " + cim + ", Mini: " + mini + ", Total: " + pdp.getTotalCurrent());
 		//System.out.printboolean(helper.handleDeadband(throttle, throttleDeadband)) > 0.0);
 		else if(Math.abs(helper.handleDeadband(throttle, 0.25)) > 0.0) {
-			driveStraight(throttle);
+			//driveStraight(throttle);
+			driveWithHeading(throttle, heading);
 			Robot.robotState = Robot.RobotState.Driving;
 		}
 		else if(Robot.robotState != Robot.RobotState.Climbing)
@@ -58,6 +63,8 @@ public class DriveTrain extends Subsystem implements Constants, HardwareAdapter,
 		//System.out.println("left " + getDistanceTraveledLeft() + " right " + getDistanceTraveledRight());
 		//System.out.print(Math.abs(helper.handleDeadband(throttle, 0.2)) > 0.0);
 		//System.out.println(Math.abs(helper.handleDeadband(throttle, 0.2)));
+		 *
+		 */
 	}
 	
 	private void driveWithHeading(double throttle, double heading) {
