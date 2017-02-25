@@ -86,7 +86,7 @@ public class Robot extends IterativeRobot implements Constants{
      * used for any initialization code.
      */
     public void robotInit() {
-		cam.getInstance().startAutomaticCapture();
+		//cam.getInstance().startAutomaticCapture();
 		
     	gameState = GameState.Initializing;
 		pn = new Pneumatics();	
