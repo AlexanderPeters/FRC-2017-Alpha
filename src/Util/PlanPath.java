@@ -1,10 +1,10 @@
 package Util;
 
-public class PlanPathToGear {
+public class PlanPath {
 	private double dispX;
 	private double dispY;
 	
-	public PlanPathToGear(double dispX, double dispY) {
+	public PlanPath(double dispX, double dispY) {
 		this.dispX = dispX;
 		this.dispY = dispY;
 	}
@@ -21,7 +21,7 @@ public class PlanPathToGear {
 	}
 	
 	//Approximates the last distance that must be travelled to after turning back to 
-	public double getDisplacementToGear(double collisionTolerance) {
+	public double getDisplacementToFinalDest(double collisionTolerance) {
 		return (double)1/3*dispY - collisionTolerance;
 	}
 }
