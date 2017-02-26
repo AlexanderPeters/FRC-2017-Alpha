@@ -19,7 +19,7 @@ import main.Robot;
 import main.commands.drivetrain.Drive;
 import main.commands.pnuematics.ShiftDown;
 
-public class DriveTrain extends Subsystem implements Constants, HardwareAdapter, PIDOutput{
+public class DriveTrain extends Subsystem implements Constants, HardwareAdapter, PIDOutput {
 	private static boolean highGearState = false;
 	private static AHRS NavX;
 	private DriveHelper helper = new DriveHelper(7.5);
@@ -159,6 +159,8 @@ public class DriveTrain extends Subsystem implements Constants, HardwareAdapter,
 			new ShiftDown();
 		setBrakeMode(true);
 		setCtrlMode(POSITION); //Change control mode of talon, default is PercentVbus (-1.0 to 1.0)
+		setVoltageDefaultsPID();
+		
 		
 		leftDriveMaster.setPID(displacementKP, displacementKI, displacementKD); 
 		leftDriveMaster.setAllowableClosedLoopErr(convertToEncoderTicks(tolerance));
@@ -172,7 +174,7 @@ public class DriveTrain extends Subsystem implements Constants, HardwareAdapter,
 		
 		leftDriveMaster.setSetpoint(-convertToEncoderTicks(displacement));
 		rightDriveMaster.setSetpoint(convertToEncoderTicks(displacement));
-		System.out.println(getDistanceTraveledLeft()+ " " +getDistanceTraveledRight()+ " " + leftDriveMaster.getEncPosition()+ " " + rightDriveMaster.getEncPosition());
+		//System.out.println(getDistanceTraveledLeft()+ " " +getDistanceTraveledRight()+ " " + leftDriveMaster.getEncPosition()+ " " + rightDriveMaster.getEncPosition());
 
 		
 	}
@@ -189,11 +191,14 @@ public class DriveTrain extends Subsystem implements Constants, HardwareAdapter,
 		return (int) (((displacement / (wheelSize*Math.PI)) * conversionFactor));
 	}
 	public double getDistanceTraveledLeft() {//Feet
+		//System.out.println("l" +wheelSize*Math.PI*(getRightEncoderPosition()/conversionFactor));
+
 		return wheelSize*Math.PI*(getLeftEncoderPosition()/conversionFactor);
 	}
 	
 	public double getDistanceTraveledRight() {//Feet
 		//Removed - value and changed with reverseSensor() so that pid has correct feedback
+		//System.out.println("r" +wheelSize*Math.PI*(getRightEncoderPosition()/conversionFactor));
 		return wheelSize*Math.PI*(getRightEncoderPosition()/conversionFactor);
 	}
 	
@@ -287,7 +292,7 @@ public class DriveTrain extends Subsystem implements Constants, HardwareAdapter,
 		rightDriveMaster.setFeedbackDevice(FeedbackDevice.QuadEncoder);
 		leftDriveMaster.configEncoderCodesPerRev(codesPerRev);
 		rightDriveMaster.configEncoderCodesPerRev(codesPerRev);
-		//leftDriveMaster.reverseSensor(true);//Check this later
+		leftDriveMaster.reverseSensor(true);//Check this later
 		rightDriveMaster.reverseSensor(true);//Check this later
 	}
 	
@@ -299,6 +304,13 @@ public class DriveTrain extends Subsystem implements Constants, HardwareAdapter,
 		rightDriveMaster.configNominalOutputVoltage(+0f, -0f);
 		leftDriveMaster.configPeakOutputVoltage(+12f, -12f);
 		rightDriveMaster.configPeakOutputVoltage(+12f, -12f);
+	}
+	
+	private void setVoltageDefaultsPID() {
+		leftDriveMaster.configNominalOutputVoltage(+0f, -0f);
+		rightDriveMaster.configNominalOutputVoltage(+0f, -0f);
+		leftDriveMaster.configPeakOutputVoltage(+4f, -4f);
+		rightDriveMaster.configPeakOutputVoltage(+4f, -4f);
 	}
 	
 	/**
