@@ -3,19 +3,21 @@ package main.subsystems;
 import com.ctre.CANTalon.FeedbackDevice;
 import com.ctre.CANTalon.TalonControlMode;
 import com.kauailabs.navx.frc.AHRS;//NavX import
+
 import Util.DriveHelper;
-import edu.wpi.first.wpilibj.command.Subsystem;
+import edu.wpi.cscore.UsbCamera;
 import edu.wpi.first.wpilibj.CameraServer;
 import edu.wpi.first.wpilibj.DriverStation;
 import edu.wpi.first.wpilibj.PIDController;
 import edu.wpi.first.wpilibj.PIDOutput;
 import edu.wpi.first.wpilibj.RobotDrive;
+import edu.wpi.first.wpilibj.SPI;
+import edu.wpi.first.wpilibj.command.Subsystem;
 import main.Constants;
 import main.HardwareAdapter;
 import main.Robot;
 import main.commands.drivetrain.Drive;
 import main.commands.pnuematics.ShiftDown;
-import edu.wpi.first.wpilibj.SPI;
 
 public class DriveTrain extends Subsystem implements Constants, HardwareAdapter, PIDOutput{
 	private static boolean highGearState = false;
@@ -25,9 +27,10 @@ public class DriveTrain extends Subsystem implements Constants, HardwareAdapter,
 	private static RobotDrive driveTrain = new RobotDrive(leftDriveMaster, rightDriveMaster);
 	private static double rotateToAngleRate;
 	private PIDController turnController;
-		
+	UsbCamera usbCamera = new UsbCamera("USB Camera 0", 0);
 	public DriveTrain() {
-		CameraServer.getInstance().startAutomaticCapture();
+		usbCamera.setResolution(640, 480);
+		CameraServer.getInstance().startAutomaticCapture(usbCamera);
 		setTalonDefaults();
 		try {
 	          /* Communicate w/navX-MXP via the MXP SPI Bus.                                     */

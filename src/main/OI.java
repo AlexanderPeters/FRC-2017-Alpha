@@ -6,10 +6,10 @@ import lib.joystick.XboxController;
 import main.commands.climber.WinchForward;
 import main.commands.climber.WinchOff;
 import main.commands.drivetrain.DriveDistance;
-import main.commands.drivetrain.TurnToHeading;
 //import main.commands.driverCam.SwitchCamera;
 import main.commands.gearmech.GearDown;
 import main.commands.gearmech.GearUp;
+import main.commands.hood.MoveToAngle;
 //import main.commands.climber.WinchForward;
 //import main.commands.climber.WinchReverse;
 //import main.commands.gearmech.GearMechLiftDown;
@@ -63,8 +63,8 @@ public class OI implements Constants, HardwareAdapter {
 		xbox.rightTrigger.whileHeld(new FlyWheelForward(0.8));
 		xbox.rightTrigger.whenReleased(new FlyWheelOff());
 		xbox.select.whenPressed(new DriveDistance(4, 0.2));
-		xbox.start.whenPressed(new TurnToHeading(50, 1));
-		xbox.start.whenReleased(new TurnToHeading(-50, 1));
+		xbox.start.whenPressed(new MoveToAngle(90));
+		xbox.start.whenReleased(new MoveToAngle(0));
 		//if(xbox.a.equals(true))
 			//System.out.println(DOH);
 

@@ -17,8 +17,8 @@ public interface Constants {
 	public final double intakeMotorReverse = -1.0;
 	public final double intakeMotorOff = 0.0;
 	
-	public final double climberMotorForwardFast = (isCompRobot?1:-1);
-	public final double climberMotorForwardSlow = (isCompRobot?0.8:1-0.8); //Needs to be field tested so that the climber doesn't stop turning
+	public final double climberMotorForwardFast = 1;//(isCompRobot?1:1);
+	public final double climberMotorForwardSlow = 0.8;//(isCompRobot?0.8:0.8); //Needs to be field tested so that the climber doesn't stop turning
 	public final int shooterMotorForward = 1;
 	public final double stirrerMotorOn = 1.0;
 	public final double stirrerMotorReverse = -1.0;
