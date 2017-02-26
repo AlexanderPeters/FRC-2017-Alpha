@@ -50,7 +50,7 @@ public interface Constants {
 	public final double turnInPlaceKF = 0.0;
 	public final double kToleranceDegreesDefault = 2.0f;//Subject to change
 	
-	public final double displacementKP = 0.03;//Need to tune
+	public final double displacementKP = 0.01;//Need to tune (turned way the heck down for testing tommorrow 2/25/17)
 	public final double displacementKI = 0.0;
 	public final double displacementKD = 0.0;
 	public final int kToleranceDisplacementDefault = 10;//Subject to change
@@ -90,8 +90,6 @@ public interface Constants {
 	public final DoubleSolenoid.Value EXT = Value.kForward;
 	public final DoubleSolenoid.Value RET = Value.kReverse;
 	public final DoubleSolenoid.Value OFF = Value.kOff;
-	//ENCODER CODES PER REV
-	public final int codesPerRev = 5600;
 	//UDP_PORT
 	public final int udpPort = 5803;
 	//DRIVERCAM_FPS
@@ -99,8 +97,11 @@ public interface Constants {
 	//WHEEL_SIZE
 	public final double wheelSize = 0.5;//Inches
 	//Encoder velocity to wheel velocity multiplier 
-	public final double wheelEncoderVelMult = 5.1;//low gear
-	public final double wheelEncoderVelMultHigh = 13.5;//high gear
+	public final double wheelEncoderMult = 5.1;//low gear
+	public final double wheelEncoderMultHigh = 13.5;//high gear
+	//ENCODER CODES PER REV
+	public final int codesPerRev = 256;//5600;
+	public final double conversionFactor = 256*4*wheelEncoderMult;
 	
 	
 	
