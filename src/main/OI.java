@@ -63,7 +63,7 @@ public class OI implements Constants, HardwareAdapter {
 		xbox.rightTrigger.whileHeld(new FlyWheelForward(0.8));
 		xbox.rightTrigger.whenReleased(new FlyWheelOff());
 		if(DriveDistance.getfinished())
-			xbox.select.whenPressed(new DriveDistance(4, 0.2));
+			xbox.select.whenPressed(new DriveDistance(4, 0.084));
 		xbox.start.whenPressed(new MoveToAngle(90));
 		xbox.start.whenReleased(new MoveToAngle(0));
 		//if(xbox.a.equals(true))

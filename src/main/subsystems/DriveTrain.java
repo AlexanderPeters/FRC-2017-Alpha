@@ -47,7 +47,7 @@ public class DriveTrain extends Subsystem implements Constants, HardwareAdapter,
 	}
 	public void driveTeleop(double throttle, double heading) {
 		driveTrain.arcadeDrive(throttle, heading);
-		/*
+		
 		if(helper.handleDeadband(heading, headingDeadband) != 0.0) {
 			driveWithHeading(throttle, heading);
 			Robot.robotState = Robot.RobotState.Driving;
@@ -66,8 +66,7 @@ public class DriveTrain extends Subsystem implements Constants, HardwareAdapter,
 		//System.out.println("left " + getDistanceTraveledLeft() + " right " + getDistanceTraveledRight());
 		//System.out.print(Math.abs(helper.handleDeadband(throttle, 0.2)) > 0.0);
 		//System.out.println(Math.abs(helper.handleDeadband(throttle, 0.2)));
-		 *
-		 */
+		 
 	}
 	
 	private void driveWithHeading(double throttle, double heading) {
@@ -75,6 +74,7 @@ public class DriveTrain extends Subsystem implements Constants, HardwareAdapter,
 			
 			Robot.dt.setBrakeMode(false);
 			setCtrlMode(PERCENT_VBUS_MODE);
+			setVoltageDefaults();
 			
 			hasBeenDrivingStriaghtWithThrottle = false;
 			//System.out.println(throttle);
@@ -90,6 +90,7 @@ public class DriveTrain extends Subsystem implements Constants, HardwareAdapter,
 			
 			Robot.dt.setBrakeMode(false);
 			setCtrlMode(PERCENT_VBUS_MODE);
+			setVoltageDefaults();
 			
 			if(!hasBeenDrivingStriaghtWithThrottle){
 				resetGyro();
@@ -122,7 +123,7 @@ public class DriveTrain extends Subsystem implements Constants, HardwareAdapter,
 				//resetGyro();//Prevents accumulation of gyro drift (resets gyro noise if robot is on course)
 		}
 	}
-	
+	/*
 	public void driveLooperControl(double leftThrottle, double rightThrottle) {
 		if(Robot.gameState == Robot.GameState.Autonomous) {//Friendly game state check
 			
@@ -134,13 +135,14 @@ public class DriveTrain extends Subsystem implements Constants, HardwareAdapter,
 			driveTrain.tankDrive(-1*helper.handleOverPower(leftThrottle), -1*helper.handleOverPower(rightThrottle));
 		}
 		
-	}
+	}*/
 	
 	public void turnToHeading(double heading, double tolerance) {
 		if(highGearState)
 			new ShiftDown();
 		setBrakeMode(true);
 		setCtrlMode(PERCENT_VBUS_MODE);
+		setVoltageDefaultsPID();
 				
 		turnController.setInputRange(-180.0f,  180.0f);
 	    turnController.setOutputRange(-1.0, 1.0);
@@ -174,6 +176,7 @@ public class DriveTrain extends Subsystem implements Constants, HardwareAdapter,
 		
 		leftDriveMaster.setSetpoint(-convertToEncoderTicks(displacement));
 		rightDriveMaster.setSetpoint(convertToEncoderTicks(displacement));
+		
 		//System.out.println(getDistanceTraveledLeft()+ " " +getDistanceTraveledRight()+ " " + leftDriveMaster.getEncPosition()+ " " + rightDriveMaster.getEncPosition());
 
 		

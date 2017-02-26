@@ -27,7 +27,7 @@ public class DriveDistance extends Command {
 
     // Called repeatedly when this Command is scheduled to run
     protected void execute() {
-    	Robot.dt.driveDisplacement(distance, tolerance);
+    	Robot.dt.driveDisplacement(-distance, tolerance);
     	//Robot.dt.driveStraight(-0.5);
 		//System.out.println("LEFT " + Robot.dt.getDistanceTraveledLeft());
 		//System.out.println("RIGHT " + Robot.dt.getDistanceTraveledRight());
@@ -35,9 +35,10 @@ public class DriveDistance extends Command {
 
     // Make this return true when this Command no longer needs to run execute()
     protected boolean isFinished() {
-    	System.out.println((Math.abs(distance - -Robot.dt.getDistanceTraveledLeft())) + " " + (Math.abs(distance - Robot.dt.getDistanceTraveledRight())));
-    	if(Math.abs(distance - -Robot.dt.getDistanceTraveledLeft()) <= tolerance && Math.abs(distance - Robot.dt.getDistanceTraveledRight()) <= tolerance) {//Check this later
+    	//System.out.println(distance - Math.abs(Robot.dt.getDistanceTraveledLeft()))) + " " distance - Math.abs(Robot.dt.getDistanceTraveledRight()))));
+    	if((distance - Math.abs(Robot.dt.getDistanceTraveledLeft())) <= tolerance && (distance - Math.abs(Robot.dt.getDistanceTraveledRight())) <= tolerance) {//Check this later
     		finished = true;
+    		System.out.println("TRUE AND FINISHED");
     		return true;
     	}
     		

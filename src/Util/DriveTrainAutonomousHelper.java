@@ -6,7 +6,7 @@ import main.HardwareAdapter;
 import main.Robot;
 
 public class DriveTrainAutonomousHelper implements Constants, HardwareAdapter{
-	private double leftVelocityTarget, leftPositionTarget;
+	/*private double leftVelocityTarget, leftPositionTarget;
 	private double rightVelocityTarget, rightPositionTarget;
 	private double headingTarget;
 	private double leftVelocityOut, rightVelocityOut;
@@ -64,5 +64,5 @@ public class DriveTrainAutonomousHelper implements Constants, HardwareAdapter{
 	
 	public double getAdjustedRightVelocity() {
 		return rightVelocityOut;
-	}
+	}*/
 }

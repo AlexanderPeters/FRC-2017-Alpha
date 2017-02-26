@@ -11,7 +11,25 @@ import main.commands.gearmech.GearUp;
 import main.commands.gearmech.ShiftGearMech;
 
 public class TrajectoryDriveController implements Loop, Constants, HardwareAdapter{
-	private int index = 0;
+
+	@Override
+	public void onStart() {
+		// TODO Auto-generated method stub
+		
+	}
+
+	@Override
+	public void onLoop() {
+		// TODO Auto-generated method stub
+		
+	}
+
+	@Override
+	public void onStop() {
+		// TODO Auto-generated method stub
+		
+	}
+	/*private int index = 0;
 	private double[][] headingArray;
 	private double[][] leftVelocityArray;
 	private double[][] rightVelocityArray;
@@ -83,6 +101,6 @@ public class TrajectoryDriveController implements Loop, Constants, HardwareAdapt
 		// TODO Auto-generated method stub
 		//No-Op
 		
-	}
+	}*/
 
 }

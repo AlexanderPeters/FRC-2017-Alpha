@@ -7,12 +7,14 @@ import controllers.UDPController;
 //import edu.wpi.first.wpilibj.DriverStation;
 //Necessary wpilib imports
 import edu.wpi.first.wpilibj.IterativeRobot;
+import edu.wpi.first.wpilibj.command.Command;
 //import edu.wpi.first.wpilibj.command.Command;
 import edu.wpi.first.wpilibj.command.Scheduler;
 import edu.wpi.first.wpilibj.livewindow.LiveWindow;
 import edu.wpi.first.wpilibj.vision.CameraServer;
 import lib.Looper;
 import lib.UDPForVision;
+import main.commands.auto.rightGearAuto;
 //import main.commands.stirrer.Stir;
 //import main.subsystems.CameraController;
 //import main.subsystems.CameraController;
@@ -77,7 +79,7 @@ public class Robot extends IterativeRobot implements Constants{
 
 
 	
-    //Command autonomousCommand;
+    Command autoCommand;
    // SendableChooser chooser;
 	
 
@@ -162,7 +164,11 @@ public class Robot extends IterativeRobot implements Constants{
 	 */
     public void autonomousInit() {
     	gameState = GameState.Autonomous;
-    	mAutonomousLooper.start();
+    	//mAutonomousLooper.start();
+    	autoCommand = new rightGearAuto();
+    	
+    	if(autoCommand != null)
+    		autoCommand.start();
     	//new Stir(Constants.stirrerMotorOn);
 
     	
