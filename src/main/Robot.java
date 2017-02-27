@@ -14,7 +14,7 @@ import edu.wpi.first.wpilibj.livewindow.LiveWindow;
 import edu.wpi.first.wpilibj.vision.CameraServer;
 import lib.Looper;
 import lib.UDPForVision;
-import main.commands.auto.rightGearAuto;
+import main.commands.auto.centerGearAuto;
 //import main.commands.stirrer.Stir;
 //import main.subsystems.CameraController;
 //import main.subsystems.CameraController;
@@ -165,7 +165,7 @@ public class Robot extends IterativeRobot implements Constants{
     public void autonomousInit() {
     	gameState = GameState.Autonomous;
     	//mAutonomousLooper.start();
-    	autoCommand = new rightGearAuto();
+    	autoCommand = new centerGearAuto();
     	
     	if(autoCommand != null)
     		autoCommand.start();
