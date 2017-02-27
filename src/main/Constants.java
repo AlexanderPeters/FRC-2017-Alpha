@@ -53,7 +53,7 @@ public interface Constants {
 	public final double displacementKP = 0.01;//Need to tune (turned way the heck down for testing tommorrow 2/25/17)
 	public final double displacementKI = 0.0;
 	public final double displacementKD = 0.0;
-	public final int kToleranceDisplacementDefault = 10;//Subject to change
+	public final double kToleranceDisplacementDefault = 0.084;//Subject to change #DAMN STRAIGHT!!!!!
 	
 	public final double distanceBetweenRobotAndGearPeg = (double) 1/6;//2 inches in feet
 		

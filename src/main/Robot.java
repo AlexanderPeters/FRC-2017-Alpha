@@ -71,7 +71,7 @@ public class Robot extends IterativeRobot implements Constants{
     public static Looper mEnabledLooper = new Looper(kEnabledLooperDt);
     // Disabled looper is called at 100Hz whenever the robot is disabled
     //public static Looper mDisabledLooper = new Looper();
-    public static Looper mAutonomousLooper = new Looper(kAutoLooperDt);
+    //public static Looper mAutonomousLooper = new Looper(kAutoLooperDt);
     
     public static UDPForVision comms = new UDPForVision();
 	//public static DriverCamera dc = new DriverCamera(50);
@@ -111,7 +111,7 @@ public class Robot extends IterativeRobot implements Constants{
 
 		mjpegServer1.setSource(usbCamera);*/
 		// Configure loopers
-        mAutonomousLooper.register(new TrajectoryDriveController());
+        //mAutonomousLooper.register(new TrajectoryDriveController());
         mEnabledLooper.register(new UDPController());
        // mEnabledLooper.register(new TeleopCameraController());
         mEnabledLooper.start();
@@ -167,8 +167,7 @@ public class Robot extends IterativeRobot implements Constants{
     	//mAutonomousLooper.start();
     	autoCommand = new centerGearAuto();
     	
-    	if(autoCommand != null)
-    		autoCommand.start();
+    	if(autoCommand != null) autoCommand.start();
     	//new Stir(Constants.stirrerMotorOn);
 
     	
@@ -208,13 +207,13 @@ public class Robot extends IterativeRobot implements Constants{
 
     	// Configure loopers
         //mDisabledLooper.stop();
-        mAutonomousLooper.stop();
+        //mAutonomousLooper.stop();
         
 		// This makes sure that the autonomous stops running when
         // teleop starts running. If you want the autonomous to 
         // continue until interrupted by another command, remove
         // this line or comment it out.
-        //if (autonomousCommand != null) autonomousCommand.cancel();
+        if (autoCommand != null) autoCommand.cancel();
     }
 
     /**
