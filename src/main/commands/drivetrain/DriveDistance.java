@@ -38,6 +38,23 @@ public class DriveDistance extends Command {
     	//System.out.println(distance - Math.abs(Robot.dt.getDistanceTraveledLeft()))) + " " distance - Math.abs(Robot.dt.getDistanceTraveledRight()))));
     	if((distance - Math.abs(Robot.dt.getDistanceTraveledLeft())) <= tolerance && (distance - Math.abs(Robot.dt.getDistanceTraveledRight())) <= tolerance) {//Check this later
     		finished = true;
+    		/*Robot.dt.driveTeleop(0, 0);
+    		Robot.dt.driveTeleop(0, 0);
+    		Robot.dt.driveTeleop(0, 0);
+    		Robot.dt.driveTeleop(0, 0);
+    		Robot.dt.driveTeleop(0, 0);
+    		Robot.dt.driveTeleop(0, 0);
+    		Robot.dt.driveTeleop(0, 0);
+    		Robot.dt.driveTeleop(0, 0);
+    		Robot.dt.driveTeleop(0, 0);
+    		Robot.dt.driveTeleop(0, 0);
+    		Robot.dt.driveTeleop(0, 0);
+    		Robot.dt.driveTeleop(0, 0);
+    		Robot.dt.driveTeleop(0, 0);
+    		Robot.dt.driveTeleop(0, 0);
+    		Robot.dt.driveTeleop(0, 0);*/
+
+
     		System.out.println("TRUE AND FINISHED");
     		return true;
     	}
@@ -48,13 +65,18 @@ public class DriveDistance extends Command {
 
     // Called once after isFinished returns true
     protected void end() {
+    	this.tolerance = 0;
+    	this.distance = 0;
+    	Robot.dt.stop();
     }
 
     // Called when another command which requires one or more of the same
     // subsystems is scheduled to run
     protected void interrupted() {
+    	end();
+
     }
-    public static boolean getfinished() {
+    /*public static boolean getfinished() {
     	return finished;
-    }
+    }*/
 }

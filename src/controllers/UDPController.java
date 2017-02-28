@@ -17,14 +17,14 @@ public class UDPController implements Loop, Constants{
 
 	@Override
 	public void onLoop() {
-		System.out.println("here");
+		/*System.out.println("here");
 
 		try {
-			Robot.comms.poke();
+			//Robot.comms.poke();
 		} catch (IOException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
-		}
+		}*/
 	}
 
 	@Override

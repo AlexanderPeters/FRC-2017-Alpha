@@ -44,7 +44,7 @@ public interface Constants {
 	public final double headingControllerKP = 0.0;
 	
 	//PID VALUES FOR DRIVETRAIN
-	public final double turnInPlaceKP = 0.03;//Need to tune
+	public final double turnInPlaceKP = 0.1;//Need to tune
 	public final double turnInPlaceKI = 0.0;
 	public final double turnInPlaceKD = 0.0;
 	public final double turnInPlaceKF = 0.0;

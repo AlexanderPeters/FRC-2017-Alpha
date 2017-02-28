@@ -7,6 +7,7 @@ import main.HardwareAdapter;
 import main.Robot;
 
 public class Pneumatics extends Subsystem implements Constants, HardwareAdapter {
+	private boolean down = false;
 	/**
 	 * Constructor
 	 */
@@ -36,7 +37,18 @@ public class Pneumatics extends Subsystem implements Constants, HardwareAdapter 
 	}
 	
 	public void shiftGearMech(DoubleSolenoid.Value v) {
+		down = !down;
 		gearMech.set(v);
+	}
+	public boolean getDown() {
+		return down;
+	}
+	public void shiftGearMech() {
+		if(down)
+			gearMech.set(RET);
+		else
+			gearMech.set(EXT);
+		gearMech.set(OFF);
 	}
 	
 	/**

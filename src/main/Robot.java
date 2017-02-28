@@ -15,6 +15,7 @@ import edu.wpi.first.wpilibj.vision.CameraServer;
 import lib.Looper;
 import lib.UDPForVision;
 import main.commands.auto.centerGearAuto;
+import main.commands.auto.rightGearAuto;
 //import main.commands.stirrer.Stir;
 //import main.subsystems.CameraController;
 //import main.subsystems.CameraController;
@@ -73,7 +74,7 @@ public class Robot extends IterativeRobot implements Constants{
     //public static Looper mDisabledLooper = new Looper();
     //public static Looper mAutonomousLooper = new Looper(kAutoLooperDt);
     
-    public static UDPForVision comms = new UDPForVision();
+    //public static UDPForVision comms = new UDPForVision();
 	//public static DriverCamera dc = new DriverCamera(50);
 	//private Thread captureThread;
 
@@ -165,7 +166,7 @@ public class Robot extends IterativeRobot implements Constants{
     public void autonomousInit() {
     	gameState = GameState.Autonomous;
     	//mAutonomousLooper.start();
-    	autoCommand = new centerGearAuto();
+    	autoCommand = new rightGearAuto();
     	
     	if(autoCommand != null) autoCommand.start();
     	//new Stir(Constants.stirrerMotorOn);

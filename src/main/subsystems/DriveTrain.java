@@ -26,11 +26,12 @@ public class DriveTrain extends Subsystem implements Constants, HardwareAdapter,
 	private boolean hasBeenDrivingStriaghtWithThrottle;
 	private static RobotDrive driveTrain = new RobotDrive(leftDriveMaster, rightDriveMaster);
 	private static double rotateToAngleRate;
+	private int allowableError;
 	private PIDController turnController;
 	UsbCamera usbCamera = new UsbCamera("USB Camera 0", 0);
 	public DriveTrain() {
 		usbCamera.setResolution(640, 480);
-		CameraServer.getInstance().startAutomaticCapture(usbCamera);
+		//CameraServer.getInstance().startAutomaticCapture(usbCamera);
 		setTalonDefaults();
 		try {
 	          /* Communicate w/navX-MXP via the MXP SPI Bus.                                     */
@@ -47,7 +48,7 @@ public class DriveTrain extends Subsystem implements Constants, HardwareAdapter,
 	}
 	public void driveTeleop(double throttle, double heading) {
 		driveTrain.arcadeDrive(throttle, heading);
-		
+		/*
 		if(helper.handleDeadband(heading, headingDeadband) != 0.0) {
 			driveWithHeading(throttle, heading);
 			Robot.robotState = Robot.RobotState.Driving;
@@ -57,22 +58,22 @@ public class DriveTrain extends Subsystem implements Constants, HardwareAdapter,
 		//System.out.println("Cim: " + cim + ", Mini: " + mini + ", Total: " + pdp.getTotalCurrent());
 		//System.out.printboolean(helper.handleDeadband(throttle, throttleDeadband)) > 0.0);
 		else if(Math.abs(helper.handleDeadband(throttle, 0.25)) > 0.0) {
-			//driveStraight(throttle);
-			driveWithHeading(throttle, heading);
+			driveStraight(throttle);
+			//(throttle, heading);
 			Robot.robotState = Robot.RobotState.Driving;
 		}
 		else if(Robot.robotState != Robot.RobotState.Climbing)
 			Robot.robotState = Robot.RobotState.Neither;
 		//System.out.println("left " + getDistanceTraveledLeft() + " right " + getDistanceTraveledRight());
 		//System.out.print(Math.abs(helper.handleDeadband(throttle, 0.2)) > 0.0);
-		//System.out.println(Math.abs(helper.handleDeadband(throttle, 0.2)));
+		//System.out.println(Math.abs(helper.handleDeadband(throttle, 0.2)));*/
 		 
 	}
 	
 	private void driveWithHeading(double throttle, double heading) {
 		if(Robot.gameState == Robot.GameState.Teleop) {//Friendly game state check
 			
-			Robot.dt.setBrakeMode(false);
+			Robot.dt.setBrakeMode(true);
 			setCtrlMode(PERCENT_VBUS_MODE);
 			setVoltageDefaults();
 			
@@ -88,7 +89,7 @@ public class DriveTrain extends Subsystem implements Constants, HardwareAdapter,
 	public void driveStraight(double throttle) {
 		if(Robot.gameState == Robot.GameState.Teleop) {//Friendly game state check
 			
-			Robot.dt.setBrakeMode(false);
+			Robot.dt.setBrakeMode(true);
 			setCtrlMode(PERCENT_VBUS_MODE);
 			setVoltageDefaults();
 			
@@ -155,31 +156,55 @@ public class DriveTrain extends Subsystem implements Constants, HardwareAdapter,
 		
 	}
 	
-	public void driveDisplacement(double displacement, double tolerance) {//feet, feet
-		//Positive encoder value needs to mean a positive displacement and positive power to the motor
-		if(highGearState)
+	public void driveDisplacement(double displacement, double tolerance) {// feet, feet
+		// Positive encoder value needs to mean a positive displacement and
+		// positive power to the motor
+		if (highGearState)
 			new ShiftDown();
 		setBrakeMode(true);
-		setCtrlMode(POSITION); //Change control mode of talon, default is PercentVbus (-1.0 to 1.0)
+		setCtrlMode(POSITION); // Change control mode of talon, default is
+								// PercentVbus (-1.0 to 1.0)
 		setVoltageDefaultsPID();
-		
-		
-		leftDriveMaster.setPID(displacementKP, displacementKI, displacementKD); 
-		leftDriveMaster.setAllowableClosedLoopErr(convertToEncoderTicks(tolerance));
-		
-		rightDriveMaster.setPID(displacementKP, displacementKI, displacementKD); 
-		rightDriveMaster.setAllowableClosedLoopErr(convertToEncoderTicks(tolerance));
-		
-		leftDriveMaster.enableControl(); //Enable PID control on the talon
-		rightDriveMaster.enableControl(); //Enable PID control on the talon
-		//rightDriveMaster.setFeedbackDevice(leftDriveMaster.getEncPosition());
-		
+		allowableError = convertToEncoderTicks(tolerance);
+
+		leftDriveMaster.setPID(displacementKP, displacementKI, displacementKD);
+		leftDriveMaster.setAllowableClosedLoopErr(allowableError);
+
+		rightDriveMaster.setPID(displacementKP, displacementKI, displacementKD);
+		rightDriveMaster.setAllowableClosedLoopErr(allowableError);
+
+		leftDriveMaster.enableControl(); // Enable PID control on the talon
+		rightDriveMaster.enableControl(); // Enable PID control on the talon
+
+		// rightDriveMaster.setFeedbackDevice(leftDriveMaster.getEncPosition());
+
 		leftDriveMaster.setSetpoint(-convertToEncoderTicks(displacement));
 		rightDriveMaster.setSetpoint(convertToEncoderTicks(displacement));
-		
-		//System.out.println(getDistanceTraveledLeft()+ " " +getDistanceTraveledRight()+ " " + leftDriveMaster.getEncPosition()+ " " + rightDriveMaster.getEncPosition());
 
-		
+		// System.out.println(getDistanceTraveledLeft()+ " "
+		// +getDistanceTraveledRight()+ " " + leftDriveMaster.getEncPosition()+
+		// " " + rightDriveMaster.getEncPosition());
+
+	}
+
+	public void stop() {
+		leftDriveMaster.ClearIaccum();
+		leftDriveMaster.ClearIaccum();
+		rightDriveMaster.clearIAccum();
+		rightDriveMaster.ClearIaccum();
+		leftDriveMaster.reset();
+		rightDriveMaster.reset();
+		//leftDriveMaster.reset();
+		//rightDriveMaster.reset();
+		//leftDriveMaster.stopMotor();
+		//rightDriveMaster.stopMotor();	
+		//leftDriveMaster.disableControl();
+		//rightDriveMaster.disableControl();
+		//leftDriveMaster.reset();
+		//rightDriveMaster.reset();
+		//leftDriveMaster.set(0);
+		//rightDriveMaster.set(0);
+		//Implement later
 	}
 	
 	public void changeGearing(){
@@ -220,8 +245,8 @@ public class DriveTrain extends Subsystem implements Constants, HardwareAdapter,
 	public void resetEncoders() {
 		leftDriveMaster.setEncPosition(0);//I'm gay
 		rightDriveMaster.setEncPosition(0);//I'm gay
-		//leftDriveMaster.setPosition(0);
-		//rightDriveMaster.setPosition(0);
+		leftDriveMaster.setPosition(0);
+		rightDriveMaster.setPosition(0);
 	}
 	public void resetSensors() {
 		resetGyro();
@@ -312,8 +337,8 @@ public class DriveTrain extends Subsystem implements Constants, HardwareAdapter,
 	private void setVoltageDefaultsPID() {
 		leftDriveMaster.configNominalOutputVoltage(+0f, -0f);
 		rightDriveMaster.configNominalOutputVoltage(+0f, -0f);
-		leftDriveMaster.configPeakOutputVoltage(+4f, -4f);
-		rightDriveMaster.configPeakOutputVoltage(+4f, -4f);
+		leftDriveMaster.configPeakOutputVoltage(+6f, -6f);
+		rightDriveMaster.configPeakOutputVoltage(+6f, -6f);
 	}
 	
 	/**

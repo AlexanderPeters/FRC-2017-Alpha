@@ -1,5 +1,6 @@
 package main;
 
+import lib.LatchedBoolean;
 //import edu.wpi.first.wpilibj.buttons.Button;
 //import lib.LatchedBoolean;
 import lib.joystick.XboxController;
@@ -9,6 +10,8 @@ import main.commands.drivetrain.DriveDistance;
 //import main.commands.driverCam.SwitchCamera;
 import main.commands.gearmech.GearDown;
 import main.commands.gearmech.GearUp;
+import main.commands.gearmech.ShiftGearMech;
+import main.commands.gearmech.ToggleGearMech;
 import main.commands.hood.MoveToAngle;
 //import main.commands.climber.WinchForward;
 //import main.commands.climber.WinchReverse;
@@ -31,6 +34,7 @@ import main.commands.shooter.FlyWheelOff;
  * interface to the commands and command groups that allow control of the robot.
  */
 public class OI implements Constants, HardwareAdapter {
+	LatchedBoolean bool = new LatchedBoolean();
 	
 	//private static LatchedBoolean boole = new LatchedBoolean();
 	//private static LatchedBoolean boole2 = new LatchedBoolean();
@@ -50,6 +54,9 @@ public class OI implements Constants, HardwareAdapter {
 		xbox.rightBumper.whenPressed(new GearDown());
 		xbox.rightBumper.whenReleased(new GearUp());
 		
+		//xbox.rightBumper.tp
+			
+		
 		xbox.a.whileHeld(new IntakeForward());
 		xbox.a.whenReleased(new IntakeOff());
 		
@@ -62,7 +69,7 @@ public class OI implements Constants, HardwareAdapter {
 		xbox.y.whenReleased(new FlyWheelOff());
 		xbox.rightTrigger.whileHeld(new FlyWheelForward(0.8));
 		xbox.rightTrigger.whenReleased(new FlyWheelOff());
-		if(DriveDistance.getfinished())
+		//if(DriveDistance.getfinished())
 			xbox.select.whenPressed(new DriveDistance(4, 0.084));
 		xbox.start.whenPressed(new MoveToAngle(90));
 		xbox.start.whenReleased(new MoveToAngle(0));
