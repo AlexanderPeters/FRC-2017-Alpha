@@ -2,6 +2,7 @@ package main.commands.drivetrain;
 
 import edu.wpi.first.wpilibj.command.Command;
 import main.Robot;
+import main.subsystems.DriveTrain;
 
 /**
  *
@@ -35,7 +36,7 @@ public class DriveDistance extends Command {
 
     // Make this return true when this Command no longer needs to run execute()
     protected boolean isFinished() {
-    	//System.out.println(distance - Math.abs(Robot.dt.getDistanceTraveledLeft()))) + " " distance - Math.abs(Robot.dt.getDistanceTraveledRight()))));
+    	System.out.println(Robot.dt.getDistanceTraveledLeft()+ " " + Robot.dt.getDistanceTraveledRight());
     	if((distance - Math.abs(Robot.dt.getDistanceTraveledLeft())) <= tolerance && (distance - Math.abs(Robot.dt.getDistanceTraveledRight())) <= tolerance) {//Check this later
     		finished = true;
     		/*Robot.dt.driveTeleop(0, 0);
@@ -65,8 +66,8 @@ public class DriveDistance extends Command {
 
     // Called once after isFinished returns true
     protected void end() {
-    	this.tolerance = 0;
-    	this.distance = 0;
+    	//this.tolerance = 0;
+    	//this.distance = 0;
     	Robot.dt.stop();
     }
 

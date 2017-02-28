@@ -155,8 +155,12 @@ public class DriveTrain extends Subsystem implements Constants, HardwareAdapter,
 		
 		
 	}
+	public boolean getTurningPIDOnTarget() {
+		return turnController.onTarget();
+	}
+
 	
-	public void driveDisplacement(double displacement, double tolerance) {// feet, feet
+public void driveDisplacement(double displacement, double tolerance) {// feet, feet
 		// Positive encoder value needs to mean a positive displacement and
 		// positive power to the motor
 		if (highGearState)
@@ -166,6 +170,7 @@ public class DriveTrain extends Subsystem implements Constants, HardwareAdapter,
 								// PercentVbus (-1.0 to 1.0)
 		setVoltageDefaultsPID();
 		allowableError = convertToEncoderTicks(tolerance);
+		
 
 		leftDriveMaster.setPID(displacementKP, displacementKI, displacementKD);
 		leftDriveMaster.setAllowableClosedLoopErr(allowableError);
@@ -180,14 +185,35 @@ public class DriveTrain extends Subsystem implements Constants, HardwareAdapter,
 
 		leftDriveMaster.setSetpoint(-convertToEncoderTicks(displacement));
 		rightDriveMaster.setSetpoint(convertToEncoderTicks(displacement));
+		
+		System.out.println(-convertToEncoderTicks(displacement));
+		System.out.println(convertToEncoderTicks(displacement));
+		
+		
 
 		// System.out.println(getDistanceTraveledLeft()+ " "
 		// +getDistanceTraveledRight()+ " " + leftDriveMaster.getEncPosition()+
 		// " " + rightDriveMaster.getEncPosition());
 
 	}
-
 	public void stop() {
+		leftDriveMaster.set(0);
+		rightDriveMaster.set(0);
+		leftDriveMaster.reset();
+		rightDriveMaster.reset();
+		leftDriveMaster.clearStickyFaults();
+		rightDriveMaster.clearStickyFaults();
+		setCtrlMode(PERCENT_VBUS_MODE);
+		setVoltageDefaults();
+		setFeedBackDefaults();
+		resetSensors();
+		leftDriveMaster.enableControl();
+		rightDriveMaster.enableControl();
+		
+		
+	}
+
+/*	public void stop() {
 		leftDriveMaster.ClearIaccum();
 		leftDriveMaster.ClearIaccum();
 		rightDriveMaster.clearIAccum();
@@ -205,7 +231,7 @@ public class DriveTrain extends Subsystem implements Constants, HardwareAdapter,
 		//leftDriveMaster.set(0);
 		//rightDriveMaster.set(0);
 		//Implement later
-	}
+	}*/
 	
 	public void changeGearing(){
 		highGearState = !highGearState;
