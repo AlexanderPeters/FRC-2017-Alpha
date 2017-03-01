@@ -11,10 +11,14 @@ import edu.wpi.first.wpilibj.command.Command;
 //import edu.wpi.first.wpilibj.command.Command;
 import edu.wpi.first.wpilibj.command.Scheduler;
 import edu.wpi.first.wpilibj.livewindow.LiveWindow;
+import edu.wpi.first.wpilibj.smartdashboard.SendableChooser;
+import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj.vision.CameraServer;
 import lib.Looper;
 import lib.UDPForVision;
 import main.commands.auto.centerGearAuto;
+import main.commands.auto.doNothing;
+import main.commands.auto.leftGearAuto;
 import main.commands.auto.rightGearAuto;
 //import main.commands.stirrer.Stir;
 //import main.subsystems.CameraController;
@@ -81,7 +85,8 @@ public class Robot extends IterativeRobot implements Constants{
 
 	
     Command autoCommand;
-   // SendableChooser chooser;
+    SendableChooser<Command> chooser;
+    //SendableChooser chooser; //Leaving this here just in case.
 	
 
     /**
@@ -127,10 +132,12 @@ public class Robot extends IterativeRobot implements Constants{
   	  
         
 		//System.out.println("init2");
-		//chooser = new SendableChooser();
-        //chooser.addDefault("Default Auto", new ExampleCommand());
-		//chooser.addObject("My Auto", new MyAutoCommand());
-        //SmartDashboard.putData("Auto mode", chooser);
+		chooser = new SendableChooser();
+        chooser.addDefault("Do Nothing Auto", new doNothing());
+        chooser.addObject("Left Gear Auto", new leftGearAuto());
+        chooser.addObject("Center Gear Auto", new centerGearAuto());
+        chooser.addObject("Right Gear Auto", new rightGearAuto());
+        SmartDashboard.putData("Auto mode", chooser);
     }
 	
 	/**
@@ -166,7 +173,7 @@ public class Robot extends IterativeRobot implements Constants{
     public void autonomousInit() {
     	gameState = GameState.Autonomous;
     	//mAutonomousLooper.start();
-    	autoCommand = new rightGearAuto();
+    	autoCommand = (Command) chooser.getSelected();
     	
     	if(autoCommand != null) autoCommand.start();
     	//new Stir(Constants.stirrerMotorOn);
