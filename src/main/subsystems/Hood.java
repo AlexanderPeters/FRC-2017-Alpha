@@ -22,7 +22,7 @@ public class Hood extends Subsystem implements Constants, HardwareAdapter{
 		hoodServo.setAngle(angle);
 	}
 	
-	public double get() {
+	public double getAngle() {
 		return hoodServo.getAngle();
 	}
 	public void disable() {

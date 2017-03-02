@@ -12,6 +12,7 @@ import main.commands.gearmech.GearDown;
 import main.commands.gearmech.GearUp;
 import main.commands.gearmech.ShiftGearMech;
 import main.commands.gearmech.ToggleGearMech;
+import main.commands.hood.AngleHood;
 import main.commands.hood.MoveToAngle;
 //import main.commands.climber.WinchForward;
 //import main.commands.climber.WinchReverse;
@@ -50,7 +51,7 @@ public class OI implements Constants, HardwareAdapter {
 	public void check(){
 		xbox.leftJoystickButton.whenPressed(new ShiftUp());
 		xbox.leftJoystickButton.whenReleased(new ShiftDown());
-		xbox.start.whenPressed(new ToggleCompressor());
+		//xbox.start.whenPressed(new ToggleCompressor());
 		xbox.rightBumper.whenPressed(new GearDown());
 		xbox.rightBumper.whenReleased(new GearUp());
 		
@@ -70,9 +71,12 @@ public class OI implements Constants, HardwareAdapter {
 		xbox.rightTrigger.whileHeld(new FlyWheelForward(0.8));
 		xbox.rightTrigger.whenReleased(new FlyWheelOff());
 		//if(DriveDistance.getfinished())
-			xbox.select.whenPressed(new DriveDistance(4, 0.084));
-		xbox.start.whenPressed(new MoveToAngle(90));
-		xbox.start.whenReleased(new MoveToAngle(0));
+		//xbox.select.whenPressed(new DriveDistance(4, 0.084));
+		//xbox.start.whenPressed(new MoveToAngle(90));
+		//xbox.start.whenReleased(new MoveToAngle(0));
+		
+		xbox.select.whenPressed(new AngleHood(6));
+		xbox.start.whenPressed(new AngleHood(-6));
 		//if(xbox.a.equals(true))
 			//System.out.println(DOH);
 
