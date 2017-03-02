@@ -62,6 +62,7 @@ public interface Constants {
 	public final double flyWheelKI = 0.0;
 	public final double flyWheelKD = 0.0;
 	public final int flyWheelTargetVel = 3000;
+	public final int flyWheelAllowableError = 10;
 	
 	/*************
 	 * CONSTANTS *

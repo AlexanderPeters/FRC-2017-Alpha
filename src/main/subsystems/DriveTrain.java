@@ -203,6 +203,8 @@ public void driveDisplacement(double displacement, double tolerance) {// feet, f
 		rightDriveMaster.reset();
 		leftDriveMaster.clearStickyFaults();
 		rightDriveMaster.clearStickyFaults();
+		leftDriveMaster.setPID(0, 0, 0);
+		rightDriveMaster.setPID(0, 0, 0);
 		setCtrlMode(PERCENT_VBUS_MODE);
 		setVoltageDefaults();
 		setFeedBackDefaults();

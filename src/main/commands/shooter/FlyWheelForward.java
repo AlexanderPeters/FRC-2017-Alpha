@@ -1,9 +1,10 @@
 package main.commands.shooter;
 
 import edu.wpi.first.wpilibj.command.Command;
+import main.Constants;
 import main.Robot;
 
-public class FlyWheelForward extends Command{
+public class FlyWheelForward extends Command implements Constants{
 	private double speed;
 
 	public FlyWheelForward(double speed) {
@@ -27,7 +28,10 @@ public class FlyWheelForward extends Command{
 
     // Make this return true when this Command no longer needs to run execute()
     protected boolean isFinished() {
-        return true;
+    	if(speed == -1)
+    		return ((flyWheelTargetVel - Math.abs(Robot.shooter.getSpeed())) <= flyWheelAllowableError);
+    	else
+    		return true;
     }
 
     // Called once after isFinished returns true
