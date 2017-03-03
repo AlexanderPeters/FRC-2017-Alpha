@@ -18,10 +18,10 @@ public interface HardwareAdapter {
 	//Verified for Competition Bot 1 2/13/17
 	public static CANTalon leftDriveMaster = new CANTalon(Constants.LEFT_Drive_Master);
 	public static CANTalon leftDriveSlave1 = new CANTalon(Constants.LEFT_Drive_Slave1);
-	public static CANTalon leftDriveSlave2 = new CANTalon(Constants.LEFT_Drive_Slave2);
+	//public static CANTalon leftDriveSlave2 = new CANTalon(Constants.LEFT_Drive_Slave2);
 	public static CANTalon rightDriveMaster = new CANTalon(Constants.RIGHT_Drive_Master);
 	public static CANTalon rightDriveSlave1 = new CANTalon(Constants.RIGHT_Drive_Slave1);
-	public static CANTalon rightDriveSlave2 = new CANTalon(Constants.RIGHT_Drive_Slave2);
+	//public static CANTalon rightDriveSlave2 = new CANTalon(Constants.RIGHT_Drive_Slave2);
 	
 	//Shooter
 	public static CANTalon shooter = new CANTalon(Constants.Shooter_Flywheel);
@@ -31,8 +31,8 @@ public interface HardwareAdapter {
 	
 	//Climber
 	public static Spark climberMotor = new Spark(Constants.Climber_Motor);
-	public static Servo climberLeft = new Servo(Constants.LEFT_Climber_Intake);
-	public static Servo climberRight = new Servo(Constants.RIGHT_Climber_Intake);
+	//public static Servo climberLeft = new Servo(Constants.LEFT_Climber_Intake);
+	//public static Servo climberRight = new Servo(Constants.RIGHT_Climber_Intake);
 	
 	//Intake
 	public static Spark intakeMotor = new Spark(Constants.Intake_Motor);

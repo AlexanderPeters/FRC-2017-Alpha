@@ -19,13 +19,13 @@ public interface Constants {
 	
 	public final double climberMotorForwardFast = 1;//(isCompRobot?1:1);
 	public final double climberMotorForwardSlow = 0.8;//(isCompRobot?0.8:0.8); //Needs to be field tested so that the climber doesn't stop turning
-	public final int shooterMotorForward = 1;
+	//public final int shooterMotorForward = -1;
 	public final double stirrerMotorOn = 1.0;
 	public final double stirrerMotorReverse = -1.0;
 	public final double stirrerMotorOff = 0.0;
 	public final double driveThrottle = 1.0;
 	public final double turnThrottle = 1.0;
-	public final double shooterForward = -0.40;
+	public final double shooterForward = 0.40;
 	public final double shooterOff = 0.0;
 	
 	// JOYSTICK DEADBAND'S
@@ -116,18 +116,18 @@ public interface Constants {
 	// TALON SRX'S (CAN BUS)
 	public final int LEFT_Drive_Master = 2;
 	public final int LEFT_Drive_Slave1 = 3;
-	public final int LEFT_Drive_Slave2 = 4;
+	//public final int LEFT_Drive_Slave2 = 4;
 	public final int RIGHT_Drive_Master = 5;
 	public final int RIGHT_Drive_Slave1 = 6;
-	public final int RIGHT_Drive_Slave2 = 7;
+	//public final int RIGHT_Drive_Slave2 = 7;
 	public final int Shooter_Flywheel = 8;
 	// OTHER MOTOR CONTROLLERS (PWM)
 	public final int Intake_Motor = 0;
 	public final int Climber_Motor = 2;
 	public final int Stirrer_Motor = 1;
 	public final int Shooter_Hood = 3;
-	public final int LEFT_Climber_Intake = 4;
-	public final int RIGHT_Climber_Intake = 5;
+	//public final int LEFT_Climber_Intake = 4;
+	//public final int RIGHT_Climber_Intake = 5;
 	public final int Shooter_Indexer = 6;
 	// PNEUMATICS (PCM)
 	public final int GEAR_EXT = 2;//Currently in by default

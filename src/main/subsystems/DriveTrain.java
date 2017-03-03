@@ -6,13 +6,15 @@ import com.kauailabs.navx.frc.AHRS;//NavX import
 
 import Util.DriveHelper;
 import edu.wpi.cscore.UsbCamera;
-import edu.wpi.first.wpilibj.CameraServer;
+//import edu.wpi.cscore.UsbCamera;
+//import edu.wpi.first.wpilibj.CameraServer;
 import edu.wpi.first.wpilibj.DriverStation;
 import edu.wpi.first.wpilibj.PIDController;
 import edu.wpi.first.wpilibj.PIDOutput;
 import edu.wpi.first.wpilibj.RobotDrive;
 import edu.wpi.first.wpilibj.SPI;
 import edu.wpi.first.wpilibj.command.Subsystem;
+import edu.wpi.first.wpilibj.vision.CameraServer;
 import main.Constants;
 import main.HardwareAdapter;
 import main.Robot;
@@ -28,10 +30,12 @@ public class DriveTrain extends Subsystem implements Constants, HardwareAdapter,
 	private static double rotateToAngleRate;
 	private int allowableError;
 	private PIDController turnController;
-	UsbCamera usbCamera = new UsbCamera("USB Camera 0", 0);
+	//public static UsbCamera usbCamera; 
+	//UsbCamera usbCamera = new UsbCamera("USB Camera 0", 0);
 	public DriveTrain() {
-		usbCamera.setResolution(640, 480);
-		//CameraServer.getInstance().startAutomaticCapture(usbCamera);
+		//usbCamera = new UsbCamera("USB Camera 0", 1);
+    	//usbCamera.setResolution(640, 480);
+    	//usbCamera.setFPS(60);
 		setTalonDefaults();
 		try {
 	          /* Communicate w/navX-MXP via the MXP SPI Bus.                                     */
@@ -183,11 +187,11 @@ public void driveDisplacement(double displacement, double tolerance) {// feet, f
 
 		// rightDriveMaster.setFeedbackDevice(leftDriveMaster.getEncPosition());
 
-		leftDriveMaster.setSetpoint(-convertToEncoderTicks(displacement));
-		rightDriveMaster.setSetpoint(convertToEncoderTicks(displacement));
+		leftDriveMaster.setSetpoint(convertToEncoderTicks(displacement));//- setpoint for practice bot
+		rightDriveMaster.setSetpoint(-convertToEncoderTicks(displacement));
 		
-		System.out.println(-convertToEncoderTicks(displacement));
-		System.out.println(convertToEncoderTicks(displacement));
+		System.out.println(leftDriveMaster.getEncPosition());
+		System.out.println(rightDriveMaster.getEncPosition());
 		
 		
 
@@ -313,10 +317,10 @@ public void driveDisplacement(double displacement, double tolerance) {// feet, f
 	private void setBrakeMode(Boolean brake) {
 		leftDriveMaster.enableBrakeMode(brake);
 		leftDriveSlave1.enableBrakeMode(brake);
-		leftDriveSlave2.enableBrakeMode(brake);
+		//leftDriveSlave2.enableBrakeMode(brake);
 		rightDriveMaster.enableBrakeMode(brake);
 		rightDriveSlave1.enableBrakeMode(brake);
-		rightDriveSlave2.enableBrakeMode(brake);
+		//rightDriveSlave2.enableBrakeMode(brake);
 	}
 
 	/**
@@ -328,14 +332,14 @@ public void driveDisplacement(double displacement, double tolerance) {// feet, f
 		leftDriveMaster.changeControlMode(mode);
 		leftDriveSlave1.changeControlMode(SLAVE_MODE);
 		leftDriveSlave1.set(leftDriveMaster.getDeviceID());
-		leftDriveSlave2.changeControlMode(SLAVE_MODE);
-		leftDriveSlave2.set(leftDriveMaster.getDeviceID());
+		//leftDriveSlave2.changeControlMode(SLAVE_MODE);
+		//leftDriveSlave2.set(leftDriveMaster.getDeviceID());
 		
 		rightDriveMaster.changeControlMode(mode);
 		rightDriveSlave1.changeControlMode(SLAVE_MODE);
 		rightDriveSlave1.set(rightDriveMaster.getDeviceID());
-		rightDriveSlave2.changeControlMode(SLAVE_MODE);
-		rightDriveSlave2.set(rightDriveMaster.getDeviceID());
+		//rightDriveSlave2.changeControlMode(SLAVE_MODE);
+		//rightDriveSlave2.set(rightDriveMaster.getDeviceID());
 		
 	}
 	

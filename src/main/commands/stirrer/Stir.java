@@ -5,16 +5,13 @@ import main.Constants;
 import main.Robot;
 
 public class Stir extends Command implements Constants{
-	//private double speed;
+	private double speed = 0;
 	
-	/*public Stir(double speed) {
+	public Stir(double speed) {
     	requires(Robot.str);
     	this.speed = speed;
-    }*/
-	public Stir() {
-		requires(Robot.str);
-	}
-
+    }
+	
     // Called just before this Command runs the first time
     protected void initialize() {
     }
@@ -22,10 +19,10 @@ public class Stir extends Command implements Constants{
     // Called repeatedly when this Command is scheduled to run
     protected void execute() {
     	//System.out.println(Robot.robotState);
-    	if(Robot.robotState != Robot.RobotState.Climbing)
-    		Robot.str.spin(stirrerMotorReverse);
-    	else
-    		Robot.str.spin(0);
+    	//if(Robot.robotState != Robot.RobotState.Climbing)
+    		Robot.str.spin(speed);
+    	/*else
+    		Robot.str.spin(0);*/
     }
 
     // Make this return true when this Command no longer needs to run execute()

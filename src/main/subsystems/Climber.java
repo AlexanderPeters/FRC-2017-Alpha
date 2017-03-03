@@ -18,7 +18,7 @@ public class Climber extends Subsystem implements Constants, HardwareAdapter {
 		// pdp.getCurrent(11));
 	}
 
-	public void intake(double speed) {
+	/*public void intake(double speed) {
 		if (speed == 180) {
 			climberLeft.set(-1);
 			climberRight.set(0);
@@ -29,7 +29,7 @@ public class Climber extends Subsystem implements Constants, HardwareAdapter {
 			climberLeft.set(0);
 			climberRight.set(1);
 		}
-	}
+	}*/
 
 	@Override
 	protected void initDefaultCommand() {

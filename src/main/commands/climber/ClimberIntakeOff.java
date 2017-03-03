@@ -1,11 +1,11 @@
 package main.commands.climber;
 
-import edu.wpi.first.wpilibj.command.Command;
+/*import edu.wpi.first.wpilibj.command.Command;
 import main.Robot;
 
-/**
+*//**
  *
- */
+ *//*
 public class ClimberIntakeOff extends Command {
 	
     public ClimberIntakeOff() {
@@ -35,3 +35,4 @@ public class ClimberIntakeOff extends Command {
     protected void interrupted() {
     }
 }
+*/

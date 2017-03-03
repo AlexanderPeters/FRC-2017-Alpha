@@ -1,6 +1,6 @@
 package controllers;
 
-import Util.DriveTrainAutonomousHelper;
+/*import Util.DriveTrainAutonomousHelper;
 import autoModes.TestAroundAirShip;
 import lib.Loop;
 import main.Constants;
@@ -29,7 +29,7 @@ public class TrajectoryDriveController implements Loop, Constants, HardwareAdapt
 		// TODO Auto-generated method stub
 		
 	}
-	/*private int index = 0;
+	private int index = 0;
 	private double[][] headingArray;
 	private double[][] leftVelocityArray;
 	private double[][] rightVelocityArray;
@@ -101,6 +101,7 @@ public class TrajectoryDriveController implements Loop, Constants, HardwareAdapt
 		// TODO Auto-generated method stub
 		//No-Op
 		
-	}*/
+	}
 
 }
+*/

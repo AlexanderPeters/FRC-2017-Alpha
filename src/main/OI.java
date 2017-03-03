@@ -1,5 +1,6 @@
 package main;
 
+import edu.wpi.first.wpilibj.command.Command;
 import lib.LatchedBoolean;
 //import edu.wpi.first.wpilibj.buttons.Button;
 //import lib.LatchedBoolean;
@@ -7,6 +8,7 @@ import lib.joystick.XboxController;
 import main.commands.climber.WinchForward;
 import main.commands.climber.WinchOff;
 import main.commands.drivetrain.DriveDistance;
+import main.commands.drivetrain.TurnToHeading;
 //import main.commands.driverCam.SwitchCamera;
 import main.commands.gearmech.GearDown;
 import main.commands.gearmech.GearUp;
@@ -28,6 +30,7 @@ import main.commands.pnuematics.ShiftUp;
 import main.commands.pnuematics.ToggleCompressor;
 import main.commands.shooter.FlyWheelForward;
 import main.commands.shooter.FlyWheelOff;
+import main.commands.stirrer.Stir;
 
 
 /**
@@ -67,16 +70,21 @@ public class OI implements Constants, HardwareAdapter {
 		xbox.b.whileHeld(new WinchForward(false));
 		xbox.b.whenReleased(new WinchOff());
 		xbox.y.whileHeld(new FlyWheelForward(shooterForward));
+		xbox.y.whileHeld(new Stir(stirrerMotorReverse));
 		xbox.y.whenReleased(new FlyWheelOff());
+		xbox.y.whenReleased(new Stir(0));
 		xbox.rightTrigger.whileHeld(new FlyWheelForward(0.8));
+		xbox.rightTrigger.whileHeld(new Stir(stirrerMotorReverse));
 		xbox.rightTrigger.whenReleased(new FlyWheelOff());
+		xbox.rightTrigger.whenReleased(new Stir(0));
+	
 		//if(DriveDistance.getfinished())
 		//xbox.select.whenPressed(new DriveDistance(4, 0.084));
-		//xbox.start.whenPressed(new MoveToAngle(90));
-		//xbox.start.whenReleased(new MoveToAngle(0));
+		xbox.start.whenPressed(new TurnToHeading(45, 0.5f));
+		//xbox.start.whenReleased(new TurnToHeading(0, 0.5));
 		
-		xbox.select.whenPressed(new AngleHood(6));
-		xbox.start.whenPressed(new AngleHood(-6));
+		//xbox.select.whenPressed(new AngleHood(6));
+		//xbox.start.whenPressed(new AngleHood(-6));
 		//if(xbox.a.equals(true))
 			//System.out.println(DOH);
 

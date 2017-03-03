@@ -16,7 +16,7 @@ public class Stirrer extends Subsystem implements Constants, HardwareAdapter {
 
 	@Override
 	protected void initDefaultCommand() {
-		setDefaultCommand(new Stir());
+		//setDefaultCommand();
 		// TODO Auto-generated method stub
 		
 	}

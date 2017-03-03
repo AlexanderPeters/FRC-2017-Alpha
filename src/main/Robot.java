@@ -2,8 +2,9 @@ package main;
 
 import Util.SmartDashboardInteractions;
 //import controllers.TeleopCameraController;
-import controllers.TrajectoryDriveController;
-import controllers.UDPController;
+//import controllers.TrajectoryDriveController;
+//import controllers.UDPController;
+import edu.wpi.cscore.UsbCamera;
 //import edu.wpi.first.wpilibj.DriverStation;
 //Necessary wpilib imports
 import edu.wpi.first.wpilibj.IterativeRobot;
@@ -14,8 +15,11 @@ import edu.wpi.first.wpilibj.livewindow.LiveWindow;
 import edu.wpi.first.wpilibj.smartdashboard.SendableChooser;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj.vision.CameraServer;
-import lib.Looper;
-import lib.UDPForVision;
+import main.commands.auto.altCenterAuto;
+//import lib.Looper;
+//import lib.UDPForVision;
+import main.commands.auto.altLeftAuto;
+import main.commands.auto.altRightAuto;
 import main.commands.auto.centerGearAuto;
 import main.commands.auto.doNothing;
 import main.commands.auto.leftGearAuto;
@@ -69,11 +73,12 @@ public class Robot extends IterativeRobot implements Constants{
 	public static SmartDashboardInteractions sdb;
 	public static GameState gameState;
 	public static RobotState robotState = RobotState.Neither;
-	public static CameraServer cam;
+	
+	//public static CameraServer cam;
 	//private static double kEnabledLooperDt;
 	
 	// Enabled looper is called at 100Hz whenever the robot is enabled
-    public static Looper mEnabledLooper = new Looper(kEnabledLooperDt);
+    //public static Looper mEnabledLooper = new Looper(kEnabledLooperDt);
     // Disabled looper is called at 100Hz whenever the robot is disabled
     //public static Looper mDisabledLooper = new Looper();
     //public static Looper mAutonomousLooper = new Looper(kAutoLooperDt);
@@ -84,17 +89,17 @@ public class Robot extends IterativeRobot implements Constants{
 
 
 	
-    Command autoCommand;
-    SendableChooser<Command> chooser;
+    Command autoCommand;// = new centerGearAuto();
+   // SendableChooser<Command> chooser;
     //SendableChooser chooser; //Leaving this here just in case.
-	
+	//CameraServer myServer;
 
     /**
      * This function is run when the robot is first started up and should be
      * used for any initialization code.
      */
     public void robotInit() {
-		//cam.getInstance().startAutomaticCapture();
+
 		
     	gameState = GameState.Initializing;
 		pn = new Pneumatics();	
@@ -108,6 +113,7 @@ public class Robot extends IterativeRobot implements Constants{
 		//dc = new DriverCamera(50);
 		//This has to be last as the subsystems can not be null when a command requires them
 		oi = new OI();
+		autoCommand = new centerGearAuto();
 
 
 		/*
@@ -118,9 +124,9 @@ public class Robot extends IterativeRobot implements Constants{
 		mjpegServer1.setSource(usbCamera);*/
 		// Configure loopers
         //mAutonomousLooper.register(new TrajectoryDriveController());
-        mEnabledLooper.register(new UDPController());
+        //mEnabledLooper.register(new UDPController());
        // mEnabledLooper.register(new TeleopCameraController());
-        mEnabledLooper.start();
+        //mEnabledLooper.start();
         /*captureThread = new Thread(() -> {
   	      while (true) {
   	        dc.poke();
@@ -132,12 +138,12 @@ public class Robot extends IterativeRobot implements Constants{
   	  
         
 		//System.out.println("init2");
-		chooser = new SendableChooser();
+		/*chooser = new SendableChooser<Command>();
         chooser.addDefault("Do Nothing Auto", new doNothing());
-        chooser.addObject("Left Gear Auto", new leftGearAuto());
+        chooser.addObject("Left Gear Auto", new altLeftAuto());
         chooser.addObject("Center Gear Auto", new centerGearAuto());
-        chooser.addObject("Right Gear Auto", new rightGearAuto());
-        SmartDashboard.putData("Auto mode", chooser);
+        chooser.addObject("Right Gear Auto", new altRightAuto());
+        SmartDashboard.putData("Auto mode", chooser);*/
     }
 	
 	/**
@@ -173,7 +179,7 @@ public class Robot extends IterativeRobot implements Constants{
     public void autonomousInit() {
     	gameState = GameState.Autonomous;
     	//mAutonomousLooper.start();
-    	autoCommand = (Command) chooser.getSelected();
+    	//autoCommand = (Command) chooser.getSelected();
     	
     	if(autoCommand != null) autoCommand.start();
     	//new Stir(Constants.stirrerMotorOn);
