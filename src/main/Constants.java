@@ -11,7 +11,7 @@ public interface Constants {
 	 * VARIABLES *
 	 *************/
 	// ROBOT VARIABLES
-	public final boolean isCompRobot = false;
+	public final boolean isCompRobot = true;
 	// THROTTLE MULTIPLIERS
 	public final double intakeMotorForward = 1.0;
 	public final double intakeMotorReverse = -1.0;
@@ -132,8 +132,8 @@ public interface Constants {
 	// PNEUMATICS (PCM)
 	public final int GEAR_EXT = 2;//Currently in by default
 	public final int GEAR_RET = 5;
-	public final int SHIFTER_EXT = 3;
-	public final int SHIFTER_RET = 6;
+	public final int SHIFTER_EXT = (isCompRobot? 6:3);
+	public final int SHIFTER_RET = (isCompRobot? 3:6);
 	//CAN BUS (Other Devices)
 	public final int PDP_Port = 0;
 	public final int PCM_Port = 1;

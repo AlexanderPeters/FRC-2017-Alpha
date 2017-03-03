@@ -22,16 +22,16 @@ public class rightGearAuto extends CommandGroup implements Constants{
 		//addSequential(new TimedDrive(0.5, 4));
 		addSequential(new DriveDistance(4.5, kToleranceDisplacementDefault));//8//7.82
 		//addSequential(new TurnToHeading(Robot.dt.getGyro().getYaw(), kToleranceDegreesDefault));
-		addSequential(new TimedDrive(-0.4, 2.5));
+		//****addSequential(new TimedDrive(-0.4, 2.5));
 		//addSequential(new DriveDistance(2, kToleranceDisplacementDefault));//8//7.82
 		//addSequential(new DriveDistance(4, kToleranceDisplacementDefault));
 		//addSequential(new TimedDrive)
 		//addParallel(new WaitCommand(15));
-		addSequential(new GearDown());
+		//****addSequential(new GearDown());
 		//addSequential(new DriveDistance(-2, kToleranceDisplacementDefault));
-		addSequential(new TimedDrive(0.4, 2));
+		//*****addSequential(new TimedDrive(0.4, 2));
 		//addParallel(new WaitCommand(5));
-		addSequential(new GearUp());
+		//*****addSequential(new GearUp());
 		
 		//Drive distance doesn't like -distances, distances above 5, starting after being driven in teleop (encoder zeroing issue)
 		

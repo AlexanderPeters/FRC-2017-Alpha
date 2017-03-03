@@ -13,10 +13,10 @@ public class leftGearAuto extends CommandGroup implements Constants {
 		addSequential(new DriveDistance(3.85, kToleranceDisplacementDefault));//3.75
 		addSequential(new TurnToHeading(45, kToleranceDegreesDefault));//58.6
 		addSequential(new DriveDistance(4.5, kToleranceDisplacementDefault));//8//7.82
-		addSequential(new TimedDrive(-0.4, 2.5));
-		addSequential(new GearDown());
-		addSequential(new TimedDrive(0.4, 2));
-		addSequential(new GearUp());
+		//addSequential(new TimedDrive(-0.4, 2.5));
+		//addSequential(new GearDown());
+		//addSequential(new TimedDrive(0.4, 2));
+		//addSequential(new GearUp());
 		
 		//Drive distance doesn't like -distances, distances above 5, starting after being driven in teleop (encoder zeroing issue)
 

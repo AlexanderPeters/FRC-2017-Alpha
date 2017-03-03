@@ -90,7 +90,7 @@ public class Robot extends IterativeRobot implements Constants{
 
 	
     Command autoCommand;// = new centerGearAuto();
-   // SendableChooser<Command> chooser;
+    SendableChooser<Command> chooser;
     //SendableChooser chooser; //Leaving this here just in case.
 	//CameraServer myServer;
 
@@ -113,7 +113,7 @@ public class Robot extends IterativeRobot implements Constants{
 		//dc = new DriverCamera(50);
 		//This has to be last as the subsystems can not be null when a command requires them
 		oi = new OI();
-		autoCommand = new centerGearAuto();
+		//autoCommand = new centerGearAuto();
 
 
 		/*
@@ -138,12 +138,12 @@ public class Robot extends IterativeRobot implements Constants{
   	  
         
 		//System.out.println("init2");
-		/*chooser = new SendableChooser<Command>();
+		chooser = new SendableChooser<Command>();
         chooser.addDefault("Do Nothing Auto", new doNothing());
-        chooser.addObject("Left Gear Auto", new altLeftAuto());
+        chooser.addObject("Left Gear Auto", new leftGearAuto());
         chooser.addObject("Center Gear Auto", new centerGearAuto());
-        chooser.addObject("Right Gear Auto", new altRightAuto());
-        SmartDashboard.putData("Auto mode", chooser);*/
+        chooser.addObject("Right Gear Auto", new rightGearAuto());
+        SmartDashboard.putData("Auto mode", chooser);
     }
 	
 	/**
@@ -179,7 +179,7 @@ public class Robot extends IterativeRobot implements Constants{
     public void autonomousInit() {
     	gameState = GameState.Autonomous;
     	//mAutonomousLooper.start();
-    	//autoCommand = (Command) chooser.getSelected();
+    	autoCommand = (Command) chooser.getSelected();
     	
     	if(autoCommand != null) autoCommand.start();
     	//new Stir(Constants.stirrerMotorOn);
