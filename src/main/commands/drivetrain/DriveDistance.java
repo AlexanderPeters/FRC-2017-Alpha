@@ -16,7 +16,7 @@ public class DriveDistance extends Command {
 	//@param distance: the desired distance to go travel (+ or - (forward, backward; respectively)), tolerance: the absolute difference allowable 
     public DriveDistance(double distance, double tolerance) {//feet, feet
     	requires(Robot.dt);
-    	this.distance = distance;
+    	this.distance = -distance;
     	this.tolerance = tolerance;
     	finished = false;
     }
@@ -36,9 +36,10 @@ public class DriveDistance extends Command {
 
     // Make this return true when this Command no longer needs to run execute()
     protected boolean isFinished() {
-    	System.out.println(Robot.dt.getDistanceTraveledLeft()+ " " + Robot.dt.getDistanceTraveledRight());
-    	if(Math.abs(distance - Robot.dt.getDistanceTraveledLeft()) <= tolerance 
-    			&& Math.abs(distance - Robot.dt.getDistanceTraveledRight()) <= tolerance) {//Check this later
+    	//System.out.println(Robot.dt.getDistanceTraveledLeft()+ " " + Robot.dt.getDistanceTraveledRight());
+    	System.out.println(Math.abs(distance - Math.abs(Robot.dt.getDistanceTraveledLeft())) + " " + Math.abs(distance - Math.abs(Robot.dt.getDistanceTraveledRight())));
+    	if(Math.abs(distance - Math.abs(Robot.dt.getDistanceTraveledLeft())) <= tolerance 
+    			&& Math.abs(distance - Math.abs(Robot.dt.getDistanceTraveledRight())) <= tolerance) {//Check this later
     		finished = true;
     		/*Robot.dt.driveTeleop(0, 0);
     		Robot.dt.driveTeleop(0, 0);

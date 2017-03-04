@@ -12,15 +12,16 @@ import main.commands.gearmech.GearUp;
 
 public class rightGearAuto extends CommandGroup implements Constants{
 	public rightGearAuto() {
-		addSequential(new DriveDistance(3.85, kToleranceDisplacementDefault));//3.75
+		addSequential(new TimedDrive(-0.5, 4.85));
+		//***addSequential(new DriveDistance(3.85, kToleranceDisplacementDefault));//3.75
 		//addSequential(new TimedDrive(0,0.1));
 		//addSequential(new WaitCommand(1.5));
 		//addSequential(new TurnToHeading(Robot.dt.getGyro().getYaw(), kToleranceDegreesDefault));
 		//addSequential(new TimedDrive(0.5, 1.5));
 		//addParallel(new WaitCommand(10));
-		addSequential(new TurnToHeading(-45, kToleranceDegreesDefault));//-58.6
+		//***addSequential(new TurnToHeading(-45, kToleranceDegreesDefault));//-58.6
 		//addSequential(new TimedDrive(0.5, 4));
-		addSequential(new DriveDistance(4.5, kToleranceDisplacementDefault));//8//7.82
+		//***addSequential(new DriveDistance(4.5, kToleranceDisplacementDefault));//8//7.82
 		//addSequential(new TurnToHeading(Robot.dt.getGyro().getYaw(), kToleranceDegreesDefault));
 		//****addSequential(new TimedDrive(-0.4, 2.5));
 		//addSequential(new DriveDistance(2, kToleranceDisplacementDefault));//8//7.82

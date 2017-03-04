@@ -190,6 +190,8 @@ public void driveDisplacement(double displacement, double tolerance) {// feet, f
 		leftDriveMaster.setSetpoint(convertToEncoderTicks(displacement));//- setpoint for practice bot
 		rightDriveMaster.setSetpoint(-convertToEncoderTicks(displacement));
 		
+		System.out.println(leftDriveMaster.getOutputVoltage());
+		System.out.println(rightDriveMaster.getOutputVoltage());
 		System.out.println(leftDriveMaster.getEncPosition());
 		System.out.println(rightDriveMaster.getEncPosition());
 		
@@ -352,8 +354,8 @@ public void driveDisplacement(double displacement, double tolerance) {// feet, f
 		rightDriveMaster.setFeedbackDevice(FeedbackDevice.QuadEncoder);
 		leftDriveMaster.configEncoderCodesPerRev(codesPerRev);
 		rightDriveMaster.configEncoderCodesPerRev(codesPerRev);
-		leftDriveMaster.reverseSensor(true);//Check this later
-		rightDriveMaster.reverseSensor(true);//Check this later
+		leftDriveMaster.reverseSensor(true);//Check this later//was true
+		rightDriveMaster.reverseSensor(true);//Check this later//was true
 	}
 	
 	/**
@@ -388,8 +390,8 @@ public void driveDisplacement(double displacement, double tolerance) {// feet, f
 		setFeedBackDefaults();
 		setVoltageDefaults();
 		//setRampRate(12);//0-12v in 1 of a second //COMMENTED TO SEE IF THIS PREVENTS PID FROM FUNCTIONING
-		reverseTalons(false);//Changing this didn't do anything, mathematically negated in drive command
-		setBrakeMode(false);
+		reverseTalons(true);//Changing this didn't do anything, mathematically negated in drive command
+		setBrakeMode(true);
 		setCtrlMode(DEFAULT_CTRL_MODE);
 	}
 	

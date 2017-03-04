@@ -1,6 +1,6 @@
 package lib;
-
-/*import java.io.IOException;
+/*
+import java.io.IOException;
 import java.net.DatagramPacket;
 import java.net.DatagramSocket;
 import java.net.SocketException;
@@ -10,6 +10,7 @@ import main.Constants;
 public class UDPForVision implements Constants {
 	public DatagramSocket serverSocket;
 	public byte[] receiveData = new byte[1024];
+	private String[] values;
 	public DatagramPacket receivePacket = new DatagramPacket(receiveData, receiveData.length);
 
 	public UDPForVision() {
@@ -23,17 +24,25 @@ public class UDPForVision implements Constants {
 	}
 
 	public void poke() throws IOException {
-		System.out.println("here!");
+		//System.out.println("here!");
 		serverSocket.receive(receivePacket);
 		String sentence = new String(receivePacket.getData());
 		String corrected = sentence.replaceAll("\u0000.*", "");
-		String[] values = corrected.split(",");
+		values = corrected.split(",");
 
 		//Add an if statement to prevent out of bounds exceptions when values[x] is called
-		System.out.println("X is " + Double.parseDouble(values[0]));
-		System.out.println("Y is " + Double.parseDouble(values[1]));
-		System.out.println("Distance is " + Double.parseDouble(values[2]));
+		//System.out.println("X is " + Double.parseDouble(values[0]));
+		//System.out.println("Y is " + Double.parseDouble(values[1]));
+		//System.out.println("Distance is " + Double.parseDouble(values[2]));
 
 	}
-}
-*/
+	public double getX() {
+		return Double.parseDouble(values[0]);
+	}
+	public double getY() {
+		return Double.parseDouble(values[1]);
+	}
+	public double getDistance() {
+		return Double.parseDouble(values[2]);
+	}
+}*/

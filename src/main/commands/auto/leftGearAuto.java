@@ -10,9 +10,10 @@ import main.commands.gearmech.GearUp;
 
 public class leftGearAuto extends CommandGroup implements Constants {
 	public leftGearAuto() {
-		addSequential(new DriveDistance(3.85, kToleranceDisplacementDefault));//3.75
-		addSequential(new TurnToHeading(45, kToleranceDegreesDefault));//58.6
-		addSequential(new DriveDistance(4.5, kToleranceDisplacementDefault));//8//7.82
+		addSequential(new TimedDrive(-0.5, 4.85));
+		//addSequential(new DriveDistance(3.85, kToleranceDisplacementDefault));//3.75
+		//addSequential(new TurnToHeading(45, kToleranceDegreesDefault));//58.6
+		//addSequential(new DriveDistance(4.5, kToleranceDisplacementDefault));//8//7.82
 		//addSequential(new TimedDrive(-0.4, 2.5));
 		//addSequential(new GearDown());
 		//addSequential(new TimedDrive(0.4, 2));

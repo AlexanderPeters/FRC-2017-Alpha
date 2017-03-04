@@ -1,6 +1,6 @@
 package lib;
-
-/**
+/*
+*//**
  * Interface for loops, which are routine that run periodically in the robot
  * code (such as periodic gyroscope calibration, etc.)
  *//*
