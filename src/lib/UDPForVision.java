@@ -1,5 +1,5 @@
 package lib;
-/*
+
 import java.io.IOException;
 import java.net.DatagramPacket;
 import java.net.DatagramSocket;
@@ -11,6 +11,8 @@ public class UDPForVision implements Constants {
 	public DatagramSocket serverSocket;
 	public byte[] receiveData = new byte[1024];
 	private String[] values;
+	private double Time, CamNum, Range, Bearing = 0.0, Elevation;
+	private boolean TargetFound = false;
 	public DatagramPacket receivePacket = new DatagramPacket(receiveData, receiveData.length);
 
 	public UDPForVision() {
@@ -30,19 +32,29 @@ public class UDPForVision implements Constants {
 		String corrected = sentence.replaceAll("\u0000.*", "");
 		values = corrected.split(",");
 
-		//Add an if statement to prevent out of bounds exceptions when values[x] is called
-		//System.out.println("X is " + Double.parseDouble(values[0]));
-		//System.out.println("Y is " + Double.parseDouble(values[1]));
-		//System.out.println("Distance is " + Double.parseDouble(values[2]));
+		//if(values != null) {
+			Time = Double.parseDouble(values[0]);
+			CamNum = Double.parseDouble(values[1]);
+			TargetFound = Boolean.parseBoolean(values[2]);
+			Range = Double.parseDouble(values[3]);
+			Bearing = Double.parseDouble(values[4]);
+			Elevation = Double.parseDouble(values[5]);
+			
+			//Add an if statement to prevent out of bounds exceptions when values[x] is called
+			System.out.println("Time is " + Time);
+			System.out.println("CamNum is " + CamNum);
+			System.out.println("TargetFound " + TargetFound);
+			System.out.println("Range is " + Range);
+			System.out.println("Bearing is " + Bearing);
+			System.out.println("Elevation is " + Elevation);
+		//}
 
 	}
-	public double getX() {
-		return Double.parseDouble(values[0]);
+	
+	public double getBearing() {
+		return Bearing;
 	}
-	public double getY() {
-		return Double.parseDouble(values[1]);
+	public boolean getTargetFound() {
+		return TargetFound;
 	}
-	public double getDistance() {
-		return Double.parseDouble(values[2]);
-	}
-}*/
+}

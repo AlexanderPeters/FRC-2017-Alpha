@@ -23,7 +23,7 @@ public class TimedDrive extends TimedCommand {
 
     // Called repeatedly when this Command is scheduled to run
     protected void execute() {
-    	Robot.dt.driveTeleop(speed, 0);//OI.getXbox().getSmoothedAltX());
+    	Robot.dt.driveStraight(speed);//OI.getXbox().getSmoothedAltX());
     	//System.out.println(OI.getXbox().getMainX());
     }
     // Make this return true when this Command no longer needs to run execute()

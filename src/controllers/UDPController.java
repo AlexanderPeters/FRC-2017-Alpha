@@ -1,5 +1,5 @@
 package controllers;
-/*
+
 
 import java.io.IOException;
 import lib.Loop;
@@ -17,7 +17,7 @@ public class UDPController implements Loop, Constants{
 
 	@Override
 	public void onLoop() {
-		System.out.println("here");
+		//System.out.println("here");
 
 		try {
 			Robot.comms.poke();
@@ -34,4 +34,3 @@ public class UDPController implements Loop, Constants{
 	
 
 }
-*/

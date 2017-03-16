@@ -31,6 +31,7 @@ import main.commands.pnuematics.ToggleCompressor;
 import main.commands.shooter.FlyWheelForward;
 import main.commands.shooter.FlyWheelOff;
 import main.commands.stirrer.Stir;
+import main.commands.vision.TurnToTarget;
 
 
 /**
@@ -52,11 +53,12 @@ public class OI implements Constants, HardwareAdapter {
 	}
 
 	public void check(){
-		xbox.leftJoystickButton.whenPressed(new ShiftUp());
-		xbox.leftJoystickButton.whenReleased(new ShiftDown());
+		xbox.leftBumper.whenPressed(new ShiftUp());
+		xbox.leftBumper.whenReleased(new ShiftDown());
 		//xbox.start.whenPressed(new ToggleCompressor());
 		xbox.rightBumper.whenPressed(new GearDown());
 		xbox.rightBumper.whenReleased(new GearUp());
+		//xbox.leftTrigger.whenPressed(new TurnToTarget());
 		
 		//xbox.rightBumper.tp
 			
@@ -79,7 +81,7 @@ public class OI implements Constants, HardwareAdapter {
 		xbox.rightTrigger.whenReleased(new Stir(0));
 	
 		//if(DriveDistance.getfinished())
-		//xbox.select.whenPressed(new DriveDistance(4, 0.084));
+		//xbox.select.whenPressed(new DriveDistance(6, 0.42));//1/2 inch average tolerance
 		//xbox.start.whenPressed(new TurnToHeading(45, 0.5f));
 		//xbox.start.whenReleased(new TurnToHeading(0, 0.5));
 		

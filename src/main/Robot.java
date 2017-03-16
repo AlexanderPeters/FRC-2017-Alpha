@@ -1,7 +1,7 @@
 package main;
 
 import Util.SmartDashboardInteractions;
-//import controllers.UDPController;
+import controllers.UDPController;
 //import controllers.TeleopCameraController;
 //import controllers.TrajectoryDriveController;
 //import controllers.UDPController;
@@ -17,8 +17,8 @@ import edu.wpi.first.wpilibj.smartdashboard.SendableChooser;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj.vision.CameraServer;
 import main.commands.auto.altCenterAuto;
-//import lib.Looper;
-//import lib.UDPForVision;
+import lib.Looper;
+import lib.UDPForVision;
 import main.commands.auto.altLeftAuto;
 import main.commands.auto.altRightAuto;
 import main.commands.auto.centerGearAuto;
@@ -79,12 +79,12 @@ public class Robot extends IterativeRobot implements Constants{
 	//private static double kEnabledLooperDt;
 	
 	// Enabled looper is called at 100Hz whenever the robot is enabled
-    //public static Looper mEnabledLooper = new Looper(kEnabledLooperDt);
+    public static Looper mEnabledLooper = new Looper(kEnabledLooperDt);
     // Disabled looper is called at 100Hz whenever the robot is disabled
     //public static Looper mDisabledLooper = new Looper();
     //public static Looper mAutonomousLooper = new Looper(kAutoLooperDt);
     
-    //public static UDPForVision comms = new UDPForVision();
+    public static UDPForVision comms = new UDPForVision();
 	//public static DriverCamera dc = new DriverCamera(50);
 	//private Thread captureThread;
 
@@ -125,9 +125,9 @@ public class Robot extends IterativeRobot implements Constants{
 		mjpegServer1.setSource(usbCamera);*/
 		// Configure loopers
         //mAutonomousLooper.register(new TrajectoryDriveController());
-        //mEnabledLooper.register(new UDPController());
-       // mEnabledLooper.register(new TeleopCameraController());
-        //mEnabledLooper.start();
+        mEnabledLooper.register(new UDPController());
+        //mEnabledLooper.register(new TeleopCameraController());
+        mEnabledLooper.start();
         /*captureThread = new Thread(() -> {
   	      while (true) {
   	        dc.poke();
