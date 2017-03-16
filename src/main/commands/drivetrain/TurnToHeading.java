@@ -3,9 +3,6 @@ package main.commands.drivetrain;
 import edu.wpi.first.wpilibj.command.InstantCommand;
 import main.Robot;
 
-/**
- *
- */
 public class TurnToHeading extends InstantCommand {
 
 	private double heading;
@@ -31,13 +28,6 @@ public class TurnToHeading extends InstantCommand {
     // Make this return true when this Command no longer needs to run execute()
     protected boolean isFinished() {
     	return Robot.dt.getTurningPIDOnTarget();
-    	/*if(Math.abs(heading - Robot.dt.getGyro().getYaw()) <= tolerance) {
-    		System.out.println("True and Finished at Heading");
-    		return true;
-
-    	}
-    	else
-    		return false;*/
     }
 
     // Called once after isFinished returns true

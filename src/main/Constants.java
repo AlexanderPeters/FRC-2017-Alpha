@@ -11,15 +11,13 @@ public interface Constants {
 	 * VARIABLES *
 	 *************/
 	// ROBOT VARIABLES
-	public final boolean isCompRobot = true;
+	public final boolean isCompRobot = false;
 	// THROTTLE MULTIPLIERS
 	public final double intakeMotorForward = 1.0;
 	public final double intakeMotorReverse = -1.0;
 	public final double intakeMotorOff = 0.0;
-	
-	public final double climberMotorForwardFast = 1;//(isCompRobot?1:1);
-	public final double climberMotorForwardSlow = 0.8;//(isCompRobot?0.8:0.8); //Needs to be field tested so that the climber doesn't stop turning
-	//public final int shooterMotorForward = -1;
+	public final double climberMotorForwardFast = 1;
+	public final double climberMotorForwardSlow = 0.8;
 	public final double stirrerMotorOn = 1.0;
 	public final double stirrerMotorReverse = -1.0;
 	public final double stirrerMotorOff = 0.0;
@@ -75,7 +73,7 @@ public interface Constants {
 	public final double kAutoLooperDt = 0.1;
 	
 	// DEFAULT TALON MODES
-	public final TalonControlMode DEFAULT_CTRL_MODE = TalonControlMode.PercentVbus;//TalonControlMode.PercentVbus;
+	public final TalonControlMode DEFAULT_CTRL_MODE = TalonControlMode.PercentVbus;
 	public final boolean DEFAULT_BRAKE_MODE = true;
 	// TALON CONTROL MODES
 	public final TalonControlMode VELOCITY = TalonControlMode.Speed;
@@ -96,7 +94,7 @@ public interface Constants {
 	//DRIVERCAM_FPS
 	public final int fps = 30;
 	//WHEEL_SIZE
-	public final double wheelSize = 0.5;//Inches
+	public final double wheelSize = 0.5;//Feet
 	//Encoder velocity to wheel velocity multiplier 
 	public final double wheelEncoderMult = 5.1;//low gear
 	public final double wheelEncoderMultHigh = 13.5;//high gear

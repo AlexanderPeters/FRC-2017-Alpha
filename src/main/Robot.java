@@ -2,39 +2,21 @@ package main;
 
 import Util.SmartDashboardInteractions;
 import controllers.UDPController;
-//import controllers.TeleopCameraController;
-//import controllers.TrajectoryDriveController;
-//import controllers.UDPController;
-import edu.wpi.cscore.UsbCamera;
-//import edu.wpi.first.wpilibj.DriverStation;
-//Necessary wpilib imports
 import edu.wpi.first.wpilibj.IterativeRobot;
 import edu.wpi.first.wpilibj.command.Command;
-//import edu.wpi.first.wpilibj.command.Command;
 import edu.wpi.first.wpilibj.command.Scheduler;
 import edu.wpi.first.wpilibj.livewindow.LiveWindow;
 import edu.wpi.first.wpilibj.smartdashboard.SendableChooser;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
-import edu.wpi.first.wpilibj.vision.CameraServer;
-import main.commands.auto.altCenterAuto;
 import lib.Looper;
 import lib.UDPForVision;
-import main.commands.auto.altLeftAuto;
-import main.commands.auto.altRightAuto;
 import main.commands.auto.centerGearAuto;
 import main.commands.auto.doNothing;
 import main.commands.auto.leftGearAuto;
 import main.commands.auto.rightGearAuto;
-//import main.commands.stirrer.Stir;
-//import main.subsystems.CameraController;
-//import main.subsystems.CameraController;
-//import main.subsystems.FlyWheel;
 import main.subsystems.Climber;
-//import edu.wpi.first.wpilibj.smartdashboard.SendableChooser;
-//import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
-//Subsystem imports
+import main.subsystems.DriveCamera;
 import main.subsystems.DriveTrain;
-//import main.subsystems.DriverCamera;
 import main.subsystems.FlyWheel;
 import main.subsystems.Hood;
 import main.subsystems.Indexer;
@@ -50,9 +32,6 @@ import main.subsystems.Stirrer;
  * directory.
  */
 public class Robot extends IterativeRobot implements Constants{
-
-	//public static final ExampleSubsystem exampleSubsystem = new ExampleSubsystem();
-	//private boolean lowGear = true;
 	public static enum GameState {
 		Initializing, Test, Teleop, Autonomous
 	}
@@ -60,8 +39,6 @@ public class Robot extends IterativeRobot implements Constants{
 		Driving, Climbing, Neither
 	}
 
-	//private static final double kAutoLooperDt = 0;
-	
 	public static OI oi;
 	public static DriveTrain dt;
 	public static Pneumatics pn;
@@ -71,29 +48,15 @@ public class Robot extends IterativeRobot implements Constants{
 	public static FlyWheel shooter;
 	public static Hood hd;
 	public static Indexer id;
+	public static DriveCamera dc;
 	public static SmartDashboardInteractions sdb;
 	public static GameState gameState;
 	public static RobotState robotState = RobotState.Neither;
-	
-	//public static CameraServer cam;
-	//private static double kEnabledLooperDt;
-	
-	// Enabled looper is called at 100Hz whenever the robot is enabled
     public static Looper mEnabledLooper = new Looper(kEnabledLooperDt);
-    // Disabled looper is called at 100Hz whenever the robot is disabled
-    //public static Looper mDisabledLooper = new Looper();
-    //public static Looper mAutonomousLooper = new Looper(kAutoLooperDt);
-    
     public static UDPForVision comms = new UDPForVision();
-	//public static DriverCamera dc = new DriverCamera(50);
-	//private Thread captureThread;
-
-
 	
-    Command autoCommand;// = new centerGearAuto();
+    Command autoCommand;
     SendableChooser<Command> chooser;
-    //SendableChooser chooser; //Leaving this here just in case.
-	//CameraServer myServer;
 
     /**
      * This function is run when the robot is first started up and should be
@@ -111,34 +74,12 @@ public class Robot extends IterativeRobot implements Constants{
 		id = new Indexer();
 		shooter = new FlyWheel();
 		hd = new Hood();
-		//dc = new DriverCamera(50);
+		dc = new DriveCamera();
 		//This has to be last as the subsystems can not be null when a command requires them
 		oi = new OI();
-		//autoCommand = new centerGearAuto();
 
-
-		/*
-		UsbCamera usbCamera = new UsbCamera("USB Camera 0", 0);
-
-		MjpegServer mjpegServer1 = new MjpegServer("serve_USB Camera 0", 1181);
-
-		mjpegServer1.setSource(usbCamera);*/
-		// Configure loopers
-        //mAutonomousLooper.register(new TrajectoryDriveController());
         mEnabledLooper.register(new UDPController());
-        //mEnabledLooper.register(new TeleopCameraController());
-        mEnabledLooper.start();
-        /*captureThread = new Thread(() -> {
-  	      while (true) {
-  	        dc.poke();
-  	        Timer.delay(1 / (double) Constants.fps);
-  	      }
-  	    });*/
-  	    //captureThread.setName("Camera Capture Thread");
-  	    //captureThread.start();
-  	  
-        
-		//System.out.println("init2");
+    
 		chooser = new SendableChooser<Command>();
         chooser.addDefault("Do Nothing Auto", new doNothing());
         chooser.addObject("Left Gear Auto", new leftGearAuto());
@@ -153,22 +94,15 @@ public class Robot extends IterativeRobot implements Constants{
 	 * the robot is disabled.
      */
     public void disabledInit(){
-		//new Stir(Constants.stirrerMotorOff);
-
-
-    	// Configure loopers
-        //mEnabledLooper.stop();
-        //mDisabledLooper.start();
+		// Configure loopers
+        mEnabledLooper.stop();
     }
 	
 	public void disabledPeriodic() {
-		//new Stir(Constants.stirrerMotorOff);
-
 		Scheduler.getInstance().run();
 	}
 	
-
-	/**4
+	/**
 	 * This autonomous (along with the chooser code above) shows how to select between different autonomous modes
 	 * using the dashboard. The sendable chooser code works with the Java SmartDashboard. If you prefer the LabVIEW
 	 * Dashboard, remove all of the chooser code and uncomment the getString code to get the auto name from the text box
@@ -179,32 +113,12 @@ public class Robot extends IterativeRobot implements Constants{
 	 */
     public void autonomousInit() {
     	gameState = GameState.Autonomous;
-    	//mAutonomousLooper.start();
     	autoCommand = (Command) chooser.getSelected();
     	
-    	if(autoCommand != null) autoCommand.start();
-    	//new Stir(Constants.stirrerMotorOn);
-
-    	
     	// Configure loopers
-        //mDisabledLooper.stop();
-        //mEnabledLooper.start();
-        
-        //autonomousCommand = (Command) chooser.getSelected();
-        
-		/* String autoSelected = SmartDashboard.getString("Auto Selector", "Default");
-		switch(autoSelected) {
-		case "My Auto":
-			autonomousCommand = new MyAutoCommand();
-			break;
-		case "Default Auto":
-		default:
-			autonomousCommand = new ExampleCommand();
-			break;
-		} */
+        mEnabledLooper.start();
     	
-    	// schedule the autonomous command (example)
-        //if (autonomousCommand != null) autonomousCommand.start();
+    	if(autoCommand != null) autoCommand.start();
     }
 
     /**
@@ -212,22 +126,20 @@ public class Robot extends IterativeRobot implements Constants{
      */
     public void autonomousPeriodic() {
     	gameState = GameState.Autonomous;
-    	//new Stir(Constants.stirrerMotorOn);
         Scheduler.getInstance().run();
     }
     
     public void teleopInit() {
     	gameState = GameState.Teleop;
-    	//new Stir(Constants.stirrerMotorOn);
-
+    	
     	// Configure loopers
-        //mDisabledLooper.stop();
-        //mAutonomousLooper.stop();
-        
-		// This makes sure that the autonomous stops running when
-        // teleop starts running. If you want the autonomous to 
-        // continue until interrupted by another command, remove
-        // this line or comment it out.
+        mEnabledLooper.start();
+    	
+    	/* This makes sure that the autonomous stops running when
+           teleop starts running. If you want the autonomous to 
+           continue until interrupted by another command, remove
+           this line or comment it out. */
+    	
         if (autoCommand != null) autoCommand.cancel();
     }
 
@@ -236,7 +148,6 @@ public class Robot extends IterativeRobot implements Constants{
      */
     public void teleopPeriodic() {
     	gameState = GameState.Teleop;
-    	//new Stir(Constants.stirrerMotorOn);
     	Scheduler.getInstance().run();
     }
     
@@ -245,8 +156,7 @@ public class Robot extends IterativeRobot implements Constants{
      * This function is called periodically during test mode
      */
     public void testPeriodic() {
-
-        LiveWindow.run();
+    	LiveWindow.run();
     }
         
 }

@@ -3,7 +3,6 @@ package main.subsystems;
 import edu.wpi.first.wpilibj.command.Subsystem;
 import main.Constants;
 import main.HardwareAdapter;
-import main.commands.stirrer.Stir;
 
 public class Stirrer extends Subsystem implements Constants, HardwareAdapter {
 	public Stirrer() {
@@ -16,9 +15,6 @@ public class Stirrer extends Subsystem implements Constants, HardwareAdapter {
 
 	@Override
 	protected void initDefaultCommand() {
-		//setDefaultCommand();
-		// TODO Auto-generated method stub
 		
 	}
-
 }

@@ -3,11 +3,7 @@ package main.subsystems;
 import com.ctre.CANTalon.FeedbackDevice;
 import com.ctre.CANTalon.TalonControlMode;
 import com.kauailabs.navx.frc.AHRS;//NavX import
-
 import Util.DriveHelper;
-import edu.wpi.cscore.UsbCamera;
-//import edu.wpi.cscore.UsbCamera;
-//import edu.wpi.first.wpilibj.CameraServer;
 import edu.wpi.first.wpilibj.DriverStation;
 import edu.wpi.first.wpilibj.PIDController;
 import edu.wpi.first.wpilibj.PIDOutput;
@@ -16,7 +12,6 @@ import edu.wpi.first.wpilibj.PIDSourceType;
 import edu.wpi.first.wpilibj.RobotDrive;
 import edu.wpi.first.wpilibj.SPI;
 import edu.wpi.first.wpilibj.command.Subsystem;
-import edu.wpi.first.wpilibj.vision.CameraServer;
 import main.Constants;
 import main.HardwareAdapter;
 import main.Robot;
@@ -27,18 +22,12 @@ public class DriveTrain extends Subsystem implements Constants, HardwareAdapter,
 	private static boolean highGearState = false;
 	private static AHRS NavX;
 	private DriveHelper helper = new DriveHelper(7.5);
-	//private boolean hasBeenDrivingStriaght = false;
 	private static RobotDrive driveTrain = new RobotDrive(leftDriveMaster, rightDriveMaster);
 	private static double rotateToAngleRate;
-	private int allowableError;
 	private PIDController turnController;
 	private PIDController distanceController;
-	//public static UsbCamera usbCamera; 
-	//UsbCamera usbCamera = new UsbCamera("USB Camera 0", 0);
+	
 	public DriveTrain() {
-		//usbCamera = new UsbCamera("USB Camera 0", 1);
-    	//usbCamera.setResolution(640, 480);
-    	//usbCamera.setFPS(60);
 		setTalonDefaults();
 		try {
 	          /* Communicate w/navX-MXP via the MXP SPI Bus.                                     */
@@ -73,94 +62,20 @@ public class DriveTrain extends Subsystem implements Constants, HardwareAdapter,
 	}
 	public void driveTeleop(double throttle, double heading) {
 		driveTrain.arcadeDrive(throttle, heading);
-		/*
-		if(helper.handleDeadband(heading, headingDeadband) != 0.0) {
-			driveWithHeading(throttle, heading);
-			Robot.robotState = Robot.RobotState.Driving;
-		}
-		//double mini = (pdp.getCurrent(12) + pdp.getCurrent(13)) / 2;
-		//double cim = (pdp.getCurrent(0) + pdp.getCurrent(1) + pdp.getCurrent(2) + pdp.getCurrent(3)) / 4;
-		//System.out.println("Cim: " + cim + ", Mini: " + mini + ", Total: " + pdp.getTotalCurrent());
-		//System.out.printboolean(helper.handleDeadband(throttle, throttleDeadband)) > 0.0);
-		else if(Math.abs(helper.handleDeadband(throttle, 0.25)) > 0.0) {
-			driveStraight(throttle);
-			//(throttle, heading);
-			Robot.robotState = Robot.RobotState.Driving;
-		}
-		else if(Robot.robotState != Robot.RobotState.Climbing)
-			Robot.robotState = Robot.RobotState.Neither;
-		//System.out.println("left " + getDistanceTraveledLeft() + " right " + getDistanceTraveledRight());
-		//System.out.print(Math.abs(helper.handleDeadband(throttle, 0.2)) > 0.0);
-		//System.out.println(Math.abs(helper.handleDeadband(throttle, 0.2)));*/
-		 
 	}
-	
-/*	private void driveWithHeading(double throttle, double heading) {
-		if(Robot.gameState == Robot.GameState.Teleop) {//Friendly game state check
-			
-			Robot.dt.setBrakeMode(true);
-			setCtrlMode(PERCENT_VBUS_MODE);
-			setVoltageDefaults();
-			
-			//hasBeenDrivingStriaghtWithThrottle = false;
-			//System.out.println(throttle);
-			//helper.calculateThrottle(throttle), helper.calculateTurn(heading, highGearState)
-			driveTrain.arcadeDrive(helper.handleOverPower(helper.handleJoystickHatingMe(helper.handleDeadband(throttle * driveThrottle, throttleDeadband))),
-					helper.handleOverPower(helper.handleJoystickHatingMe(helper.handleDeadband(heading * turnThrottle, headingDeadband))));//helper.calculateThrottle(throttle)
-			//System.out.println("Gyro" + NavX.getYaw());
-		}
-		
-	}*/
+
 	public void driveStraight(double throttle) {
-		/*if(Robot.gameState == Robot.GameState.Teleop) {//Friendly game state check
-			
-			Robot.dt.setBrakeMode(true);
-			setCtrlMode(PERCENT_VBUS_MODE);
-			setVoltageDefaults();*/
-			
-			//if(!hasBeenDrivingStriaght) resetGyro();
-				//System.out.println("ZEROING");
-			//}
-			
-			double theta = NavX.getYaw();
-			//System.out.println(theta);
-			//System.out.println(theta);
-			//System.out.println("Here");
-			//if(Math.abs(helper.handleDeadband(throttle * driveThrottle, throttleDeadband)) > 0.0){//ABS fixed not driving backwards issue
-				if(Math.signum(throttle) > 0) {
-					//Make this PID Controlled
-					driveTrain.arcadeDrive(helper.handleOverPower(throttle), helper.handleOverPower(theta * straightLineKP)); 
-				}
-				else {
-					//Might be unnecessary but I think the gyro bearing changes if you drive backwards
-					driveTrain.arcadeDrive(helper.handleOverPower(throttle), helper.handleOverPower(theta * straightLineKPReverse)); 
-				}
-				
-			/*	hasBeenDrivingStriaghtWithThrottle = true;
-			}
-			else {
-				hasBeenDrivingStriaghtWithThrottle = false;
-			}*/
-			//System.out.println("Straight Gyro" + NavX.getYaw());
-
-			
-			//if(theta <= 0.05)
-				//resetGyro();//Prevents accumulation of gyro drift (resets gyro noise if robot is on course)
-		//}
-	}
-	/*
-	public void driveLooperControl(double leftThrottle, double rightThrottle) {
-		if(Robot.gameState == Robot.GameState.Autonomous) {//Friendly game state check
-			
-			new ShiftDown();
-			Robot.dt.setBrakeMode(true);
-			setCtrlMode(PERCENT_VBUS_MODE);
-
-			
-			driveTrain.tankDrive(-1*helper.handleOverPower(leftThrottle), -1*helper.handleOverPower(rightThrottle));
+		double theta = NavX.getYaw();
+		if(Math.signum(throttle) > 0) {
+			//Make this PID Controlled
+			driveTrain.arcadeDrive(helper.handleOverPower(throttle), helper.handleOverPower(theta * straightLineKP)); 
 		}
-		
-	}*/
+		else {
+			//Might be unnecessary but I think the gyro bearing changes if you drive backwards
+			driveTrain.arcadeDrive(helper.handleOverPower(throttle), helper.handleOverPower(theta * straightLineKPReverse)); 
+		}
+				
+	}
 	public void driveDisplacement(double distance, double tolerance) {
 		if(highGearState)
 			new ShiftDown();
@@ -192,94 +107,14 @@ public class DriveTrain extends Subsystem implements Constants, HardwareAdapter,
 		turnController.setSetpoint(heading);
 		driveTrain.arcadeDrive(0.0, rotateToAngleRate);
 		
-		
 	}
+	
 	public boolean getTurningPIDOnTarget() {
 		return turnController.onTarget();
 	}
 	public boolean getDistancePIDOnTarget() {
 		return distanceController.onTarget();
 	}
-
-	
-/*public void driveDisplacement(double displacement, double tolerance) {// feet, feet
-		// Positive encoder value needs to mean a positive displacement and
-		// positive power to the motor
-		if (highGearState)
-			new ShiftDown();
-		setBrakeMode(true);
-		reverseTalons(false);
-		setCtrlMode(POSITION); // Change control mode of talon, default is
-								// PercentVbus (-1.0 to 1.0)
-		setVoltageDefaultsPID();
-		allowableError = convertToEncoderTicks(tolerance);
-		
-
-		leftDriveMaster.setPID(displacementKP, displacementKI, displacementKD);
-		leftDriveMaster.setAllowableClosedLoopErr(allowableError);
-
-		rightDriveMaster.setPID(displacementKP, displacementKI, displacementKD);
-		rightDriveMaster.setAllowableClosedLoopErr(allowableError);
-
-		leftDriveMaster.enableControl(); // Enable PID control on the talon
-		rightDriveMaster.enableControl(); // Enable PID control on the talon
-
-		// rightDriveMaster.setFeedbackDevice(leftDriveMaster.getEncPosition());
-
-		leftDriveMaster.setSetpoint(convertToEncoderTicks(displacement));//- setpoint for practice bot
-		rightDriveMaster.setSetpoint(-convertToEncoderTicks(displacement));
-		
-		System.out.println(leftDriveMaster.getOutputVoltage());
-		System.out.println(rightDriveMaster.getOutputVoltage());
-		System.out.println(leftDriveMaster.getEncPosition());
-		System.out.println(rightDriveMaster.getEncPosition());
-		
-		
-
-		// System.out.println(getDistanceTraveledLeft()+ " "
-		// +getDistanceTraveledRight()+ " " + leftDriveMaster.getEncPosition()+
-		// " " + rightDriveMaster.getEncPosition());
-
-	}*/
-/*	public void stop() {
-		leftDriveMaster.set(0);
-		rightDriveMaster.set(0);
-		leftDriveMaster.reset();
-		rightDriveMaster.reset();
-		leftDriveMaster.clearStickyFaults();
-		rightDriveMaster.clearStickyFaults();
-		leftDriveMaster.setPID(0, 0, 0);
-		rightDriveMaster.setPID(0, 0, 0);
-		setCtrlMode(PERCENT_VBUS_MODE);
-		setVoltageDefaults();
-		setFeedBackDefaults();
-		resetSensors();
-		reverseTalons(true);
-		leftDriveMaster.enableControl();
-		rightDriveMaster.enableControl();
-		
-		
-	}*/
-
-/*	public void stop() {
-		leftDriveMaster.ClearIaccum();
-		leftDriveMaster.ClearIaccum();
-		rightDriveMaster.clearIAccum();
-		rightDriveMaster.ClearIaccum();
-		leftDriveMaster.reset();
-		rightDriveMaster.reset();
-		//leftDriveMaster.reset();
-		//rightDriveMaster.reset();
-		//leftDriveMaster.stopMotor();
-		//rightDriveMaster.stopMotor();	
-		//leftDriveMaster.disableControl();
-		//rightDriveMaster.disableControl();
-		//leftDriveMaster.reset();
-		//rightDriveMaster.reset();
-		//leftDriveMaster.set(0);
-		//rightDriveMaster.set(0);
-		//Implement later
-	}*/
 	
 	public void changeGearing(){
 		highGearState = !highGearState;
@@ -293,8 +128,6 @@ public class DriveTrain extends Subsystem implements Constants, HardwareAdapter,
 		return (int) (((displacement / (wheelSize*Math.PI)) * conversionFactor));
 	}
 	public double getDistanceTraveledLeft() {//Feet
-		//System.out.println("l" +wheelSize*Math.PI*(getRightEncoderPosition()/conversionFactor));
-
 		return wheelSize*Math.PI*(getLeftEncoderPosition()/conversionFactor);
 	}
 	
@@ -327,9 +160,6 @@ public class DriveTrain extends Subsystem implements Constants, HardwareAdapter,
 		resetEncoders();
 	}
 	
-	
-	
-	
 	/*******************
 	 * SUPPORT METHODS *
 	 *******************/
@@ -338,7 +168,7 @@ public class DriveTrain extends Subsystem implements Constants, HardwareAdapter,
 	}
 	
 	private double getRightEncoderPosition() {
-		return rightDriveMaster.getEncPosition();//F*#k Me
+		return rightDriveMaster.getEncPosition();
 	}
 	
 	/**

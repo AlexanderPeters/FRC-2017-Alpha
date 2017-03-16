@@ -18,7 +18,6 @@ public class TurnToTarget extends Command implements Constants{
 
 	@Override
 	protected void execute() {
-		// TODO Auto-generated method stub
 		if(Robot.robotState != Robot.RobotState.Climbing && Robot.comms.getTargetFound())
 			Robot.dt.turnToHeading(Robot.comms.getBearing(), Robot.kToleranceDegreesDefault);
 		
@@ -26,20 +25,16 @@ public class TurnToTarget extends Command implements Constants{
 
 	@Override
 	protected boolean isFinished() {
-		// TODO Auto-generated method stub
 		return true;
 	}
 
 	@Override
 	protected void end() {
-		// TODO Auto-generated method stub
 		
 	}
 
 	@Override
 	protected void interrupted() {
-		// TODO Auto-generated method stub
 		
 	}
-	
 }

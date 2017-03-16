@@ -4,7 +4,6 @@ import java.io.IOException;
 import java.net.DatagramPacket;
 import java.net.DatagramSocket;
 import java.net.SocketException;
-
 import main.Constants;
 
 public class UDPForVision implements Constants {
@@ -19,14 +18,11 @@ public class UDPForVision implements Constants {
 		try {
 			serverSocket = new DatagramSocket(udpPort);
 		} catch (SocketException e) {
-			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
-
 	}
 
 	public void poke() throws IOException {
-		//System.out.println("here!");
 		serverSocket.receive(receivePacket);
 		String sentence = new String(receivePacket.getData());
 		String corrected = sentence.replaceAll("\u0000.*", "");
