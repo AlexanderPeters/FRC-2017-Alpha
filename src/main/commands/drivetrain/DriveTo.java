@@ -9,9 +9,9 @@ public class DriveTo extends CommandGroup implements Constants {
 
 	public DriveTo(double dispX, double dispY) {
 		planner = new PlanPath(dispX, dispY);
-		addSequential(new TurnToHeading(planner.getAngle(), kToleranceDegreesDefault));
+		addSequential(new TurnToAngle(planner.getAngle(), kToleranceDegreesDefault));
 		addSequential(new DriveDistance(planner.getHypotenuse(), kToleranceDisplacementDefault));
-		addSequential(new TurnToHeading(-planner.getAngle(), kToleranceDegreesDefault));
+		addSequential(new TurnToAngle(-planner.getAngle(), kToleranceDegreesDefault));
 		addSequential(new DriveDistance(planner.getDisplacementToFinalDest(distanceBetweenRobotAndGearPeg),
 				kToleranceDisplacementDefault));
 

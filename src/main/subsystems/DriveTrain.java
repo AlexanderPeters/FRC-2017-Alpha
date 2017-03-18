@@ -43,6 +43,7 @@ public class DriveTrain extends Subsystem implements Constants, HardwareAdapter,
 			PIDSourceType m_sourceType = PIDSourceType.kDisplacement;
 
 			public double pidGet() {
+				System.out.println(Robot.dt.getDistanceTraveledLeft() + " "  + Robot.dt.getDistanceTraveledRight());
 				return (Robot.dt.getDistanceTraveledLeft() + Robot.dt.getDistanceTraveledRight())/2;
 			}
 
@@ -61,7 +62,8 @@ public class DriveTrain extends Subsystem implements Constants, HardwareAdapter,
 		
 	}
 	public void driveTeleop(double throttle, double heading) {
-		driveTrain.arcadeDrive(throttle, heading);
+		if(Robot.gameState == Robot.GameState.Teleop)
+			driveTrain.arcadeDrive(throttle, heading);
 	}
 
 	public void driveStraight(double throttle) {
@@ -76,31 +78,37 @@ public class DriveTrain extends Subsystem implements Constants, HardwareAdapter,
 		}
 				
 	}
-	public void driveDisplacement(double distance, double tolerance) {
+	public void driveDistanceSetPID(double p, double i, double d) {
+		distanceController.setPID(p, i, d);
+	}
+	public void driveDistance(double distance, double tolerance) {
 		if(highGearState)
 			new ShiftDown();
 		setBrakeMode(true);
 		setCtrlMode(PERCENT_VBUS_MODE);
-		setVoltageDefaultsPID();
+		//setVoltageDefaultsPID();
 		
 		distanceController.setInputRange(-20.0, +20.0);
-		distanceController.setOutputRange(-1.0, 1.0);
+		distanceController.setOutputRange(-0.5, 0.5);
 		distanceController.setAbsoluteTolerance(tolerance);
 		distanceController.setContinuous(true);
 		distanceController.enable();
 		distanceController.setSetpoint(distance);
 		
 	}
+	public void turnToAngleSetPID(double p, double i, double d) {
+		turnController.setPID(p, i, d);
+	}
 	
-	public void turnToHeading(double heading, double tolerance) {
+	public void turnToAngle(double heading, double tolerance) {
 		if(highGearState)
 			new ShiftDown();
 		setBrakeMode(true);
 		setCtrlMode(PERCENT_VBUS_MODE);
-		setVoltageDefaultsPID();
+		//setVoltageDefaultsPID();
 				
 		turnController.setInputRange(-180.0f,  180.0f);
-	    turnController.setOutputRange(-1.0, 1.0);
+	    turnController.setOutputRange(-0.7, 0.7);
 	    turnController.setAbsoluteTolerance(tolerance);
 	    turnController.setContinuous(true);
 		turnController.enable();
@@ -109,11 +117,8 @@ public class DriveTrain extends Subsystem implements Constants, HardwareAdapter,
 		
 	}
 	
-	public boolean getTurningPIDOnTarget() {
-		return turnController.onTarget();
-	}
-	public boolean getDistancePIDOnTarget() {
-		return distanceController.onTarget();
+	public double getDistanceAvg() {
+		return (getDistanceTraveledLeft() + getDistanceTraveledRight())/2;
 	}
 	
 	public void changeGearing(){
@@ -224,8 +229,8 @@ public class DriveTrain extends Subsystem implements Constants, HardwareAdapter,
 		rightDriveMaster.setFeedbackDevice(FeedbackDevice.QuadEncoder);
 		leftDriveMaster.configEncoderCodesPerRev(codesPerRev);
 		rightDriveMaster.configEncoderCodesPerRev(codesPerRev);
-		leftDriveMaster.reverseSensor(false);//Check this later//was true
-		rightDriveMaster.reverseSensor(false);//Check this later//was true
+		leftDriveMaster.reverseSensor(true);//Check this later//was true
+		rightDriveMaster.reverseSensor(true);//Check this later//was true
 	}
 	
 	/**

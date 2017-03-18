@@ -3,6 +3,8 @@ package main;
 import lib.joystick.XboxController;
 import main.commands.climber.WinchForward;
 import main.commands.climber.WinchOff;
+import main.commands.drivetrain.DriveDistance;
+import main.commands.drivetrain.TurnToAngle;
 import main.commands.gearmech.GearDown;
 import main.commands.gearmech.GearUp;
 import main.commands.intake.IntakeForward;
@@ -12,6 +14,7 @@ import main.commands.pnuematics.ShiftUp;
 import main.commands.shooter.FlyWheelForward;
 import main.commands.shooter.FlyWheelOff;
 import main.commands.stirrer.Stir;
+import main.commands.vision.TurnToTarget;
 
 /**
  * This class is the glue that binds the controls on the physical operator
@@ -32,7 +35,10 @@ public class OI implements Constants, HardwareAdapter {
 		xbox.leftBumper.whenReleased(new ShiftDown());
 		xbox.rightBumper.whenPressed(new GearDown());
 		xbox.rightBumper.whenReleased(new GearUp());
-		//xbox.leftTrigger.whenPressed(new TurnToTarget());
+		xbox.start.whenPressed(new TurnToAngle(10, kToleranceDegreesDefault));
+		xbox.select.whenPressed(new TurnToAngle(-3, kToleranceDegreesDefault));
+		//xbox.leftTrigger.whenPressed(new DriveDistance(6, 0.042));
+		xbox.leftTrigger.whenPressed(new TurnToTarget());
 		
 		xbox.a.whileHeld(new IntakeForward());
 		xbox.a.whenReleased(new IntakeOff());

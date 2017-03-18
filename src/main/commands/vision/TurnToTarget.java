@@ -19,7 +19,7 @@ public class TurnToTarget extends Command implements Constants{
 	@Override
 	protected void execute() {
 		if(Robot.robotState != Robot.RobotState.Climbing && Robot.comms.getTargetFound())
-			Robot.dt.turnToHeading(Robot.comms.getBearing(), Robot.kToleranceDegreesDefault);
+			Robot.dt.turnToAngle(Robot.comms.getBearing(), Robot.kToleranceDegreesDefault);
 		
 	}
 

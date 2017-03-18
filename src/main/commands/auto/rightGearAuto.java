@@ -6,7 +6,7 @@ import main.Constants;
 import main.Robot;
 import main.commands.drivetrain.DriveDistance;
 import main.commands.drivetrain.TimedDrive;
-import main.commands.drivetrain.TurnToHeading;
+import main.commands.drivetrain.TurnToAngle;
 import main.commands.gearmech.GearDown;
 import main.commands.gearmech.GearUp;
 

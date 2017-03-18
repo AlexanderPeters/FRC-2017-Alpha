@@ -62,6 +62,7 @@ public class Robot extends IterativeRobot implements Constants{
      * This function is run when the robot is first started up and should be
      * used for any initialization code.
      */
+    @SuppressWarnings("deprecation")
     public void robotInit() {
 
 		
@@ -86,6 +87,14 @@ public class Robot extends IterativeRobot implements Constants{
         chooser.addObject("Center Gear Auto", new centerGearAuto());
         chooser.addObject("Right Gear Auto", new rightGearAuto());
         SmartDashboard.putData("Auto mode", chooser);
+        
+        SmartDashboard.putDouble("Turning KP", turnInPlaceKP);
+        SmartDashboard.putDouble("Turning KI", turnInPlaceKI);
+        SmartDashboard.putDouble("Turning KD", turnInPlaceKD);
+        SmartDashboard.putDouble("Distance KP", displacementKP);
+        SmartDashboard.putDouble("Distance KI", displacementKI);
+        SmartDashboard.putDouble("Distance KD", displacementKD);
+
     }
 	
 	/**

@@ -11,7 +11,7 @@ public interface Constants {
 	 * VARIABLES *
 	 *************/
 	// ROBOT VARIABLES
-	public final boolean isCompRobot = false;
+	public final boolean isCompRobot = true;//same as practice bot
 	// THROTTLE MULTIPLIERS
 	public final double intakeMotorForward = 1.0;
 	public final double intakeMotorReverse = -1.0;
@@ -42,11 +42,11 @@ public interface Constants {
 	public final double headingControllerKP = 0.0;
 	
 	//PID VALUES FOR DRIVETRAIN
-	public final double turnInPlaceKP = 0.1;//Need to tune
+	public final double turnInPlaceKP = 0.02;//Need to tune//0.03
 	public final double turnInPlaceKI = 0.0;
-	public final double turnInPlaceKD = 0.0;
+	public final double turnInPlaceKD = 0.005;//0.4
 	public final double turnInPlaceKF = 0.0;
-	public final double kToleranceDegreesDefault = 2.0f;//Subject to change
+	public final double kToleranceDegreesDefault = 1.0f;//Subject to change
 	
 	public final double displacementKP = 0.01;//Need to tune (turned way the heck down for testing tommorrow 2/25/17)
 	public final double displacementKI = 0.0;

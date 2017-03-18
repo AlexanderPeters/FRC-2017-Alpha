@@ -1,33 +1,41 @@
 package main.commands.drivetrain;
 
 import edu.wpi.first.wpilibj.command.Command;
+import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import main.Robot;
 
 public class DriveDistance extends Command {
 
 	private double distance;
 	private double tolerance;
+	private double KP, KI, KD;
 	
 	//@param distance: the desired distance to go travel (+ or - (forward, backward; respectively)), tolerance: the absolute difference allowable 
-    public DriveDistance(double distance, double tolerance) {//feet, feet
+    @SuppressWarnings("deprecation")
+	public DriveDistance(double distance, double tolerance) {//feet, feet
     	requires(Robot.dt);
-    	this.distance = -distance;
+    	this.distance = distance;
     	this.tolerance = tolerance;
+    	this.KP = SmartDashboard.getDouble("Distance KP", 0.0);
+    	this.KI = SmartDashboard.getDouble("Distance KI", 0.0);
+    	this.KD = SmartDashboard.getDouble("Distance KD", 0.0);
+
     }
 
     // Called just before this Command runs the first time
     protected void initialize() {
+    	Robot.dt.driveDistanceSetPID(KP, KI, KD);
     	Robot.dt.resetSensors();
     }
 
     // Called repeatedly when this Command is scheduled to run
     protected void execute() {
-    	Robot.dt.driveDisplacement(distance, tolerance);
+    	Robot.dt.driveDistance(distance, tolerance);
     }
 
     // Make this return true when this Command no longer needs to run execute()
     protected boolean isFinished() {
-		return Robot.dt.getDistancePIDOnTarget();
+		return Math.abs(distance - Robot.dt.getDistanceAvg()) <= tolerance; 
     }
 
     // Called once after isFinished returns true
