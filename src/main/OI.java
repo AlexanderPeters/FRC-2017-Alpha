@@ -14,7 +14,7 @@ import main.commands.pnuematics.ShiftUp;
 import main.commands.shooter.FlyWheelForward;
 import main.commands.shooter.FlyWheelOff;
 import main.commands.stirrer.Stir;
-import main.commands.vision.TurnToTarget;
+import main.commands.vision.Target;
 
 /**
  * This class is the glue that binds the controls on the physical operator
@@ -39,7 +39,7 @@ public class OI implements Constants, HardwareAdapter {
 		//xbox.start.whenPressed(new TurnToAngle (55));
 		//xbox.select.whenPressed(new TurnToAngle(-3));
 		//xbox.select.whenReleased(new TurnToAngle(-3));
-		xbox.leftTrigger.whenPressed(new DriveDistance(6));
+		xbox.leftTrigger.whenPressed(new Target());
 		//xbox.leftTrigger.whenPressed(new TurnToTarget());
 		
 		xbox.a.whileHeld(new IntakeForward());

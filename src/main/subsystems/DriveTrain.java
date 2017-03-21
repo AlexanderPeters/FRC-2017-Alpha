@@ -56,7 +56,6 @@ public class DriveTrain extends Subsystem implements Constants, HardwareAdapter 
 			PIDSourceType m_sourceType = PIDSourceType.kDisplacement;
 
 			public double pidGet() {
-				System.out.println(Robot.dt.getDistanceTraveledRight());
 				return (Robot.dt.getDistanceTraveledRight());
 			}
 
@@ -107,7 +106,8 @@ public class DriveTrain extends Subsystem implements Constants, HardwareAdapter 
 		distanceController.setContinuous(true);
 		distanceController.enable();
 		distanceController.setSetpoint(distance);
-		this.driveStraight(distanceControllerRate);
+		//System.out.println("r" + distanceControllerRate);
+		this.driveVelocity(distanceControllerRate, 0.0);//Gyro code in drive straight I think is messed up
 			
 	}
 	public void turnToBigAngleSetPID(double p, double i, double d, double maxV) {

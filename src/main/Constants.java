@@ -31,8 +31,8 @@ public interface Constants {
 	public final double headingDeadband = 0.02;
 	
 	//DRIVETRAIN STRAIGHT LINE kp
-	public final double straightLineKP = -0.03;
-	public final double straightLineKPReverse = 0.03;
+	public final double straightLineKP = 0.03; //-
+	public final double straightLineKPReverse = -0.03; //+
 	
 	// PID VALUES FOR AUTONOMOUS
 	public final double rightWheelVelocityKP = 0.0;
@@ -57,8 +57,8 @@ public interface Constants {
 	public final double kToleranceDegreesDefault = 1.0f;
 	public final int turnInPlaceControllerSwitchAngle = 42;
 	
-	public final double displacementKP = 0.01;//Need to tune (turned way the heck down for testing tommorrow 2/25/17)
-	public final double displacementKI = 0.0;
+	public final double displacementKP = 1.5;//Need to tune (turned way the heck down for testing tommorrow 2/25/17)
+	public final double displacementKI = 0.1;
 	public final double displacementKD = 0.0;
 	public final double kToleranceDisplacementDefault = 0.042;//Subject to change #DAMN STRAIGHT!!!!!
 	public final double kMaxVoltageDisp = 7.0;
