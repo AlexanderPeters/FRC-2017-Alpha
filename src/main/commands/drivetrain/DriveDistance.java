@@ -8,23 +8,46 @@ public class DriveDistance extends Command {
 
 	private double distance;
 	private double tolerance;
-	private double KP, KI, KD;
+	private double KP, KI, KD, maxV;
 	
 	//@param distance: the desired distance to go travel (+ or - (forward, backward; respectively)), tolerance: the absolute difference allowable 
     @SuppressWarnings("deprecation")
-	public DriveDistance(double distance, double tolerance) {//feet, feet
+	public DriveDistance(double distance, double tolerance, double maxV) {//feet, feet
     	requires(Robot.dt);
-    	this.distance = distance;
+    	this.distance = -distance;
     	this.tolerance = tolerance;
+    	this.maxV = maxV;
     	this.KP = SmartDashboard.getDouble("Distance KP", 0.0);
     	this.KI = SmartDashboard.getDouble("Distance KI", 0.0);
     	this.KD = SmartDashboard.getDouble("Distance KD", 0.0);
 
     }
+    @SuppressWarnings("deprecation")
+   	public DriveDistance(double distance, double tolerance) {//feet, feet
+       	requires(Robot.dt);
+       	this.distance = -distance;
+       	this.tolerance = tolerance;
+       	this.KP = SmartDashboard.getDouble("Distance KP", 0.0);
+       	this.KI = SmartDashboard.getDouble("Distance KI", 0.0);
+       	this.KD = SmartDashboard.getDouble("Distance KD", 0.0);
+       	this.maxV = SmartDashboard.getDouble("Distance MaxVoltage", 0.0);
+
+    }
+    @SuppressWarnings("deprecation")
+	public DriveDistance(double distance) {//feet
+    	requires(Robot.dt);
+    	this.distance = -distance;
+    	this.KP = SmartDashboard.getDouble("Distance KP", 0.0);
+    	this.KI = SmartDashboard.getDouble("Distance KI", 0.0);
+    	this.KD = SmartDashboard.getDouble("Distance KD", 0.0);
+    	this.tolerance = SmartDashboard.getDouble("Distance Tolerance", 0.0);
+    	this.maxV = SmartDashboard.getDouble("Distance MaxVoltage", 0.0);
+
+    }
 
     // Called just before this Command runs the first time
     protected void initialize() {
-    	Robot.dt.driveDistanceSetPID(KP, KI, KD);
+    	Robot.dt.driveDistanceSetPID(KP, KI, KD, maxV);
     	Robot.dt.resetSensors();
     }
 
@@ -35,7 +58,7 @@ public class DriveDistance extends Command {
 
     // Make this return true when this Command no longer needs to run execute()
     protected boolean isFinished() {
-		return Math.abs(distance - Robot.dt.getDistanceAvg()) <= tolerance; 
+		return Math.abs(distance - Robot.dt.getDistanceTraveledRight()) <= tolerance; 
     }
 
     // Called once after isFinished returns true

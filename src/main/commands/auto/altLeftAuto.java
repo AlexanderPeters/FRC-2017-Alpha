@@ -9,7 +9,7 @@ import main.commands.gearmech.GearDown;
 import main.commands.gearmech.GearUp;
 
 public class altLeftAuto extends CommandGroup implements Constants{
-	public altLeftAuto() {
+	/*public altLeftAuto() {
 		addSequential(new DriveDistance(4.395, kToleranceDisplacementDefault));
 		addSequential(new DriveDistance(1, kToleranceDisplacementDefault));
 		addSequential(new TurnToAngle(45, 0.5));//Better turning tolerance
@@ -19,6 +19,6 @@ public class altLeftAuto extends CommandGroup implements Constants{
 		addSequential(new GearDown());
 		addSequential(new DriveDistance(-2, kToleranceDisplacementDefault));
 		addSequential(new GearUp());
-	}
+	}*/
 
 }

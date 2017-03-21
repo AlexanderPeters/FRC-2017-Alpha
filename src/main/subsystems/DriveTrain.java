@@ -18,13 +18,14 @@ import main.Robot;
 import main.commands.drivetrain.Drive;
 import main.commands.pnuematics.ShiftDown;
 
-public class DriveTrain extends Subsystem implements Constants, HardwareAdapter, PIDOutput {
+public class DriveTrain extends Subsystem implements Constants, HardwareAdapter {
 	private static boolean highGearState = false;
 	private static AHRS NavX;
 	private DriveHelper helper = new DriveHelper(7.5);
 	private static RobotDrive driveTrain = new RobotDrive(leftDriveMaster, rightDriveMaster);
-	private static double rotateToAngleRate;
-	private PIDController turnController;
+	private double smallTurnControllerRate, bigTurnControllerRate, distanceControllerRate;
+	private PIDController smallTurnController;
+	private PIDController bigTurnController;
 	private PIDController distanceController;
 	
 	public DriveTrain() {
@@ -38,13 +39,25 @@ public class DriveTrain extends Subsystem implements Constants, HardwareAdapter,
 	          DriverStation.reportError("Error instantiating navX-MXP:  " + ex.getMessage(), true);
 	      }
 		resetSensors();//Must happen after NavX is instantiated!
-		turnController = new PIDController(turnInPlaceKP, turnInPlaceKI, turnInPlaceKD, turnInPlaceKF, NavX, this);
+		
+		smallTurnController = new PIDController(turnInPlaceKPSmallAngle, turnInPlaceKISmallAngle, turnInPlaceKDSmallAngle, NavX, new PIDOutput() {
+			public void pidWrite(double d) {
+				smallTurnControllerRate = d + (kMinVoltageTurnSmallAngle*Math.signum(d))/10;
+			}
+		});
+		
+		bigTurnController = new PIDController(turnInPlaceKPBigAngle, turnInPlaceKIBigAngle, turnInPlaceKDBigAngle, NavX, new PIDOutput() {
+			public void pidWrite(double d) {
+				bigTurnControllerRate = d + (kMinVoltageTurnBigAngle*Math.signum(d))/10;
+			}
+		});
+		
 		distanceController = new PIDController(displacementKP, displacementKI, displacementKD, new PIDSource() {
 			PIDSourceType m_sourceType = PIDSourceType.kDisplacement;
 
 			public double pidGet() {
-				System.out.println(Robot.dt.getDistanceTraveledLeft() + " "  + Robot.dt.getDistanceTraveledRight());
-				return (Robot.dt.getDistanceTraveledLeft() + Robot.dt.getDistanceTraveledRight())/2;
+				System.out.println(Robot.dt.getDistanceTraveledRight());
+				return (Robot.dt.getDistanceTraveledRight());
 			}
 
 			public void setPIDSourceType(PIDSourceType pidSource) {
@@ -55,15 +68,15 @@ public class DriveTrain extends Subsystem implements Constants, HardwareAdapter,
 				return m_sourceType;
 			}
 		}, new PIDOutput() {public void pidWrite(double d) {
-			Robot.dt.driveStraight(d);
+			distanceControllerRate = d;
 		}
 	});
 		
 		
 	}
-	public void driveTeleop(double throttle, double heading) {
-		if(Robot.gameState == Robot.GameState.Teleop)
-			driveTrain.arcadeDrive(throttle, heading);
+	public void driveVelocity(double throttle, double heading) {
+		if(Robot.gameState == Robot.GameState.Teleop) 
+			driveTrain.arcadeDrive(throttle, heading); 
 	}
 
 	public void driveStraight(double throttle) {
@@ -78,8 +91,9 @@ public class DriveTrain extends Subsystem implements Constants, HardwareAdapter,
 		}
 				
 	}
-	public void driveDistanceSetPID(double p, double i, double d) {
+	public void driveDistanceSetPID(double p, double i, double d, double maxV) {
 		distanceController.setPID(p, i, d);
+		distanceController.setOutputRange(-maxV/10, maxV/10);
 	}
 	public void driveDistance(double distance, double tolerance) {
 		if(highGearState)
@@ -89,32 +103,49 @@ public class DriveTrain extends Subsystem implements Constants, HardwareAdapter,
 		//setVoltageDefaultsPID();
 		
 		distanceController.setInputRange(-20.0, +20.0);
-		distanceController.setOutputRange(-0.5, 0.5);
 		distanceController.setAbsoluteTolerance(tolerance);
 		distanceController.setContinuous(true);
 		distanceController.enable();
 		distanceController.setSetpoint(distance);
-		
+		this.driveStraight(distanceControllerRate);
+			
 	}
-	public void turnToAngleSetPID(double p, double i, double d) {
-		turnController.setPID(p, i, d);
+	public void turnToBigAngleSetPID(double p, double i, double d, double maxV) {
+		bigTurnController.setPID(p, i, d);
+		bigTurnController.setOutputRange(-(maxV-kMinVoltageTurnBigAngle)/10, (maxV-kMinVoltageTurnBigAngle)/10);
 	}
-	
-	public void turnToAngle(double heading, double tolerance) {
+			
+	public void turnToBigAngle(double heading, double tolerance) {
 		if(highGearState)
 			new ShiftDown();
 		setBrakeMode(true);
 		setCtrlMode(PERCENT_VBUS_MODE);
-		//setVoltageDefaultsPID();
 				
-		turnController.setInputRange(-180.0f,  180.0f);
-	    turnController.setOutputRange(-0.7, 0.7);
-	    turnController.setAbsoluteTolerance(tolerance);
-	    turnController.setContinuous(true);
-		turnController.enable();
-		turnController.setSetpoint(heading);
-		driveTrain.arcadeDrive(0.0, rotateToAngleRate);
-		
+		bigTurnController.setInputRange(-180.0f,  180.0f);
+		bigTurnController.setAbsoluteTolerance(tolerance);
+		bigTurnController.setContinuous(true);
+		bigTurnController.enable();
+		bigTurnController.setSetpoint(heading);
+		this.driveVelocity(0.0, bigTurnControllerRate);
+	}
+	
+	public void turnToSmallAngleSetPID(double p, double i, double d, double maxV) {
+		smallTurnController.setPID(p, i, d);
+		smallTurnController.setOutputRange(-(maxV-kMinVoltageTurnSmallAngle)/10, (maxV-kMinVoltageTurnSmallAngle)/10);
+	}
+			
+	public void turnToSmallAngle(double heading, double tolerance) {
+		if(highGearState)
+			new ShiftDown();
+		setBrakeMode(true);
+		setCtrlMode(PERCENT_VBUS_MODE);
+				
+		smallTurnController.setInputRange(-180.0f,  180.0f);
+		smallTurnController.setAbsoluteTolerance(tolerance);
+		smallTurnController.setContinuous(true);
+		smallTurnController.enable();
+		smallTurnController.setSetpoint(heading);
+		this.driveVelocity(0.0, smallTurnControllerRate);
 	}
 	
 	public double getDistanceAvg() {
@@ -243,12 +274,12 @@ public class DriveTrain extends Subsystem implements Constants, HardwareAdapter,
 		rightDriveMaster.configPeakOutputVoltage(+12f, -12f);
 	}
 	
-	private void setVoltageDefaultsPID() {
+	/*private void setVoltageDefaultsPID() {
 		leftDriveMaster.configNominalOutputVoltage(+0f, -0f);
 		rightDriveMaster.configNominalOutputVoltage(+0f, -0f);
 		leftDriveMaster.configPeakOutputVoltage(+6f, -6f);
 		rightDriveMaster.configPeakOutputVoltage(+6f, -6f);
-	}
+	}*/
 	
 	/**
 	 * Sets the Talon SRX's voltage ramp rate (Smooth's acceleration (units in volts/sec))
@@ -275,9 +306,5 @@ public class DriveTrain extends Subsystem implements Constants, HardwareAdapter,
 		setDefaultCommand(new Drive());
 		
 	}
-	@Override
-	public void pidWrite(double output) {
-		rotateToAngleRate = output;		
-	}
-
+		
 }

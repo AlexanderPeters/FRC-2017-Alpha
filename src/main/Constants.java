@@ -42,16 +42,26 @@ public interface Constants {
 	public final double headingControllerKP = 0.0;
 	
 	//PID VALUES FOR DRIVETRAIN
-	public final double turnInPlaceKP = 0.02;//Need to tune//0.03
-	public final double turnInPlaceKI = 0.0;
-	public final double turnInPlaceKD = 0.005;//0.4
-	public final double turnInPlaceKF = 0.0;
-	public final double kToleranceDegreesDefault = 1.0f;//Subject to change
+	public final double turnInPlaceKPBigAngle = 0.65;
+	public final double turnInPlaceKIBigAngle = 0.0;
+	public final double turnInPlaceKDBigAngle = 0.0;
+	public final double kMaxVoltageTurnBigAngle = 10.5;
+	public final double kMinVoltageTurnBigAngle = 5.5;
+	
+	public final double turnInPlaceKPSmallAngle = 0.01;
+	public final double turnInPlaceKISmallAngle = 0.0;
+	public final double turnInPlaceKDSmallAngle = 0.0007;
+	public final double kMaxVoltageTurnSmallAngle = 9.0;
+	public final double kMinVoltageTurnSmallAngle = 5.5;
+	
+	public final double kToleranceDegreesDefault = 1.0f;
+	public final int turnInPlaceControllerSwitchAngle = 42;
 	
 	public final double displacementKP = 0.01;//Need to tune (turned way the heck down for testing tommorrow 2/25/17)
 	public final double displacementKI = 0.0;
 	public final double displacementKD = 0.0;
-	public final double kToleranceDisplacementDefault = 0.084;//Subject to change #DAMN STRAIGHT!!!!!
+	public final double kToleranceDisplacementDefault = 0.042;//Subject to change #DAMN STRAIGHT!!!!!
+	public final double kMaxVoltageDisp = 7.0;
 	
 	public final double distanceBetweenRobotAndGearPeg = (double) 1/6;//2 inches in feet
 		

@@ -6,21 +6,25 @@ import main.Robot;
 
 public class TurnToTarget extends Command implements Constants{
 
+	@Override
+	protected boolean isFinished() {
+		// TODO Auto-generated method stub
+		return false;
+	}/*
+
 	public TurnToTarget() {
         requires(Robot.dt);
     }
 	
 	@Override
 	protected void initialize() {
-		// TODO Auto-generated method stub
-		
+		if(Robot.robotState != Robot.RobotState.Climbing && Robot.comms.getTargetFound())
+			Robot.dt.turnToAngle(Robot.comms.getBearing(), Robot.kToleranceDegreesDefault);		
 	}
 
 	@Override
 	protected void execute() {
-		if(Robot.robotState != Robot.RobotState.Climbing && Robot.comms.getTargetFound())
-			Robot.dt.turnToAngle(Robot.comms.getBearing(), Robot.kToleranceDegreesDefault);
-		
+				
 	}
 
 	@Override
@@ -36,5 +40,5 @@ public class TurnToTarget extends Command implements Constants{
 	@Override
 	protected void interrupted() {
 		
-	}
+	}*/
 }

@@ -88,12 +88,25 @@ public class Robot extends IterativeRobot implements Constants{
         chooser.addObject("Right Gear Auto", new rightGearAuto());
         SmartDashboard.putData("Auto mode", chooser);
         
-        SmartDashboard.putDouble("Turning KP", turnInPlaceKP);
-        SmartDashboard.putDouble("Turning KI", turnInPlaceKI);
-        SmartDashboard.putDouble("Turning KD", turnInPlaceKD);
+        SmartDashboard.putDouble("Turning KP Big Angle", turnInPlaceKPBigAngle);
+        SmartDashboard.putDouble("Turning KI Big Angle", turnInPlaceKIBigAngle);
+        SmartDashboard.putDouble("Turning KD Big Angle", turnInPlaceKDBigAngle);
+        SmartDashboard.putDouble("Turning MaxVoltage Big Angle", kMaxVoltageTurnBigAngle);
+        
+        SmartDashboard.putDouble("Turning KP Small Angle", turnInPlaceKPSmallAngle);
+        SmartDashboard.putDouble("Turning KI Small Angle", turnInPlaceKISmallAngle);
+        SmartDashboard.putDouble("Turning KD Small Angle", turnInPlaceKDSmallAngle);
+        SmartDashboard.putDouble("Turning MaxVoltage Small Angle", kMaxVoltageTurnSmallAngle);
+
+        SmartDashboard.putDouble("Turning Tolerance", kToleranceDegreesDefault);
+        SmartDashboard.putInt("Turn In Place Controller Switch Angle", turnInPlaceControllerSwitchAngle);
+        
         SmartDashboard.putDouble("Distance KP", displacementKP);
         SmartDashboard.putDouble("Distance KI", displacementKI);
         SmartDashboard.putDouble("Distance KD", displacementKD);
+        SmartDashboard.putDouble("Distance Tolerance", kToleranceDisplacementDefault);
+        SmartDashboard.putDouble("Distance MaxVoltage", kMaxVoltageDisp);
+
 
     }
 	

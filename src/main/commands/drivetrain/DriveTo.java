@@ -5,7 +5,7 @@ import edu.wpi.first.wpilibj.command.CommandGroup;
 import main.Constants;
 
 public class DriveTo extends CommandGroup implements Constants {
-	private PlanPath planner;
+	/*private PlanPath planner;
 
 	public DriveTo(double dispX, double dispY) {
 		planner = new PlanPath(dispX, dispY);
@@ -15,6 +15,6 @@ public class DriveTo extends CommandGroup implements Constants {
 		addSequential(new DriveDistance(planner.getDisplacementToFinalDest(distanceBetweenRobotAndGearPeg),
 				kToleranceDisplacementDefault));
 
-	}
+	}*/
 
 }
