@@ -10,7 +10,7 @@ public class UDPForVision implements Constants {
 	public DatagramSocket serverSocket;
 	public byte[] receiveData = new byte[1024];
 	private String[] values;
-	private double Time, CamNum, Range, Bearing = 0.0, Elevation;
+	private double Time, CamNum, Range, Bearing, Elevation;
 	private boolean TargetFound = false;
 	public DatagramPacket receivePacket = new DatagramPacket(receiveData, receiveData.length);
 
@@ -35,7 +35,6 @@ public class UDPForVision implements Constants {
 			Range = Double.parseDouble(values[3]);
 			Bearing = Double.parseDouble(values[4]);
 			Elevation = Double.parseDouble(values[5]);
-			
 			//Add an if statement to prevent out of bounds exceptions when values[x] is called
 			System.out.println("Time is " + Time);
 			System.out.println("CamNum is " + CamNum);
@@ -49,6 +48,9 @@ public class UDPForVision implements Constants {
 	
 	public double getBearing() {
 		return Bearing;
+	}
+	public double getRange() {
+		return Range;
 	}
 	public boolean getTargetFound() {
 		return TargetFound;

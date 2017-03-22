@@ -36,10 +36,10 @@ public class OI implements Constants, HardwareAdapter {
 		xbox.rightBumper.whenPressed(new GearDown());
 		xbox.rightBumper.whenReleased(new GearUp());
 		//xbox.start.whenPressed(new TurnToAngle(30));
-		//xbox.start.whenPressed(new TurnToAngle (55));
+		xbox.start.whenPressed(new TurnToAngle (55));
 		//xbox.select.whenPressed(new TurnToAngle(-3));
-		//xbox.select.whenReleased(new TurnToAngle(-3));
-		xbox.leftTrigger.whenPressed(new Target());
+		xbox.select.whenReleased(new TurnToAngle(20));
+		xbox.leftTrigger.whenPressed(new TurnToAngle(Robot.comms.getBearing()));
 		//xbox.leftTrigger.whenPressed(new TurnToTarget());
 		
 		xbox.a.whileHeld(new IntakeForward());

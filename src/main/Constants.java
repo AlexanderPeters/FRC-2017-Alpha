@@ -23,7 +23,8 @@ public interface Constants {
 	public final double stirrerMotorOff = 0.0;
 	public final double driveThrottle = 1.0;
 	public final double turnThrottle = 1.0;
-	public final double shooterForward = 0.40;
+	public final double shooterForward = -0.40;
+	public final double shooterReverse = 0.40;
 	public final double shooterOff = 0.0;
 	
 	// JOYSTICK DEADBAND'S
@@ -111,6 +112,10 @@ public interface Constants {
 	//ENCODER CODES PER REV
 	public final int codesPerRev = 256;//5600;
 	public final double conversionFactor = 256*4*wheelEncoderMult;
+	//Vision
+	public final double desiredDistanceToGoal = 6.75;//ft
+	public final double cameraHeightAboveGround = 23/12;//ft
+	public final int cameraAngle = 45;
 	
 	
 	
