@@ -7,6 +7,7 @@ import main.Robot;
 
 public class TurnToGoal extends Command implements Constants {
 	private double KP, KI, KD, heading, maxV, tolerance;
+	private boolean cancelCommand = false;
 	
 	@SuppressWarnings("deprecation")
 	public TurnToGoal() {
@@ -26,13 +27,19 @@ public class TurnToGoal extends Command implements Constants {
     // Called repeatedly when this Command is scheduled to run
     protected void execute() {
     	this.heading = Robot.comms.getBearing();
-    	System.out.println("Turning To" + heading);
-    	Robot.dt.turnToSmallAngle(heading, tolerance);
+    	if(heading >= -180 && heading <= 180) {
+    		System.out.println("Turning To" + heading);
+    		Robot.dt.turnToSmallAngle(heading, tolerance);
+    	}
+    	else {
+    		System.out.println("Turn To Target Called With ILLEGAL ANGLE !!!!");
+    		cancelCommand = true;
+    	}
     }
 
     // Make this return true when this Command no longer needs to run execute()
     protected boolean isFinished() {
-    	return Math.abs(heading - Robot.dt.getGyro().getYaw()) <= tolerance;
+    	return Math.abs(heading - Robot.dt.getGyro().getYaw()) <= tolerance || cancelCommand;
     }
 
     // Called once after isFinished returns true

@@ -7,6 +7,7 @@ import main.Robot;
 
 public class DriveToGoal extends Command implements Constants {
 	private double KP, KI, KD, distance, maxV, tolerance;
+	private boolean cancelCommand = false;
 
 	@SuppressWarnings("deprecation")
 	public DriveToGoal() {// feet
@@ -27,14 +28,21 @@ public class DriveToGoal extends Command implements Constants {
 
 	// Called repeatedly when this Command is scheduled to run
 	protected void execute() {
-		this.distance = -(Robot.comms.getRange()*Math.cos(cameraAngle * Math.PI/180)) - desiredDistanceToGoal;//Drive negated
-    	System.out.println("Driving To" + distance);
-		Robot.dt.driveDistance(distance, tolerance);
+		double range = Robot.comms.getRange();
+		if(range >= 0) {
+			this.distance = -((range*Math.cos(cameraAngle * Math.PI/180)) - desiredDistanceToGoal);//Drive negated
+			System.out.println("Driving To" + distance);
+			Robot.dt.driveDistance(distance, tolerance);
+		}
+		else {
+			System.out.println("Drive To Target Called With ILLEGAL RANGE !!!!");
+			cancelCommand = true;
+		}		
 	}
 
 	// Make this return true when this Command no longer needs to run execute()
 	protected boolean isFinished() {
-		return Math.abs(distance - Robot.dt.getDistanceTraveledRight()) <= tolerance;
+		return Math.abs(distance - Robot.dt.getDistanceTraveledRight()) <= tolerance || cancelCommand;
 	}
 
 	// Called once after isFinished returns true
