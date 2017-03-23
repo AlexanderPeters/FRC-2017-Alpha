@@ -77,6 +77,7 @@ public class DriveTrain extends Subsystem implements Constants, HardwareAdapter 
 	public void driveVelocity(double throttle, double heading) {
 		if(Robot.gameState == Robot.GameState.Teleop) 
 			driveTrain.arcadeDrive(throttle, heading); 
+		updateRobotState();
 	}
 
 	public void driveStraight(double throttle) {
@@ -89,6 +90,7 @@ public class DriveTrain extends Subsystem implements Constants, HardwareAdapter 
 			//Might be unnecessary but I think the gyro bearing changes if you drive backwards
 			driveTrain.arcadeDrive(helper.handleOverPower(throttle), helper.handleOverPower(theta * straightLineKPReverse)); 
 		}
+		updateRobotState();
 				
 	}
 	public void driveDistanceSetPID(double p, double i, double d, double maxV) {
@@ -109,6 +111,7 @@ public class DriveTrain extends Subsystem implements Constants, HardwareAdapter 
 		distanceController.setSetpoint(distance);
 		//System.out.println("r" + distanceControllerRate);
 		this.driveVelocity(distanceControllerRate, 0.0);//Gyro code in drive straight I think is messed up
+		updateRobotState();
 			
 	}
 	public void turnToBigAngleSetPID(double p, double i, double d, double maxV) {
@@ -130,6 +133,7 @@ public class DriveTrain extends Subsystem implements Constants, HardwareAdapter 
 		bigTurnController.enable();
 		bigTurnController.setSetpoint(heading);
 		this.driveVelocity(0.0, bigTurnControllerRate);
+		updateRobotState();
 	}
 	
 	public void turnToSmallAngleSetPID(double p, double i, double d, double maxV) {
@@ -151,6 +155,7 @@ public class DriveTrain extends Subsystem implements Constants, HardwareAdapter 
 		smallTurnController.enable();
 		smallTurnController.setSetpoint(heading);
 		this.driveVelocity(0.0, smallTurnControllerRate);
+		updateRobotState();
 	}
 	
 	public double getDistanceAvg() {
@@ -204,6 +209,12 @@ public class DriveTrain extends Subsystem implements Constants, HardwareAdapter 
 	/*******************
 	 * SUPPORT METHODS *
 	 *******************/
+	private void updateRobotState() {
+		if(rightDriveMaster.getOutputVoltage() > -0.1 && rightDriveMaster.getOutputVoltage() < 0.1 
+				&& leftDriveMaster.getOutputVoltage() > -0.1 && leftDriveMaster.getOutputVoltage() < 0.1 
+				&& Robot.robotState != Robot.RobotState.Climbing)	
+			Robot.robotState = Robot.RobotState.Neither;
+	}
 	private double getLeftEncoderPosition() {
 		return leftDriveMaster.getEncPosition();
 	}

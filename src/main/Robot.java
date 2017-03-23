@@ -209,6 +209,7 @@ public class Robot extends IterativeRobot implements Constants{
     public void teleopPeriodic() {
     	gameState = GameState.Teleop;
         displayVisionStatus();
+        //System.out.println("GameState " + gameState + "Robot State " + robotState);
     	Scheduler.getInstance().run();
     }
     
