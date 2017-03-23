@@ -14,6 +14,7 @@ import main.commands.auto.centerGearAuto;
 import main.commands.auto.doNothing;
 import main.commands.auto.leftGearAuto;
 import main.commands.auto.rightGearAuto;
+import main.commands.auto.shootingAuto;
 import main.subsystems.Climber;
 import main.subsystems.DriveCamera;
 import main.subsystems.DriveTrain;
@@ -52,7 +53,8 @@ public class Robot extends IterativeRobot implements Constants{
 	public static SmartDashboardInteractions sdb;
 	public static GameState gameState;
 	public static RobotState robotState = RobotState.Neither;
-    public static Looper mEnabledLooper = new Looper(kEnabledLooperDt);
+	//    public static Looper mEnabledLooper = new Looper(kEnabledLooperDt);
+    public static Looper mLooper = new Looper(kLooperDt);
     public static UDPForVision comms = new UDPForVision();
 	
     Command autoCommand;
@@ -79,23 +81,26 @@ public class Robot extends IterativeRobot implements Constants{
 		//This has to be last as the subsystems can not be null when a command requires them
 		oi = new OI();
 
-        mEnabledLooper.register(new UDPController());
+		//mEnabledLooper.register(new UDPController());
+		mLooper.register(new UDPController());
+		mLooper.start();
     
 		chooser = new SendableChooser<Command>();
         chooser.addDefault("Do Nothing Auto", new doNothing());
-        chooser.addObject("Left Gear Auto", new leftGearAuto());
+        chooser.addObject("Shooting Auto", new shootingAuto());
         chooser.addObject("Center Gear Auto", new centerGearAuto());
-        chooser.addObject("Right Gear Auto", new rightGearAuto());
         SmartDashboard.putData("Auto mode", chooser);
         
         SmartDashboard.putDouble("Turning KP Big Angle", turnInPlaceKPBigAngle);
         SmartDashboard.putDouble("Turning KI Big Angle", turnInPlaceKIBigAngle);
         SmartDashboard.putDouble("Turning KD Big Angle", turnInPlaceKDBigAngle);
+        SmartDashboard.putDouble("Turning MinVoltage Big Angle", kMinVoltageTurnBigAngle);
         SmartDashboard.putDouble("Turning MaxVoltage Big Angle", kMaxVoltageTurnBigAngle);
         
         SmartDashboard.putDouble("Turning KP Small Angle", turnInPlaceKPSmallAngle);
         SmartDashboard.putDouble("Turning KI Small Angle", turnInPlaceKISmallAngle);
         SmartDashboard.putDouble("Turning KD Small Angle", turnInPlaceKDSmallAngle);
+        SmartDashboard.putDouble("Turning MinVoltage Small Angle", kMinVoltageTurnSmallAngle);
         SmartDashboard.putDouble("Turning MaxVoltage Small Angle", kMaxVoltageTurnSmallAngle);
 
         SmartDashboard.putDouble("Turning Tolerance", kToleranceDegreesDefault);
@@ -106,8 +111,40 @@ public class Robot extends IterativeRobot implements Constants{
         SmartDashboard.putDouble("Distance KD", displacementKD);
         SmartDashboard.putDouble("Distance Tolerance", kToleranceDisplacementDefault);
         SmartDashboard.putDouble("Distance MaxVoltage", kMaxVoltageDisp);
+        
+        displayVisionStatus();
 
 
+    }
+    @SuppressWarnings("deprecation")
+	private void displayVisionStatus() {
+    	double range = comms.getRange();
+        double distanceToGoal = (comms.getRange()*Math.cos(cameraAngle * Math.PI/180)) - desiredDistanceToGoal;
+        double bearing = comms.getBearing();
+        boolean targetFound = comms.getTargetFound();
+        
+        SmartDashboard.putDouble("Vision Bearing Estimate", bearing);
+        SmartDashboard.putDouble("Vision Range Estimate", range);
+        SmartDashboard.putBoolean("Target Found", targetFound);
+        
+        
+        if(targetFound && bearing <= bearingToGoalTolerance && bearing >= -bearingToGoalTolerance)
+        	SmartDashboard.putBoolean("Bearing To Target Aligned", true);
+        else
+        	SmartDashboard.putBoolean("Bearing To Target Aligned", false);
+        
+        if(targetFound && distanceToGoal <= distToGoalTolerance && distanceToGoal >= -distToGoalTolerance)
+        	SmartDashboard.putBoolean("Distance To Target Aligned", true);
+        else
+        	SmartDashboard.putBoolean("Distance To Target Aligned", false);
+        
+        if(targetFound && distanceToGoal <= distToGoalTolerance && distanceToGoal >= -distToGoalTolerance && 
+        		bearing <= bearingToGoalTolerance && bearing >= -bearingToGoalTolerance)
+        	SmartDashboard.putBoolean("Target In Range", true);
+        else
+        	SmartDashboard.putBoolean("Target In Range", false);
+        
+        SmartDashboard.putBoolean("Ready To Start Match", comms.connectedAtStartOfMatch());
     }
 	
 	/**
@@ -117,7 +154,7 @@ public class Robot extends IterativeRobot implements Constants{
      */
     public void disabledInit(){
 		// Configure loopers
-        mEnabledLooper.stop();
+        //mEnabledLooper.stop();
     }
 	
 	public void disabledPeriodic() {
@@ -138,7 +175,7 @@ public class Robot extends IterativeRobot implements Constants{
     	autoCommand = (Command) chooser.getSelected();
     	
     	// Configure loopers
-        mEnabledLooper.start();
+        //mEnabledLooper.start();
     	
     	if(autoCommand != null) autoCommand.start();
     }
@@ -148,6 +185,7 @@ public class Robot extends IterativeRobot implements Constants{
      */
     public void autonomousPeriodic() {
     	gameState = GameState.Autonomous;
+        displayVisionStatus();
         Scheduler.getInstance().run();
     }
     
@@ -155,7 +193,7 @@ public class Robot extends IterativeRobot implements Constants{
     	gameState = GameState.Teleop;
     	
     	// Configure loopers
-        mEnabledLooper.start();
+        //mEnabledLooper.start();
     	
     	/* This makes sure that the autonomous stops running when
            teleop starts running. If you want the autonomous to 
@@ -170,6 +208,7 @@ public class Robot extends IterativeRobot implements Constants{
      */
     public void teleopPeriodic() {
     	gameState = GameState.Teleop;
+        displayVisionStatus();
     	Scheduler.getInstance().run();
     }
     
@@ -180,5 +219,5 @@ public class Robot extends IterativeRobot implements Constants{
     public void testPeriodic() {
     	LiveWindow.run();
     }
-        
+   
 }

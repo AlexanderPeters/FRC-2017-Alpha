@@ -12,6 +12,7 @@ import edu.wpi.first.wpilibj.PIDSourceType;
 import edu.wpi.first.wpilibj.RobotDrive;
 import edu.wpi.first.wpilibj.SPI;
 import edu.wpi.first.wpilibj.command.Subsystem;
+import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import main.Constants;
 import main.HardwareAdapter;
 import main.Robot;
@@ -111,8 +112,10 @@ public class DriveTrain extends Subsystem implements Constants, HardwareAdapter 
 			
 	}
 	public void turnToBigAngleSetPID(double p, double i, double d, double maxV) {
+		@SuppressWarnings("deprecation")
+		double minVoltage = SmartDashboard.getDouble("Turning MinVoltage Big Angle", 0.0);
 		bigTurnController.setPID(p, i, d);
-		bigTurnController.setOutputRange(-(maxV-kMinVoltageTurnBigAngle)/10, (maxV-kMinVoltageTurnBigAngle)/10);
+		bigTurnController.setOutputRange(-(maxV-minVoltage)/10, (maxV-minVoltage)/10);
 	}
 			
 	public void turnToBigAngle(double heading, double tolerance) {
@@ -130,8 +133,10 @@ public class DriveTrain extends Subsystem implements Constants, HardwareAdapter 
 	}
 	
 	public void turnToSmallAngleSetPID(double p, double i, double d, double maxV) {
+		@SuppressWarnings("deprecation")
+		double minVoltage = SmartDashboard.getDouble("Turning MinVoltage Small Angle", 0.0);
 		smallTurnController.setPID(p, i, d);
-		smallTurnController.setOutputRange(-(maxV-kMinVoltageTurnSmallAngle)/10, (maxV-kMinVoltageTurnSmallAngle)/10);
+		smallTurnController.setOutputRange(-(maxV-minVoltage)/10, (maxV-minVoltage)/10);
 	}
 			
 	public void turnToSmallAngle(double heading, double tolerance) {

@@ -1,19 +1,15 @@
 package main.commands.drivetrain;
 
 import edu.wpi.first.wpilibj.command.TimedCommand;
-import main.OI;
 import main.Robot;
 
-/**
- *
- */
-public class TimedDrive extends TimedCommand {
+public class TimedDriveWithBearing extends TimedCommand {
+	private double throttle, bearing;
 	
-	private double speed;
-	
-    public TimedDrive(double speed, double time) {
+    public TimedDriveWithBearing(double throttle, double bearing, double time) {
     	super(time);
-    	this.speed = speed;
+    	this.throttle = throttle;
+    	this.bearing = bearing;
     	requires(Robot.dt);
     }
 
@@ -23,9 +19,7 @@ public class TimedDrive extends TimedCommand {
 
     // Called repeatedly when this Command is scheduled to run
     protected void execute() {
-    	Robot.dt.driveVelocity(speed, 0);
-    	//Robot.dt.driveStraight(speed);//OI.getXbox().getSmoothedAltX());
-    	//System.out.println(OI.getXbox().getMainX());
+    	Robot.dt.driveVelocity(throttle, bearing);
     }
     // Make this return true when this Command no longer needs to run execute()
 
@@ -37,4 +31,5 @@ public class TimedDrive extends TimedCommand {
     // subsystems is scheduled to run
     protected void interrupted() {
     }
+
 }

@@ -18,13 +18,13 @@ public interface Constants {
 	public final double intakeMotorOff = 0.0;
 	public final double climberMotorForwardFast = 1;
 	public final double climberMotorForwardSlow = 0.8;
-	public final double stirrerMotorOn = 1.0;
-	public final double stirrerMotorReverse = -1.0;
+	public final double stirrerMotorForward = -1.0;
+	public final double stirrerMotorReverse = 1.0;
 	public final double stirrerMotorOff = 0.0;
 	public final double driveThrottle = 1.0;
 	public final double turnThrottle = 1.0;
-	public final double shooterForward = -0.40;
-	public final double shooterReverse = 0.40;
+	public final double shooterForward = -0.8;
+	public final double shooterReverse = 0.8;
 	public final double shooterOff = 0.0;
 	
 	// JOYSTICK DEADBAND'S
@@ -81,6 +81,7 @@ public interface Constants {
 	
 	//Loop Time
 	public final double kEnabledLooperDt = 0.01;
+	public final double kLooperDt = 0.01;
 	public final double kAutoLooperDt = 0.1;
 	
 	// DEFAULT TALON MODES
@@ -114,6 +115,8 @@ public interface Constants {
 	public final double conversionFactor = 256*4*wheelEncoderMult;
 	//Vision
 	public final double desiredDistanceToGoal = 6.75;//ft
+	public final double distToGoalTolerance = 0.25;//ft
+	public final double bearingToGoalTolerance = 2;
 	public final double cameraHeightAboveGround = 23/12;//ft
 	public final int cameraAngle = 45;
 	

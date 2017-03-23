@@ -5,7 +5,7 @@ import edu.wpi.first.wpilibj.command.Subsystem;
 import main.Constants;
 import main.HardwareAdapter;
 
-public class FlyWheel extends Subsystem implements Constants, HardwareAdapter{
+public class FlyWheel extends Subsystem implements Constants, HardwareAdapter {
 	public void speed() {
 		shooter.changeControlMode(VELOCITY);
 		shooter.setFeedbackDevice(FeedbackDevice.QuadEncoder);

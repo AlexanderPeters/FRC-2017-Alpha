@@ -4,6 +4,7 @@ import lib.joystick.XboxController;
 import main.commands.climber.WinchForward;
 import main.commands.climber.WinchOff;
 import main.commands.drivetrain.DriveDistance;
+import main.commands.drivetrain.Target;
 import main.commands.drivetrain.TurnToAngle;
 import main.commands.gearmech.GearDown;
 import main.commands.gearmech.GearUp;
@@ -14,7 +15,6 @@ import main.commands.pnuematics.ShiftUp;
 import main.commands.shooter.FlyWheelForward;
 import main.commands.shooter.FlyWheelOff;
 import main.commands.stirrer.Stir;
-import main.commands.vision.Target;
 
 /**
  * This class is the glue that binds the controls on the physical operator
@@ -36,25 +36,27 @@ public class OI implements Constants, HardwareAdapter {
 		xbox.rightBumper.whenPressed(new GearDown());
 		xbox.rightBumper.whenReleased(new GearUp());
 		//xbox.start.whenPressed(new TurnToAngle(30));
-		xbox.start.whenPressed(new TurnToAngle (55));
+		//xbox.start.whenPressed(new Target());
 		//xbox.select.whenPressed(new TurnToAngle(-3));
-		xbox.select.whenReleased(new TurnToAngle(20));
-		xbox.leftTrigger.whenPressed(new TurnToAngle(Robot.comms.getBearing()));
-		//xbox.leftTrigger.whenPressed(new TurnToTarget());
+		//xbox.select.whenReleased(new TurnToAngle(20));
+		
+		//xbox.leftTrigger.whenPressed(new TurnToAngle(mmm));
+		//xbox.select.whenPressed(new TurnToAngle(1));
+		xbox.leftTrigger.whenPressed(new Target());
 		
 		xbox.a.whileHeld(new IntakeForward());
 		xbox.a.whenReleased(new IntakeOff());
 		xbox.x.whileHeld(new WinchForward(true));
 		xbox.b.whileHeld(new WinchForward(false));
 		xbox.b.whenReleased(new WinchOff());
-		xbox.y.whileHeld(new FlyWheelForward(shooterForward));
+		//xbox.y.whileHeld(new FlyWheelForward(shooterForward));
 		xbox.y.whileHeld(new Stir(stirrerMotorReverse));
-		xbox.y.whenReleased(new FlyWheelOff());
-		xbox.y.whenReleased(new Stir(0));
-		xbox.rightTrigger.whileHeld(new FlyWheelForward(0.8));
-		xbox.rightTrigger.whileHeld(new Stir(stirrerMotorReverse));
+		//xbox.y.whenReleased(new FlyWheelOff());
+		xbox.y.whenReleased(new Stir(stirrerMotorOff));
+		xbox.rightTrigger.whileHeld(new FlyWheelForward(shooterForward));
+		xbox.rightTrigger.whileHeld(new Stir(stirrerMotorForward));
 		xbox.rightTrigger.whenReleased(new FlyWheelOff());
-		xbox.rightTrigger.whenReleased(new Stir(0));
+		xbox.rightTrigger.whenReleased(new Stir(stirrerMotorOff));
 	}
 }
 
