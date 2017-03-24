@@ -31,7 +31,4 @@ public class FlyWheelOff extends Command implements Constants{
     // subsystems is scheduled to run
     protected void interrupted() {
     }
-	
-
-
 }

@@ -1,37 +1,34 @@
-package main.commands.shooter;
+package main.commands.stirrer;
 
-import edu.wpi.first.wpilibj.command.TimedCommand;
+import edu.wpi.first.wpilibj.command.Command;
 import main.Constants;
 import main.Robot;
 
-public class FlyWheelForTime extends TimedCommand implements Constants {
-	private double speed;
-
-	public FlyWheelForTime(double speed, double time) {
-		super(time);
-		this.speed = speed;
-		requires(Robot.shooter);
+public class StirOff extends Command implements Constants{
+	public StirOff() {
+		requires(Robot.str);
 	}
-	
+
     // Called just before this Command runs the first time
     protected void initialize() {
     }
 
     // Called repeatedly when this Command is scheduled to run
     protected void execute() {
-    	if(Robot.robotState != Robot.RobotState.Climbing)
-    		Robot.shooter.speed(speed);
-   }
+    	Robot.str.spin(stirrerMotorOff);
+    }
+
+    // Make this return true when this Command no longer needs to run execute()
+    protected boolean isFinished() {
+        return true;
+    }
 
     // Called once after isFinished returns true
     protected void end() {
-    	Robot.shooter.speed(0.0);
     }
 
     // Called when another command which requires one or more of the same
     // subsystems is scheduled to run
     protected void interrupted() {
-    	end();
     }
-
 }

@@ -14,7 +14,10 @@ import main.commands.pnuematics.ShiftDown;
 import main.commands.pnuematics.ShiftUp;
 import main.commands.shooter.FlyWheelForward;
 import main.commands.shooter.FlyWheelOff;
+import main.commands.shooter.Shoot;
+import main.commands.shooter.StopShoot;
 import main.commands.stirrer.Stir;
+import main.commands.stirrer.StirForTime;
 
 /**
  * This class is the glue that binds the controls on the physical operator
@@ -41,8 +44,8 @@ public class OI implements Constants, HardwareAdapter {
 		//xbox.select.whenReleased(new TurnToAngle(20));
 		
 		//xbox.leftTrigger.whenPressed(new TurnToAngle(mmm));
-		//xbox.select.whenPressed(new TurnToAngle(1));
-		xbox.leftTrigger.whenPressed(new Target());
+		//xbox.select.whenPressed(new StirForTime(1,3));
+		//xbox.leftTrigger.whenPressed(new Target());
 		
 		xbox.a.whileHeld(new IntakeForward());
 		xbox.a.whenReleased(new IntakeOff());
@@ -53,10 +56,12 @@ public class OI implements Constants, HardwareAdapter {
 		xbox.y.whileHeld(new Stir(stirrerMotorReverse));
 		//xbox.y.whenReleased(new FlyWheelOff());
 		xbox.y.whenReleased(new Stir(stirrerMotorOff));
-		xbox.rightTrigger.whileHeld(new FlyWheelForward(shooterForward));
-		xbox.rightTrigger.whileHeld(new Stir(stirrerMotorForward));
-		xbox.rightTrigger.whenReleased(new FlyWheelOff());
-		xbox.rightTrigger.whenReleased(new Stir(stirrerMotorOff));
+		xbox.rightTrigger.whileHeld(new Shoot(shooterForward, stirrerMotorForward));
+		xbox.rightTrigger.whenReleased(new StopShoot());
+		//xbox.rightTrigger.whileHeld(new FlyWheelForward(shooterForward));
+		//xbox.rightTrigger.whileHeld(new Stir(stirrerMotorForward));
+		//xbox.rightTrigger.whenReleased(new FlyWheelOff());
+		//xbox.rightTrigger.whenReleased(new Stir(stirrerMotorOff));
 	}
 }
 

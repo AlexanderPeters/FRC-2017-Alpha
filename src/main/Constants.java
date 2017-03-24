@@ -23,8 +23,8 @@ public interface Constants {
 	public final double stirrerMotorOff = 0.0;
 	public final double driveThrottle = 1.0;
 	public final double turnThrottle = 1.0;
-	public final double shooterForward = -0.8;
-	public final double shooterReverse = 0.8;
+	public final double shooterForward = 1;
+	public final double shooterReverse = -1;
 	public final double shooterOff = 0.0;
 	
 	// JOYSTICK DEADBAND'S

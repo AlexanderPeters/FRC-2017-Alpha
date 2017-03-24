@@ -37,12 +37,12 @@ public class UDPForVision implements Constants {
 			Bearing = Double.parseDouble(values[4]);
 			Elevation = Double.parseDouble(values[5]);
 			//Add an if statement to prevent out of bounds exceptions when values[x] is called
-			/*System.out.println("Time is " + Time);
+			System.out.println("Time is " + Time);
 			System.out.println("CamNum is " + CamNum);
 			System.out.println("TargetFound " + TargetFound);
 			System.out.println("Range is " + Range);
 			System.out.println("Bearing is " + Bearing);
-			System.out.println("Elevation is " + Elevation);*/
+			System.out.println("Elevation is " + Elevation);
 		//}
 
 	}

@@ -9,7 +9,7 @@ public class StirForTime extends TimedCommand {
 	public StirForTime(double speed, double time) {
 		super(time);
 		this.speed = speed;
-		requires(Robot.shooter);
+		requires(Robot.str);
 	}
 	
     // Called just before this Command runs the first time
@@ -24,11 +24,13 @@ public class StirForTime extends TimedCommand {
 
     // Called once after isFinished returns true
     protected void end() {
+    	Robot.str.spin(0.0);
     }
 
     // Called when another command which requires one or more of the same
     // subsystems is scheduled to run
     protected void interrupted() {
+    	end();
     }
 
 

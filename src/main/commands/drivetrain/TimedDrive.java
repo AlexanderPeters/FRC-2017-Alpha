@@ -9,11 +9,19 @@ import main.Robot;
  */
 public class TimedDrive extends TimedCommand {
 	
-	private double speed;
+	private double speed, bearing;
+	
+	public TimedDrive(double speed, double bearing, double time) {
+    	super(time);
+    	this.speed = speed;
+    	this.bearing = bearing;
+    	requires(Robot.dt);
+    }
 	
     public TimedDrive(double speed, double time) {
     	super(time);
     	this.speed = speed;
+    	this.bearing = 0.0;
     	requires(Robot.dt);
     }
 
@@ -23,7 +31,7 @@ public class TimedDrive extends TimedCommand {
 
     // Called repeatedly when this Command is scheduled to run
     protected void execute() {
-    	Robot.dt.driveVelocity(speed, 0);
+    	Robot.dt.driveVelocity(speed, bearing);
     	//Robot.dt.driveStraight(speed);//OI.getXbox().getSmoothedAltX());
     	//System.out.println(OI.getXbox().getMainX());
     }
