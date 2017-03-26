@@ -10,6 +10,6 @@ public class DriveCamera {
 		camServer = CameraServer.getInstance();
 		cam = camServer.startAutomaticCapture();
 		cam.setFPS(30);
-		cam.setResolution(640, 480);
+		cam.setResolution(320, 240);
 	}
 }

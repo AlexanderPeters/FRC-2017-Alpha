@@ -10,11 +10,13 @@ import edu.wpi.first.wpilibj.smartdashboard.SendableChooser;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import lib.Looper;
 import lib.UDPForVision;
+import main.commands.auto.altRightAuto;
 import main.commands.auto.centerGearAuto;
 import main.commands.auto.doNothing;
 import main.commands.auto.leftGearAuto;
 import main.commands.auto.rightGearAuto;
-import main.commands.auto.shootingAuto;
+import main.commands.auto.shootingAutoBlueAlliance;
+import main.commands.auto.shootingAutoRedAlliance;
 import main.subsystems.Climber;
 import main.subsystems.DriveCamera;
 import main.subsystems.DriveTrain;
@@ -87,8 +89,10 @@ public class Robot extends IterativeRobot implements Constants{
     
 		chooser = new SendableChooser<Command>();
         chooser.addDefault("Do Nothing Auto", new doNothing());
-        chooser.addObject("Shooting Auto", new shootingAuto());
+        chooser.addObject("Shooting Auto Blue Alliance", new shootingAutoBlueAlliance());
+        chooser.addObject("Shooting Auto Red Alliance", new shootingAutoRedAlliance());
         chooser.addObject("Center Gear Auto", new centerGearAuto());
+        chooser.addObject("Right Gear Auto", new altRightAuto());
         SmartDashboard.putData("Auto mode", chooser);
         
         SmartDashboard.putDouble("Turning KP Big Angle", turnInPlaceKPBigAngle);
@@ -112,7 +116,7 @@ public class Robot extends IterativeRobot implements Constants{
         SmartDashboard.putDouble("Distance Tolerance", kToleranceDisplacementDefault);
         SmartDashboard.putDouble("Distance MaxVoltage", kMaxVoltageDisp);
         
-        displayVisionStatus();
+        //displayVisionStatus();
 
 
     }
@@ -185,7 +189,7 @@ public class Robot extends IterativeRobot implements Constants{
      */
     public void autonomousPeriodic() {
     	gameState = GameState.Autonomous;
-        displayVisionStatus();
+        //displayVisionStatus();
         Scheduler.getInstance().run();
     }
     
@@ -208,7 +212,7 @@ public class Robot extends IterativeRobot implements Constants{
      */
     public void teleopPeriodic() {
     	gameState = GameState.Teleop;
-        displayVisionStatus();
+        //displayVisionStatus();
         //System.out.println("GameState " + gameState + "Robot State " + robotState);
     	Scheduler.getInstance().run();
     }

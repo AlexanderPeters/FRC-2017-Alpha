@@ -75,7 +75,7 @@ public class DriveTrain extends Subsystem implements Constants, HardwareAdapter 
 		
 	}
 	public void driveVelocity(double throttle, double heading) {
-		if(Robot.gameState == Robot.GameState.Teleop) 
+		if(Robot.gameState == Robot.GameState.Autonomous || Robot.gameState == Robot.GameState.Teleop) 
 			driveTrain.arcadeDrive(throttle, heading); 
 		updateRobotState();
 	}
@@ -116,8 +116,10 @@ public class DriveTrain extends Subsystem implements Constants, HardwareAdapter 
 	}
 	public void turnToBigAngleSetPID(double p, double i, double d, double maxV) {
 		@SuppressWarnings("deprecation")
-		double minVoltage = SmartDashboard.getDouble("Turning MinVoltage Big Angle", 0.0);
+		double minVoltage = 5.5;//SmartDashboard.getDouble("Turning MinVoltage Big Angle", 0.0);
+		maxV = 10.5;
 		bigTurnController.setPID(p, i, d);
+		System.out.println(-(maxV-minVoltage)/10 + " " + (maxV-minVoltage)/10);
 		bigTurnController.setOutputRange(-(maxV-minVoltage)/10, (maxV-minVoltage)/10);
 	}
 			
@@ -138,8 +140,11 @@ public class DriveTrain extends Subsystem implements Constants, HardwareAdapter 
 	
 	public void turnToSmallAngleSetPID(double p, double i, double d, double maxV) {
 		@SuppressWarnings("deprecation")
-		double minVoltage = SmartDashboard.getDouble("Turning MinVoltage Small Angle", 0.0);
+		double minVoltage = 5.5;//SmartDashboard.getDouble("Turning MinVoltage Small Angle", 0.0);
+		maxV = 9.0;
 		smallTurnController.setPID(p, i, d);
+		System.out.println(-(maxV-minVoltage)/10 + " " + (maxV-minVoltage)/10);
+
 		smallTurnController.setOutputRange(-(maxV-minVoltage)/10, (maxV-minVoltage)/10);
 	}
 			

@@ -12,7 +12,7 @@ import main.commands.gearmech.GearUp;
 
 public class rightGearAuto extends CommandGroup implements Constants{
 	public rightGearAuto() {
-		addSequential(new TimedDrive(-0.5, 4.85));
+		//**addSequential(new TimedDrive(-0.5, 4.85));
 		//***addSequential(new DriveDistance(3.85, kToleranceDisplacementDefault));//3.75
 		//addSequential(new TimedDrive(0,0.1));
 		//addSequential(new WaitCommand(1.5));

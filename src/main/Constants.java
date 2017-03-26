@@ -18,8 +18,8 @@ public interface Constants {
 	public final double intakeMotorOff = 0.0;
 	public final double climberMotorForwardFast = 1;
 	public final double climberMotorForwardSlow = 0.8;
-	public final double stirrerMotorForward = -1.0;
-	public final double stirrerMotorReverse = 1.0;
+	public final double stirrerMotorForward = -0.65;
+	public final double stirrerMotorReverse = 0.65;
 	public final double stirrerMotorOff = 0.0;
 	public final double driveThrottle = 1.0;
 	public final double turnThrottle = 1.0;
@@ -43,10 +43,10 @@ public interface Constants {
 	public final double headingControllerKP = 0.0;
 	
 	//PID VALUES FOR DRIVETRAIN
-	public final double turnInPlaceKPBigAngle = 0.65;
+	public final double turnInPlaceKPBigAngle = (isCompRobot?0.55:0.65);
 	public final double turnInPlaceKIBigAngle = 0.0;
 	public final double turnInPlaceKDBigAngle = 0.0;
-	public final double kMaxVoltageTurnBigAngle = 10.5;
+	public final double kMaxVoltageTurnBigAngle = (isCompRobot?8:10.5);
 	public final double kMinVoltageTurnBigAngle = 5.5;
 	
 	public final double turnInPlaceKPSmallAngle = 0.01;
@@ -55,10 +55,10 @@ public interface Constants {
 	public final double kMaxVoltageTurnSmallAngle = 9.0;
 	public final double kMinVoltageTurnSmallAngle = 5.5;
 	
-	public final double kToleranceDegreesDefault = 1.0f;
+	public final double kToleranceDegreesDefault = (isCompRobot?2.0f:1.0f);
 	public final int turnInPlaceControllerSwitchAngle = 42;
 	
-	public final double displacementKP = 1.5;//Need to tune (turned way the heck down for testing tommorrow 2/25/17)
+	public final double displacementKP = (isCompRobot?0.8:1.5);//Need to tune (turned way the heck down for testing tommorrow 2/25/17)
 	public final double displacementKI = 0.1;
 	public final double displacementKD = 0.0;
 	public final double kToleranceDisplacementDefault = 0.042;//Subject to change #DAMN STRAIGHT!!!!!
@@ -148,8 +148,8 @@ public interface Constants {
 	// PNEUMATICS (PCM)
 	public final int GEAR_EXT = 2;//Currently in by default
 	public final int GEAR_RET = 5;
-	public final int SHIFTER_EXT = (isCompRobot? 6:3);
-	public final int SHIFTER_RET = (isCompRobot? 3:6);
+	public final int SHIFTER_EXT = 6;//(isCompRobot? 6:3);
+	public final int SHIFTER_RET = 3;//(isCompRobot? 3:6);
 	//CAN BUS (Other Devices)
 	public final int PDP_Port = 0;
 	public final int PCM_Port = 1;
